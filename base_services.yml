@@ -4,18 +4,18 @@
   gather_facts: False
   become: yes
   roles:
-    - traefik
+    #- traefik
     - vault
-    - homer
-    - postgres
-    - redis
-    - mongodb
-    - elasticsearch
+    #- homer
+    #- postgres
+    #- redis
+    #- mongodb
+    #- elasticsearch
     - keycloak
-    - authelia
-    - mailrise
-    - gitea
-    - portus
-    - jenkins
-    - n8n
-    - minio
+    #- authelia
+    #- mailrise
+    #- gitea
+    #- portus
+    #- jenkins
+    #- n8n
+    #- minio

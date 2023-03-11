@@ -1,6 +1,6 @@
 # WORKBENCH DOCKER SWARM EDITION
 
-[![Build Status](https://ci.theboucher6.com/buildStatus/icon?job=Workbench)](https://ci.theboucher6.com/job/Workbench/)
+[![Build Status](https://ci.theboucher6.com/buildStatus/icon?job=Homelab-Workbench)](https://ci.theboucher6.com/job/Homelab-Workbench/)
 
 Workbench is a collection of Ansible Playbooks and assets for Production Deployment
 
