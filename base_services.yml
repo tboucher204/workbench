@@ -1,8 +1,8 @@
 ---
 - name: Deploy Base Services
   hosts: all
-  gather_facts: False
-  become: yes
+  gather_facts: false
+  become: true
   roles:
     # - traefik
     - vault
@@ -18,4 +18,4 @@
     # - portus
     # - jenkins
     # - n8n
-    # - minio
+    - minio

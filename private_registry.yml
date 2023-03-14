@@ -1,6 +1,6 @@
 ---
 - name: Login to Private Registry
   hosts: all
-  become: yes
+  become: true
   roles:
     - registry-login
