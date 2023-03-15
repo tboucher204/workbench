@@ -15,10 +15,10 @@ services:
       - /datavol/apps/vault/config:/vault/config
     deploy:
       labels:
-        - "traefik.http.routers.vault.entrypoints=websecure"
+        - "traefik.http.routers.vault.entrypoints=https"
         - "traefik.http.routers.vault.rule=Host(`pki.{{project_tld}}`)"
         - "traefik.http.routers.vault.tls=true"
-        - "traefik.http.routers.vault.middlewares=default-headers@file"
+        - "traefik.http.routers.vault.middlewares=chain-authelia@file"
         - "traefik.http.routers.vault.service=vault"
         - "traefik.http.routers.vault.tls.certresolver={{default_certificate_resolver}}"
         - "traefik.http.services.vault.loadbalancer.server.port={{vault_port}}"
