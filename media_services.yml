@@ -2,7 +2,7 @@
 - name: Deploy Media Services
   hosts: all
   gather_facts: False
-  become: yes
+  become: false
   roles:
     - sabnzbd
     - qbittorrent
