@@ -17,9 +17,9 @@ services:
       - 8266:8266  
       - 8267:8267
     volumes:
-      - /blacktalon/apps/tdarr/app:/home/Tdarr/Documents/Tdarr
-      - /blacktalon/apps/tdarr/data:/var/lib/mongodb
-      - /blacktalon/media:/home/Tdarr/media
+      - /datavol/apps/tdarr/app:/home/Tdarr/Documents/Tdarr
+      - /datavol/apps/tdarr/data:/var/lib/mongodb
+      - /datavol/media:/home/Tdarr/media
       - transcode:/temp
       - /etc/localtime:/etc/localtime:ro
     labels:
@@ -44,9 +44,9 @@ services:
     hostname: {{tdarr_node_hostname}}
     network_mode: service:tdarr
     volumes:
-      - /blacktalon/apps/tdarr/app:/home/Tdarr/Documents/Tdarr
-      - /blacktalon/apps/tdarr/data:/var/lib/mongodb
-      - /blacktalon/media:/home/Tdarr/media
+      - /datavol/apps/tdarr/app:/home/Tdarr/Documents/Tdarr
+      - /datavol/apps/tdarr/data:/var/lib/mongodb
+      - /datavol/media:/home/Tdarr/media
       - transcode:/temp
       - /etc/localtime:/etc/localtime:ro
 

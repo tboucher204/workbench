@@ -1,12 +1,12 @@
 [managers]
-yellowtalon ansible_port=22 ansible_host=192.168.1.174
+docker3 ansible_port=22 ansible_host=192.168.1.174
 
 
 [workers]
-greytalon ansible_port=22 ansible_host=192.168.1.168
+docker1 ansible_port=22 ansible_host=192.168.1.168
 
 [media]
-blacktalon ansible_port=22 ansible_host=192.168.1.169
+docker2 ansible_port=22 ansible_host=192.168.1.169
 
 [all:vars]
 ansible_connection=ssh

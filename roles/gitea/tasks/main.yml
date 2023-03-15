@@ -71,10 +71,10 @@
       GITEA_CUSTOM: "/data/gitea"
     placement:
       constraints:
-        - node.id == {{ greytalon_node_id }}
+        - node.id == {{ docker1_node_id }}
     replicas: 1
     mounts:
-      - source: /greytalon/apps/gitea/
+      - source: /datavol/apps/gitea/
         target: /data/
         type: bind
     labels:

@@ -21,9 +21,9 @@
     group: "paperless"
     state: directory
   loop:
-    - /greytalon/apps/paperless
-    - /greytalon/apps/paperless/export
-    - /greytalon/apps/paperless/consume
+    - /datavol/apps/paperless
+    - /datavol/apps/paperless/export
+    - /datavol/apps/paperless/consume
   tags: paperless
 
 - import_tasks: roles/postgres/tasks/database_manager.yml
@@ -69,15 +69,15 @@
       - source: paperless_media
         target: /usr/src/paperless/media/
         type: volume
-      - source: /greytalon/apps/paperless/export/
+      - source: /datavol/apps/paperless/export/
         target: /usr/src/paperless/export/
         type: bind
-      - source: /greytalon/apps/paperless/consume/
+      - source: /datavol/apps/paperless/consume/
         target: /usr/src/paperless/consume/
         type: bind
     placement:
       constraints:
-        - node.id == {{greytalon_node_id}}
+        - node.id == {{docker1_node_id}}
     replicas: 1
     labels:
       traefik.http.routers.paperless.entrypoints: "websecure"

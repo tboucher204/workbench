@@ -28,9 +28,9 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{yellowtalon_node_id}}
+        - node.id == {{docker3_node_id}}
     mounts:
-      - source: "/yellowtalon/apps/xbrowsersync/settings.json"
+      - source: "/datavol/apps/xbrowsersync/settings.json"
         target: /usr/src/api/config/settings.json
         type: bind
     labels:

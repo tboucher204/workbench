@@ -5,15 +5,15 @@
     path: "{{item}}"
     state: directory
   loop:
-    - /yellowtalon/apps/traefik
-    - /yellowtalon/apps/traefik/letsencrypt
+    - /datavol/apps/traefik
+    - /datavol/apps/traefik/letsencrypt
   tags: traefik
 
 - name: Ensure Acme File Exists
   when: inventory_hostname == groups['managers'][0]
   copy:
     content: ""
-    dest: /yellowtalon/apps/traefik/letsencrypt/acme.json
+    dest: /datavol/apps/traefik/letsencrypt/acme.json
     force: no
     owner: root
     mode: 0600
@@ -26,8 +26,8 @@
     src: "{{item.src}}"
     dest: "{{item.dest}}"
   with_items:
-    - {src: config.yml.j2,dest: /yellowtalon/apps/traefik/config.yml}
-    - {src: traefik-conf.yml.j2,dest: /yellowtalon/apps/traefik/traefik-conf.yml}
+    - {src: config.yml.j2,dest: /datavol/apps/traefik/config.yml}
+    - {src: traefik-conf.yml.j2,dest: /datavol/apps/traefik/traefik-conf.yml}
   tags: traefik
   no_log: true
 
@@ -56,15 +56,15 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{yellowtalon_node_id}}
+        - node.id == {{docker3_node_id}}
     mounts:
-      - source: /yellowtalon/apps/traefik/traefik-conf.yml
+      - source: /datavol/apps/traefik/traefik-conf.yml
         target: /traefik.yml
         type: bind
-      - source: /yellowtalon/apps/traefik/letsencrypt/acme.json
+      - source: /datavol/apps/traefik/letsencrypt/acme.json
         target: /acme.json
         type: bind
-      - source: /yellowtalon/apps/traefik/config.yml
+      - source: /datavol/apps/traefik/config.yml
         target: /config.yml
         type: bind
     labels:

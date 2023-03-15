@@ -5,8 +5,8 @@
     name: "{{item}}"
     state: present
   loop:
-    - blacktalon/media/music
-    - blacktalon/media/music-videos
+    - docker2/media/music
+    - docker2/media/music-videos
   tags: lidarr
 
 - name: Ensure Media Download Datasets Exist
@@ -15,14 +15,14 @@
     name: "{{item}}"
     state: present
   loop:
-    - blacktalon/media/downloads/music
-    - blacktalon/media/downloads/music-videos
+    - docker2/media/downloads/music
+    - docker2/media/downloads/music-videos
   tags: lidarr
 
 - name: Ensure Lidarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/lidarr
+    name: docker2/apps/lidarr
     state: present
   tags: lidarr
 
@@ -54,10 +54,10 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/blacktalon/apps/lidarr/"
+      - source: "/datavol/apps/lidarr/"
         target: /config/
         type: bind
       - source: "{{project_media_directory}}/music/"

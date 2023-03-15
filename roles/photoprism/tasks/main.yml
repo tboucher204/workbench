@@ -2,7 +2,7 @@
 - name: Ensure Photoprism Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/photoprism
+    name: docker2/apps/photoprism
     state: present
   tags: photoprism
 
@@ -86,16 +86,16 @@
       PHOTOPRISM_DEFAULT_LOCALE: "en"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: /blacktalon/apps/photoprism/originals/
+      - source: /datavol/apps/photoprism/originals/
         target: /config/
         type: bind
-      - source: /blacktalon/apps/photoprism/import/
+      - source: /datavol/apps/photoprism/import/
         target: /photoprism/import/
         type: bind
-      - source: /blacktalon/apps/photoprism/data/
+      - source: /datavol/apps/photoprism/data/
         target: /photoprism/storage/
         type: bind
     labels:

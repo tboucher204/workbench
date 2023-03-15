@@ -2,7 +2,7 @@
 - name: Ensure Prowlarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/prowlarr
+    name: docker2/apps/prowlarr
     state: present
   tags: prowlarr
 
@@ -28,7 +28,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     env:
       PUID: "{{media_user}}"
@@ -37,7 +37,7 @@
       DOCKER_MODS: "gilbn/theme.park:prowlarr"
       TP_THEME: "{{theme_park_default}}"
     mounts:
-      - source: "/blacktalon/apps/prowlarr/"
+      - source: "/datavol/apps/prowlarr/"
         target: /config/
         type: bind
     labels:

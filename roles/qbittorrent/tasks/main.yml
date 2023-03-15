@@ -5,15 +5,15 @@
     name: "{{item}}"
     state: present
   loop:
-    - blacktalon/media
-    - blacktalon/media/anime
-    - blacktalon/media/audiobooks
-    - blacktalon/media/books
-    - blacktalon/media/comics
-    - blacktalon/media/kids
-    - blacktalon/media/movies
-    - blacktalon/media/music
-    - blacktalon/media/tv
+    - docker2/media
+    - docker2/media/anime
+    - docker2/media/audiobooks
+    - docker2/media/books
+    - docker2/media/comics
+    - docker2/media/kids
+    - docker2/media/movies
+    - docker2/media/music
+    - docker2/media/tv
   tags: qbittorrent
 
 - name: Ensure Media Download Datasets Exist
@@ -22,22 +22,22 @@
     name: "{{item}}"
     state: present
   loop:
-    - blacktalon/media/downloads
-    - blacktalon/media/downloads/incomplete
-    - blacktalon/media/downloads/anime
-    - blacktalon/media/downloads/audiobooks
-    - blacktalon/media/downloads/books
-    - blacktalon/media/downloads/comics
-    - blacktalon/media/downloads/kids
-    - blacktalon/media/downloads/movies
-    - blacktalon/media/downloads/music
-    - blacktalon/media/downloads/tv
+    - docker2/media/downloads
+    - docker2/media/downloads/incomplete
+    - docker2/media/downloads/anime
+    - docker2/media/downloads/audiobooks
+    - docker2/media/downloads/books
+    - docker2/media/downloads/comics
+    - docker2/media/downloads/kids
+    - docker2/media/downloads/movies
+    - docker2/media/downloads/music
+    - docker2/media/downloads/tv
   tags: qbittorrent
 
 - name: Ensure qBittorrent Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/qbittorrent
+    name: docker2/apps/qbittorrent
     state: present
   tags: qbittorrent
 
@@ -71,7 +71,7 @@
       WEBUI_PORT: "{{qbittorrent_port}}"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     publish:
       - published_port: "6881"
@@ -80,7 +80,7 @@
         target_port: "6881"
         protocol: "udp"
     mounts:
-      - source: "/blacktalon/apps/qbittorrent/"
+      - source: "/datavol/apps/qbittorrent/"
         target: /config/
         type: bind
       - source: "{{project_download_directory}}"

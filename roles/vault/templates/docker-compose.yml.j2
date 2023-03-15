@@ -10,9 +10,9 @@ services:
       - IPC_LOCK
     entrypoint: vault server -config=/vault/config/local.json
     volumes:
-      - /yellowtalon/apps/vault/logs:/vault/logs
-      - /yellowtalon/apps/vault/file:/vault/file
-      - /yellowtalon/apps/vault/config:/vault/config
+      - /datavol/apps/vault/logs:/vault/logs
+      - /datavol/apps/vault/file:/vault/file
+      - /datavol/apps/vault/config:/vault/config
     deploy:
       labels:
         - "traefik.http.routers.vault.entrypoints=websecure"
@@ -25,7 +25,7 @@ services:
         - "traefik.enable=true"
       mode: global
       placement:
-        constraints: [node.id == {{yellowtalon_node_id}}]
+        constraints: [node.id == {{docker3_node_id}}]
 
 networks:
   {{traefik_network}}:

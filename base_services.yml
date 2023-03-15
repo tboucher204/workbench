@@ -11,11 +11,11 @@
     # - redis
     # - mongodb
     # - elasticsearch
-    - keycloak
+    # - keycloak
     # - authelia
     # - mailrise
     # - gitea
     # - portus
     # - jenkins
     # - n8n
-    - minio
+    # - minio

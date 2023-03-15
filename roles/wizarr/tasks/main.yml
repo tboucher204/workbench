@@ -2,7 +2,7 @@
 - name: Ensure Wizarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/wizarr
+    name: docker2/apps/wizarr
     state: present
   tags: wizarr
 
@@ -23,10 +23,10 @@
       DISABLE_BUILTIN_AUTH: "false"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: /blacktalon/apps/wizarr/
+      - source: /datavol/apps/wizarr/
         target: /data/database/
         type: bind
     labels:

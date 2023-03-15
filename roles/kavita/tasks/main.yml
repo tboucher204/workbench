@@ -5,15 +5,15 @@
     name: "{{item}}"
     state: present
   loop:
-    - blacktalon/media/manga
-    - blacktalon/media/books
-    - blacktalon/media/comics
+    - docker2/media/manga
+    - docker2/media/books
+    - docker2/media/comics
   tags: kavita
 
 - name: Ensure Kavita Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/kavita
+    name: docker2/apps/kavita
     state: present
   tags: kavita
 
@@ -43,10 +43,10 @@
       TZ: "{{default_timezone}}"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/blacktalon/apps/kavita/"
+      - source: "/datavol/apps/kavita/"
         target: /kavita/config/
         type: bind
       - source: "{{project_media_directory}}/manga/"

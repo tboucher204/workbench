@@ -5,16 +5,16 @@
     name: "{{ item }}"
     state: present
   loop:
-    - blacktalon/media/movies
-    - blacktalon/media/tv
-    - blacktalon/media/kids
-    - blacktalon/media/anime
+    - docker2/media/movies
+    - docker2/media/tv
+    - docker2/media/kids
+    - docker2/media/anime
   tags: bazarr
 
 - name: Ensure Bazarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/bazarr
+    name: docker2/apps/bazarr
     state: present
   tags: bazarr
 
@@ -47,10 +47,10 @@
       TP_THEME: "{{ theme_park_default }}"
     placement:
       constraints:
-        - node.id == {{ blacktalon_node_id }}
+        - node.id == {{ docker2_node_id }}
     replicas: 1
     mounts:
-      - source: /blacktalon/apps/bazarr/
+      - source: /datavol/apps/bazarr/
         target: /config/
         type: bind
       - source: "{{ project_media_directory }}/movies/"

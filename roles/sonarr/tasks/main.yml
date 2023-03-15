@@ -5,8 +5,8 @@
     name: "{{item}}"
     state: present
   loop:
-    - blacktalon/media/kids
-    - blacktalon/media/tv
+    - docker2/media/kids
+    - docker2/media/tv
   tags: sonarr
 
 - name: Ensure Media Download Datasets Exist
@@ -15,14 +15,14 @@
     name: "{{item}}"
     state: present
   loop:
-    - blacktalon/media/downloads/kids
-    - blacktalon/media/downloads/tv
+    - docker2/media/downloads/kids
+    - docker2/media/downloads/tv
   tags: sonarr
 
 - name: Ensure Sonarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/sonarr
+    name: docker2/apps/sonarr
     state: present
   tags: sonarr
 
@@ -54,10 +54,10 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/blacktalon/apps/sonarr/"
+      - source: "/datavol/apps/sonarr/"
         target: /config/
         type: bind
       - source: "{{project_media_directory}}/tv/"

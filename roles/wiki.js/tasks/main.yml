@@ -35,12 +35,12 @@
     restart_config:
       condition: on-failure
     mounts:
-      - source: "/greytalon/apps/wikijs/"
+      - source: "/datavol/apps/wikijs/"
         target: /data/
         type: bind
     placement:
       constraints:
-        - node.id == {{greytalon_node_id}}
+        - node.id == {{docker1_node_id}}
     replicas: 1
     labels:
       traefik.http.routers.wikijs.entrypoints: "websecure"

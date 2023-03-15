@@ -32,10 +32,10 @@
           backoff: 1s
     placement:
       constraints:
-        - node.id == {{greytalon_node_id}}
+        - node.id == {{docker1_node_id}}
     replicas: 1
     mounts:
-      - source: /greytalon/apps/portus/registry/
+      - source: /datavol/apps/portus/registry/
         target: /var/lib/registry/
         type: bind
     labels:

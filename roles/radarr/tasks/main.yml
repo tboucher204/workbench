@@ -2,21 +2,21 @@
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/media/movies
+    name: docker2/media/movies
     state: present
   tags: radarr
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/media/downloads/movies
+    name: docker2/media/downloads/movies
     state: present
   tags: radarr
 
 - name: Ensure Radarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/radarr
+    name: docker2/apps/radarr
     state: present
   tags: radarr
 
@@ -48,10 +48,10 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/blacktalon/apps/radarr/"
+      - source: "/datavol/apps/radarr/"
         target: /config/
         type: bind
       - source: "{{project_media_directory}}/movies/"

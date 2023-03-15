@@ -34,9 +34,9 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     mounts:
-      - source: "/blacktalon/apps/lidarr/"
+      - source: "/datavol/apps/lidarr/"
         target: /config/
         type: bind
       - source: "{{project_media_directory}}/music/"

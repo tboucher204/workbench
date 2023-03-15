@@ -2,7 +2,7 @@
 - name: Ensure PeerTube Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/peertube
+    name: docker2/apps/peertube
     state: present
   tags: peertube
 
@@ -45,13 +45,13 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: /blacktalon/apps/peertube/data/
+      - source: /datavol/apps/peertube/data/
         target: /data/
         type: bind
-      - source: /blacktalon/apps/peertube/config/
+      - source: /datavol/apps/peertube/config/
         target: /config/
         type: bind
       - source: peertube-assets

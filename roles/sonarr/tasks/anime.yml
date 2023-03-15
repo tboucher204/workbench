@@ -2,21 +2,21 @@
 - name: Ensure Anime Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/media/anime
+    name: docker2/media/anime
     state: present
   tags: sonarr
 
 - name: Ensure Anime Media Download Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/media/downloads/anime
+    name: docker2/media/downloads/anime
     state: present
   tags: sonarr
 
 - name: Ensure Sonarr Anime Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/sonarr2
+    name: docker2/apps/sonarr2
     state: present
   tags: sonarr
 
@@ -48,10 +48,10 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/blacktalon/apps/sonarr2/"
+      - source: "/datavol/apps/sonarr2/"
         target: /config/
         type: bind
       - source: "{{project_media_directory}}/anime/"

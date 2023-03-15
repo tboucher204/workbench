@@ -2,7 +2,7 @@
 - name: Ensure Ombi Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/ombi
+    name: docker2/apps/ombi
     state: present
   tags: ombi
 
@@ -24,10 +24,10 @@
       TZ: "{{default_timezone}}"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/blacktalon/apps/ombi/"
+      - source: "/datavol/apps/ombi/"
         target: /config/
         type: bind
     labels:

@@ -19,12 +19,12 @@
     restart_config:
       condition: on-failure
     mounts:
-      - source: "/greytalon/apps/mongodb/"
+      - source: "/datavol/apps/mongodb/"
         target: /data/db/
         type: bind
     placement:
       constraints:
-        - node.id == {{greytalon_node_id}}
+        - node.id == {{docker1_node_id}}
     replicas: 1
     labels:
       traefik.tcp.routers.mongodb.entrypoints: "mongodb"

@@ -23,7 +23,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{ yellowtalon_node_id }}
+        - node.id == {{ docker3_node_id }}
     replicas: 1
     env:
       KC_DB: "postgres"

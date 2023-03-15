@@ -5,16 +5,16 @@
     path: "{{item}}"
     state: directory
   loop:
-    - /yellowtalon/apps/vault/config
-    - /yellowtalon/apps/vault/logs
-    - /yellowtalon/apps/vault/file
+    - /datavol/apps/vault/config
+    - /datavol/apps/vault/logs
+    - /datavol/apps/vault/file
   tags: vault
 
 - name: Ensure Vault Configuration Files Exist
   when: inventory_hostname == groups['managers'][0]
   template:
     src: vaultconfig.json.j2
-    dest: /yellowtalon/apps/vault/config/local.json
+    dest: /datavol/apps/vault/config/local.json
   tags: vault
   no_log: true
 

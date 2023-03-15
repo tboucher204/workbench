@@ -2,21 +2,21 @@
 - name: Ensure Readarr Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/media/audiobooks
+    name: docker2/media/audiobooks
     state: present
   tags: readarr
 
 - name: Ensure Readarr Media Download Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/media/downloads/audiobooks
+    name: docker2/media/downloads/audiobooks
     state: present
   tags: readarr
 
 - name: Ensure Readarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: blacktalon/apps/readarr
+    name: docker2/apps/readarr
     state: present
   tags: readarr
 
@@ -48,10 +48,10 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{blacktalon_node_id}}
+        - node.id == {{docker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/blacktalon/apps/readarr/"
+      - source: "/datavol/apps/readarr/"
         target: /config/
         type: bind
       - source: "{{project_media_directory}}/audiobooks/"
