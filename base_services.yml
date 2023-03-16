@@ -7,7 +7,7 @@
     # - traefik
     - vault
     # - homer
-    # - postgres
+    - postgres
     # - redis
     # - mongodb
     # - elasticsearch
