@@ -2,8 +2,10 @@
 - name: Ensure Postgres Directory Exist
   when: inventory_hostname == groups['workers'][0]
   file:
-    path: "{{project_root_directory}}/postgres"
+    path: "{{item}}"
     state: directory
+  loop:
+    - /datavol/apps/postgres/data
   tags: postgres
 
 - name: Deploy postgres Service
@@ -18,7 +20,7 @@
       POSTGRES_INITDB_ARGS: "--auth-local=md5"
     publish:
       - published_port: "{{postgres_port}}"
-        target_port: "{{postgres_port}}" 
+        target_port: "{{postgres_port}}"
     networks:
       - "{{traefik_network}}"
     mode: replicated
