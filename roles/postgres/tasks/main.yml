@@ -22,8 +22,8 @@
     publish:
       - published_port: "{{postgres_port}}"
         target_port: "{{postgres_port}}"
-        mode: "host"
-        protocol: "tcp"
+        mode: host
+        protocol: tcp
     networks:
       - "{{traefik_network}}"
     mode: replicated
