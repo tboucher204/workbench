@@ -22,7 +22,7 @@
     publish:
       - published_port: "{{postgres_port}}"
         target_port: "{{postgres_port}}"
-        protocol: tcp
+        mode: ingress
     networks:
       - "{{traefik_network}}"
     mode: replicated
