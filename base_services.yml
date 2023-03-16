@@ -11,7 +11,7 @@
     # - redis
     # - mongodb
     # - elasticsearch
-    # - keycloak
+    - keycloak
     # - authelia
     # - mailrise
     # - gitea

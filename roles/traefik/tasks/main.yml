@@ -20,7 +20,7 @@
   no_log: true
   tags: traefik
 
-- name: Ensure Teaefik Configuration Files Exist
+- name: Ensure Traefik Configuration Files Exist
   when: inventory_hostname == groups['managers'][0]
   template:
     src: "{{item.src}}"

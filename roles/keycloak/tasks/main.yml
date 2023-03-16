@@ -36,7 +36,7 @@
       KEYCLOAK_ADMIN: "{{ keycloak_user }}"
       KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_user_password }}"
     labels:
-      traefik.http.routers.keycloak.entrypoints: "websecure"
+      traefik.http.routers.keycloak.entrypoints: "https"
       traefik.http.routers.keycloak.rule: "Host(`sso.{{ project_tld }}`)"
       traefik.http.routers.keycloak.tls: "true"
       traefik.http.routers.keycloak.service: "keycloak"
