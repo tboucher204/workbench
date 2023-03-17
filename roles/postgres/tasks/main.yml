@@ -19,9 +19,9 @@
       POSTGRES_PASSWORD: "{{postgres_root_password}}"
       PGDATA: "/var/lib/postgresql/data/pgdata"
       POSTGRES_INITDB_ARGS: "--auth-local=md5"
-      PGID: "{{default_pgid:}}"
-      PUID: "{{default_puid:}}"
-      TZ: "{{default_timezone:}}"
+      PGID: "{{default_pgid}}"
+      PUID: "{{default_puid}}"
+      TZ: "{{default_timezone}}"
     publish:
       - published_port: "{{postgres_port}}"
         target_port: "{{postgres_port}}"
