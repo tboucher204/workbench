@@ -6,7 +6,7 @@
     state: directory
     mode: 0755
   loop:
-    - "{{ project_root_directory }}/postgres"
+    - "{{ project_root_directory }}/postgres/data/"
   tags: postgres
 
 - name: Deploy postgres Service
@@ -19,6 +19,9 @@
       POSTGRES_PASSWORD: "{{postgres_root_password}}"
       PGDATA: "/var/lib/postgresql/data/pgdata"
       POSTGRES_INITDB_ARGS: "--auth-local=md5"
+      PGID: "{{default_pgid:}}"
+      PUID: "{{default_puid:}}"
+      TZ: "{{default_timezone:}}"
     publish:
       - published_port: "{{postgres_port}}"
         target_port: "{{postgres_port}}"
@@ -33,7 +36,7 @@
         - node.id == {{docker3_node_id}}
     replicas: 1
     mounts:
-      - source: "{{ project_root_directory }}/postgres/"
+      - source: "{{ project_root_directory }}/postgres/data/"
         target: /var/lib/postgresql/data/
         type: bind
     state: present
