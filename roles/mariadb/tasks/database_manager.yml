@@ -1,5 +1,5 @@
 ---
-- name: Ensure MariaDB Databases are Present.
+ - name: Ensure MariaDB Databases are Present.
   mysql_db:
     login_host: "{{mariadb_localhost}}"
     login_port: "{{mariadb_port}}"
