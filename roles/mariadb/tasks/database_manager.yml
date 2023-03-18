@@ -3,8 +3,8 @@
   mysql_user:
     login_host: "{{mariadb_localhost}}"
     login_port: "{{mariadb_port}}"
-    login_user: "{{maria_initdb_root_username}}"
-    login_password: "{{maria_initdb_root_password}}"
+    login_user: "{{mariadb_initdb_root_username}}"
+    login_password: "{{mariadb_initdb_root_password}}"
     login_database: "mariadb"
     database: "{{database_name}}"
     name: "{{database_user}}"
