@@ -1,5 +1,5 @@
 ---
- - name: Ensure MariaDB Databases are Present.
+- name: Ensure MariaDB Databases are Present.
   mysql_db:
     login_host: "{{mariadb_localhost}}"
     login_port: "{{mariadb_port}}"
@@ -8,7 +8,7 @@
     name: "{{ database_name }}"
     state: "present"
 
- - name: Ensure MariaDB Users are Present.
+- name: Ensure MariaDB Users are Present.
   mysql_user:
     login_host: "{{mariadb_localhost}}"
     login_port: "{{mariadb_port}}"
