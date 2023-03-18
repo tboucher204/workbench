@@ -1,6 +1,6 @@
 ---
 - name: Create Keycloak Database
-  import_tasks: roles/postgres/tasks/database_manager.yml
+  import_tasks: roles/mariadb/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
     database_name: "{{ keycloak_database }}"

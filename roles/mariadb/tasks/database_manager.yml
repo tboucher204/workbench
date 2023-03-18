@@ -1,0 +1,15 @@
+---
+- name: Ensure MariaDB Databases are Present.
+  mysqldb_user:
+    login_host: "{{mariadb_localhost}}"
+    login_port: "{{mariadb_port}}"
+    login_user: "{{maria_initdb_root_username}}"
+    login_password: "{{maria_initdb_root_password}}"
+    login_database: "mariadb"
+    database: "{{database_name}}"
+    name: "{{database_user}}"
+    password: "{{database_password}}"
+    roles: readWrite,dbAdmin,userAdmin
+    ssl: yes
+    state: present
+    update_password: on_create
