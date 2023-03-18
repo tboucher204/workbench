@@ -1,6 +1,6 @@
 ---
 - name: Ensure MariaDB Databases are Present.
-  mysqldb_user:
+  mysql_user:
     login_host: "{{mariadb_localhost}}"
     login_port: "{{mariadb_port}}"
     login_user: "{{maria_initdb_root_username}}"
