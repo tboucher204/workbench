@@ -1,7 +1,7 @@
 ---
 - name: Deploy Base Services
   hosts: all
-  gather_facts: false
+  gather_facts: true
   become: false
   roles:
     # - traefik
