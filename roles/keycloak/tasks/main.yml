@@ -1,6 +1,6 @@
 ---
 - name: Create Keycloak Database
-  import_tasks: roles/mysql/tasks/database_manager.yml
+  import_tasks: roles/mariadb/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
     database_name: "{{ keycloak_database }}"
@@ -18,7 +18,7 @@
       - "{{ traefik_network }}"
     mode: replicated
     force_update: yes
-    command: "/opt/keycloak/bin/kc.sh start --optimized"
+    command: "/opt/keycloak/bin/kc.sh start"
     restart_config:
       condition: on-failure
     placement:
@@ -26,13 +26,13 @@
         - node.id == {{ docker3_node_id }}
     replicas: 1
     env:
-      # KC_DB: "mysql"
-      # KC_DB_URL: "jdbc:mysql://{{ mysql_hostname }}:{{ mysql_port }}/{{ keycloak_database }};useUnicode=yes&characterEncoding=UTF-8"
+      KC_DB: "mariadb"
+      KC_DB_URL: "jdbc:mariadb://{{ mariadb_hostname }}:{{ mariadb_port }}/{{ keycloak_database }}"
       # KC_DB_URL_HOST: "{{ mysql_hostname }}"
       # KC_DB_URL_DATABASE: "{{ keycloak_database }}"
       # KC_DB_URL_PORT: "{{ mysql_port }}"
-      # KC_DB_USERNAME: "{{ keycloak_database_user }}"
-      # KC_DB_PASSWORD: "{{ keycloak_database_password }}"
+      KC_DB_USERNAME: "{{ keycloak_database_user }}"
+      KC_DB_PASSWORD: "{{ keycloak_database_password }}"
       KC_HOSTNAME: "sso.{{ project_tld }}"
       KC_HTTP_ENABLED: "true"
       KC_PROXY: "passthrough"
