@@ -1,0 +1,30 @@
+---
+- name: Upgrade pip to be able to install pymysql
+  pip:
+     name: pip
+     extra_args: --upgrade
+
+- name: Install pip PyMySQL package
+  pip:
+     name: PyMySQL
+
+- name: Ensure MySQL Databases are Present.
+  mysql_db:
+    login_host: "{{mysql_localhost}}"
+    login_port: "{{mysql_port}}"
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ database_name }}"
+    state: "present"
+
+- name: Ensure MySQL Users are Present.
+  mysql_user:
+    login_host: "{{mysql_localhost}}"
+    login_port: "{{mysql_port}}"
+    login_user: "{{ mysql_root_user }}"
+    login_password: "{{ mysql_root_password }}"
+    name: "{{ database_user }}"
+    password: "{{ database_password }}"
+    host: "%"
+    state: "present"
+    priv: "{{ database_name }}.*:ALL"
