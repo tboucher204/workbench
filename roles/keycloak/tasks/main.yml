@@ -27,7 +27,7 @@
     replicas: 1
     env:
       KC_DB: "postgres"
-      KC_DB_URL: "jdbc:postgresql://{{ postgres_hostname }}:{{ postgres_port }}/{{ keycloak_database }}"
+      KC_DB_URL: "jdbc:mariadb://{{ mariadb_hostname }}:{{ mariadb_port }}/{{ keycloak_database }}"
       KC_DB_USERNAME: "{{ keycloak_database_user }}"
       KC_DB_PASSWORD: "{{ keycloak_database_password }}"
       KC_HOSTNAME: "sso.{{ project_tld }}"
