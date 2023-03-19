@@ -25,6 +25,6 @@
     login_password: "{{ mariadb_root_password }}"
     name: "{{ database_user }}"
     password: "{{ database_password }}"
-    host_all: true
+    host: "%"
     state: "present"
     priv: "{{ database_name }}.*:ALL"
