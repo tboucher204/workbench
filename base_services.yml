@@ -9,6 +9,7 @@
     # - homer
     # - postgres
     - mariadb
+    - mysql
     # - redis
     # - mongodb
     # - elasticsearch
