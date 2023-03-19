@@ -27,7 +27,7 @@
     replicas: 1
     env:
       KC_DB: "mysql"
-      KC_DB_URL: "jdbc:mysql://{{ mysql_hostname }}:{{ mysql_port }}/{{ keycloak_database }}"
+      KC_DB_URL: "jdbc:mysql://{{ mysql_hostname }}:{{ mysql_port }}/{{ keycloak_database }};characterEncoding=UTF-8"
       # KC_DB_URL_HOST: "{{ mysql_hostname }}"
       # KC_DB_URL_DATABASE: "{{ keycloak_database }}"
       # KC_DB_URL_PORT: "{{ mysql_port }}"
