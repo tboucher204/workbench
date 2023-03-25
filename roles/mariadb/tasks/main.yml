@@ -17,8 +17,8 @@
     image: "{{mariadb_docker_image}}:{{mariadb_version}}"
     env:
       MARIADB_ROOT_PASSWORD: "{{mariadb_root_password}}"
-      MARIADB_AUTO_UPGRADE: true
-      MARIADB_MYSQL_LOCALHOST_USER: 1
+      MARIADB_AUTO_UPGRADE: "true"
+      MARIADB_MYSQL_LOCALHOST_USER: "1"
       TZ: "{{default_timezone}}"
     publish:
       - published_port: "{{mariadb_port}}"
