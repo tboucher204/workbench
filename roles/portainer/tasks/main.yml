@@ -8,6 +8,15 @@
     - /datavol/apps/portainer/data
   tags: portainer
 
+- name: Ensure Portainer Network Exists
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_network:
+    name: "{{ agent_network }}"
+    driver: "overlay"
+    scope: "swarm"
+    state: present
+  tags: portainer
+
 - name: Deploy Portainer Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
