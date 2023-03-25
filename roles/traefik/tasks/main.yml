@@ -31,6 +31,15 @@
   tags: traefik
   no_log: true
 
+- name: Ensure Traefik Network Exists
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_network:
+    name: "{{ traefik_network }}"
+    driver: "overlay"
+    scope: "swarm"
+    state: present
+    tags: traefik
+
 - name: Deploy Traefik Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
