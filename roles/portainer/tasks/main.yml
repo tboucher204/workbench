@@ -1,0 +1,46 @@
+---
+- name: Ensure Portainer Directories Exist
+  when: inventory_hostname == groups['managers'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - /datavol/apps/portainer/data
+  tags: portainer
+
+- name: Deploy Portainer Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: portainer
+    hostname: "{{portainer_hostname}}"
+    image: "{{portainer_docker_image}}:{{portainer_version}}"
+    command: "-H tcp://tasks.agent:9001 --tlsskipverify"
+    networks:
+      - "{{ agent_network }}"
+    mode: replicated
+    force_update: yes
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.role == manager
+    replicas: 1
+    mounts:
+      - source: "/datavol/apps/portainer/data/"
+        target: /data/
+        type: bind
+    labels:
+      traefik.http.routers.portainer.entrypoints: "websecure"
+      traefik.http.routers.portainer.rule: "Host(`portainer.{{project_tld}}`)"
+      traefik.http.routers.portainer.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.portainer.tls: "true"
+      traefik.http.routers.portainer.service: "portainer"
+      traefik.http.routers.portainer.tls.certresolver: "{{default_certificate_resolver}}"
+      traefik.http.services.portainer.loadbalancer.server.port: "{{portainer_port1}}"
+      traefik.enable: "true"
+    state: present
+  tags: portainer
+
+- import_tasks: "{{role_path}}/tasks/agent.yml"
+  tags:
+    - portainer

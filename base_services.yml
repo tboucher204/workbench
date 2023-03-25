@@ -2,11 +2,12 @@
 - name: Deploy Base Services
   hosts: all
   gather_facts: true
-  become: false
+  become: true
   roles:
-    # - traefik
+    - traefik
+    - portainer
     - vault
-    # - homer
+    - homer
     # - postgres
     - mariadb
     - mysql
@@ -14,7 +15,7 @@
     # - mongodb
     # - elasticsearch
     - keycloak
-    # - authelia
+    - authelia
     # - mailrise
     # - gitea
     # - portus

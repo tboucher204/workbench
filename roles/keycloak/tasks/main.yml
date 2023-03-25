@@ -23,7 +23,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{ docker3_node_id }}
+        - node.id == {{ docker_master1_node_id }}
     replicas: 1
     env:
       KC_DB: "mariadb"
@@ -39,7 +39,7 @@
       KEYCLOAK_ADMIN: "{{ keycloak_user }}"
       KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_user_password }}"
     labels:
-      traefik.http.routers.keycloak.entrypoints: "https"
+      traefik.http.routers.keycloak.entrypoints: "websecure"
       traefik.http.routers.keycloak.rule: "Host(`sso.{{ project_tld }}`)"
       traefik.http.routers.keycloak.middlewares: "chain-authelia@file"
       traefik.http.routers.keycloak.tls: "true"

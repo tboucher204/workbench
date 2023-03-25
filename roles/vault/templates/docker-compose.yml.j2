@@ -15,7 +15,7 @@ services:
       - /datavol/apps/vault/config:/vault/config
     deploy:
       labels:
-        - "traefik.http.routers.vault.entrypoints=https"
+        - "traefik.http.routers.vault.entrypoints=websecure"
         - "traefik.http.routers.vault.rule=Host(`pki.{{project_tld}}`)"
         - "traefik.http.routers.vault.tls=true"
         - "traefik.http.routers.vault.middlewares=chain-authelia@file"
@@ -25,7 +25,7 @@ services:
         - "traefik.enable=true"
       mode: global
       placement:
-        constraints: [node.id == {{docker3_node_id}}]
+        constraints: [node.id == {{docker_master1_node_id}}]
 
 networks:
   {{traefik_network}}:

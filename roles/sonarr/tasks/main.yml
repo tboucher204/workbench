@@ -5,8 +5,8 @@
     name: "{{item}}"
     state: present
   loop:
-    - docker2/media/kids
-    - docker2/media/tv
+    - docker_worker2/media/kids
+    - docker_worker2/media/tv
   tags: sonarr
 
 - name: Ensure Media Download Datasets Exist
@@ -15,14 +15,14 @@
     name: "{{item}}"
     state: present
   loop:
-    - docker2/media/downloads/kids
-    - docker2/media/downloads/tv
+    - docker_worker2/media/downloads/kids
+    - docker_worker2/media/downloads/tv
   tags: sonarr
 
 - name: Ensure Sonarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/sonarr
+    name: docker_worker2/apps/sonarr
     state: present
   tags: sonarr
 
@@ -54,7 +54,7 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: "/datavol/apps/sonarr/"

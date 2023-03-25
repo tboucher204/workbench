@@ -2,21 +2,21 @@
 - name: Ensure Anime Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/media/anime
+    name: docker_worker2/media/anime
     state: present
   tags: sonarr
 
 - name: Ensure Anime Media Download Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/media/downloads/anime
+    name: docker_worker2/media/downloads/anime
     state: present
   tags: sonarr
 
 - name: Ensure Sonarr Anime Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/sonarr2
+    name: docker_worker2/apps/sonarr2
     state: present
   tags: sonarr
 
@@ -48,7 +48,7 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: "/datavol/apps/sonarr2/"

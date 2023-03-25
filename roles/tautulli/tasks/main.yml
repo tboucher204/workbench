@@ -24,7 +24,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker1_node_id}}
+        - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
       - source: /datavol/apps/tautulli/
@@ -32,7 +32,7 @@
         type: bind
     labels:
       traefik.http.routers.tautulli.entrypoints: "websecure"
-      traefik.http.routers.tautulli.rule: "Host(`stats.{{media_tld}}`)"
+      traefik.http.routers.tautulli.rule: "Host(`stats.{{project_tld}}`)"
       traefik.http.routers.tautulli.middlewares: "default-headers@file"
       traefik.http.routers.tautulli.tls: "true"
       traefik.http.routers.tautulli.service: "tautulli"

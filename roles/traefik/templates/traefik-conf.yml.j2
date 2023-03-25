@@ -14,15 +14,13 @@ entryPoints:
     forwardedHeaders:
       trustedIPs:
         - "127.0.0.1/32"
-        - "10.10.0.1"
-  mongodb:
-    address: ":{{mongodb_port}}"
+        - "192.168.1.1"
   rtmp:
     address: ":1935"
 
 providers:
   docker:
-    endpoint: "tcp://10.20.0.240:2375"
+    endpoint: "tcp://192.168.1.80:2375"
     exposedByDefault: false
     swarmMode: true
     watch: true
@@ -37,7 +35,7 @@ certificatesResolvers:
       email: support@{{project_tld}}
       storage: acme.json
       dnsChallenge:
-        provider: dreamhost
+        provider: godaddy
         disablePropagationCheck: true
         delayBeforeCheck: 0
 

@@ -2,21 +2,21 @@
 - name: Ensure Readarr Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/media/audiobooks
+    name: /media/audiobooks
     state: present
   tags: readarr
 
 - name: Ensure Readarr Media Download Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/media/downloads/audiobooks
+    name: /media/downloads/audiobooks
     state: present
   tags: readarr
 
 - name: Ensure Readarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/readarr
+    name: /datavol/apps/readarr
     state: present
   tags: readarr
 
@@ -48,7 +48,7 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: "/datavol/apps/readarr/"

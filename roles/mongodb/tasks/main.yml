@@ -24,7 +24,7 @@
         type: bind
     placement:
       constraints:
-        - node.id == {{docker1_node_id}}
+        - node.id == {{docker_worker1_node_id}}
     replicas: 1
     labels:
       traefik.tcp.routers.mongodb.entrypoints: "mongodb"

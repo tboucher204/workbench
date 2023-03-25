@@ -40,14 +40,13 @@
     networks:
       - "{{traefik_network}}"
     env:
-      DREAMHOST_API_KEY: "{{dreamhost_token}}"
+      GODADDY_API_KEY: "{{godaddy_key}}"
+      GODADDY_API_SECRET: "{{godaddy_secret}}"
     publish:
       - published_port: "{{traefik_http_port}}"
         target_port: "{{traefik_http_port}}"
       - published_port: "{{traefik_https_port}}"
         target_port: "{{traefik_https_port}}"
-      - published_port: "{{mongodb_port}}"
-        target_port: "{{mongodb_port}}"
       - published_port: "1935"
         target_port: "1935"
     mode: global
@@ -56,7 +55,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker3_node_id}}
+        - node.id == {{docker_master1_node_id}}
     mounts:
       - source: /datavol/apps/traefik/traefik-conf.yml
         target: /traefik.yml
@@ -76,16 +75,6 @@
       traefik.http.routers.wildcard.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.routers.wildcard.tls.domains[0].main: "{{project_tld}}"
       traefik.http.routers.wildcard.tls.domains[0].sans: "*.{{project_tld}}"
-      traefik.http.routers.wildcard.tls.domains[1].main: "{{git_tld}}"
-      traefik.http.routers.wildcard.tls.domains[1].sans: "*.{{git_tld}}"
-      traefik.http.routers.wildcard.tls.domains[2].main: "{{media_tld}}"
-      traefik.http.routers.wildcard.tls.domains[2].sans: "*.{{media_tld}}"
-      traefik.http.routers.wildcard.tls.domains[3].main: "{{kutt_tld}}"
-      traefik.http.routers.wildcard.tls.domains[3].sans: "*.{{kutt_tld}}"
-      traefik.http.routers.wildcard.tls.domains[4].main: "{{peertube_tld}}"
-      traefik.http.routers.wildcard.tls.domains[4].sans: "*.{{peertube_tld}}"
-      traefik.http.routers.wildcard.tls.domains[5].main: "{{photo_tld}}"
-      traefik.http.routers.wildcard.tls.domains[5].sans: "*.{{photo_tld}}"
       traefik.http.services.dummy-svc.loadbalancer.server.port: "9999"
       traefik.enable: "true"
     state: present

@@ -54,7 +54,7 @@
       SMTP_RETRIES: "2"
     placement:
       constraints:
-        - node.id == {{docker3_node_id}}
+        - node.id == {{docker_master1_node_id}}
     replicas: 1
     mounts:
       - source: plausible-geoip

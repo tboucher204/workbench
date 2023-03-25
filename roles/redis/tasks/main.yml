@@ -24,7 +24,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker1_node_id}}
+        - node.id == {{docker_worker1_node_id}}
     replicas: 1
     state: present
   tags: redis

@@ -9,12 +9,15 @@ server:
   disable_healthcheck: false
   asset_path: /config/assets/
 
+log:
+  level: info
+
 access_control:
   default_policy: two_factor
   networks:
   - name: internal
     networks:
-    - 10.0.0.0/8
+    - 192.168.1.0/24
   rules:
   - domain: "*.{{project_tld}}"
     policy: bypass
@@ -27,81 +30,86 @@ access_control:
     - "^/agent.*$"
     - "^/control.*$"
     - "^/meshrelay.*$"
+    - "^/github-webhook/.*$"
   - domain: api.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:admin"
+    - "group:Authelia_Admins"
+  - domain: "ci.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: cyberchef.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:admin"
+    - "group:Authelia_Admins"
   - domain: sonarr.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: sonarr2.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: radarr.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: lidarr.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: readarr.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: prowlarr.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: sabnzbd.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: qbittorrent.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
-  - domain: qbittorrent.{{project_tld}}
-    policy: two_factor
-    subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: bazarr.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
   - domain: print.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:print"
+    - "group:Media_Users"
   - domain: sabnzbd.{{project_tld}}
     policy: two_factor
     subject:
-    - "group:media"
+    - "group:Media_Users"
 
 authentication_backend:
   disable_reset_password: false
-  file:
-    path: /config/users.yml
-    password:
-      algorithm: argon2id
-      iterations: 1
-      salt_length: 16
-      parallelism: 8
-      memory: 64
+  ldap:
+    url: {{vault_authelia_ldap_url}}
+    base_dn: {{vault_authelia_ldap_base_dn}}
+    username_attribute: uid
+    additional_users_dn: ou=users
+    users_filter: (&({username_attribute}={input})(objectClass=person))
+    additional_groups_dn: ou=groups
+    groups_filter: (&(member={dn})(objectclass=groupOfNames))
+    group_name_attribute: cn
+    mail_attribute: mail
+    display_name_attribute: displayname
+    user: {{vault_authelia_ldap_user}}
+    password: {{vault_authelia_ldap_password}}
 
 storage:
   encryption_key: {{authelia_encryption_key}}
-  postgres:
-    host: {{postgres_hostname}}
-    port: {{postgres_port}}
+  mysql:
+    host: {{mariadb_hostname}}
+    port: {{mariadb_port}}
     database: {{authelia_database}}
-    schema: public
     username: {{authelia_database_user}}
     password: {{authelia_database_password}}
 
@@ -111,9 +119,24 @@ session:
   redis:
     host: {{redis_hostname}}
     port: {{redis_port}}
+    password: {{redis_password}}
     database_index: 1
     maximum_active_connections: 8
     minimum_idle_connections: 0
+    high_availability:
+      sentinel_name: {{redis_sentinel_name}}
+      # If `sentinel_username` is supplied, Authelia will connect using ACL-based
+      # authentication. Otherwise, it will use traditional `requirepass` auth.
+      sentinel_password: {{redis_password}}
+      nodes:
+        - host: {{redis_sentinel_node1}}
+          port: {{redis_sentinel_port}}
+        - host: {{redis_sentinel_node2}}
+          port: {{redis_sentinel_port}}
+        - host: {{redis_sentinel_node3}}
+          port: {{redis_sentinel_port}}
+      route_by_latency: false
+      route_randomly: false 
 
 notifier:
   disable_startup_check: false
@@ -142,11 +165,16 @@ ntp:
   disable_failure: false
 
 totp:
-  issuer: authelia.com
+  issuer: H2OHome
   algorithm: sha1
   digits: 6
   period: 30
   skew: 1
+
+duo_api:
+  hostname: {{authelia_duo_hostname}}
+  integration_key: {{authelia_duo_integration_key}}
+  secret_key: {{authelia_duo_secret_key}}
 
 theme: dark
 jwt_secret: {{authelia_jwt_secret}}

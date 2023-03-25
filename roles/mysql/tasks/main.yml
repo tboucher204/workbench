@@ -1,0 +1,47 @@
+---
+- name: Ensure Mysql Directory Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - "{{ project_root_directory }}/mysql/data/"
+  tags: mysql
+
+- name: Deploy Mysql Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: mysql
+    hostname: "{{mysql_hostname}}"
+    image: "{{mysql_docker_image}}:{{mysql_version}}"
+    env:
+      MYSQL_ROOT_PASSWORD: "{{mysql_root_password}}"
+      TZ: "{{default_timezone}}"
+    publish:
+      - published_port: "{{mysql_port}}"
+        target_port: "{{mysql_port}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: yes
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_master1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{ project_root_directory }}/mysql/data/"
+        target: /var/lib/mysql/data/
+        type: bind
+    state: present
+  tags: mysql
+
+- name: Wait for mysql to be up and running
+  when: inventory_hostname == groups['managers'][0]
+  wait_for:
+    host: "{{mysql_localhost}}"
+    port: "{{mysql_port}}"
+    delay: 15
+  tags: mysql

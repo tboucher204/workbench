@@ -1,0 +1,9 @@
+---
+portainer_version: "latest"
+portainer_hostname: "portainer"
+agent_version: "latest"
+agent_hostname: "agent"
+portainer_port1: "9443"
+portainer_port2: "9000"
+portainer_docker_image: "portainer/portainer-ee"
+agent_docker_image: "portainer/agent"

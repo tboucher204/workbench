@@ -26,7 +26,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     mounts:
       - source: "/datavol/apps/lidarr/"
         target: /config/

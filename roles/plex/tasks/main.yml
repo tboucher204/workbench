@@ -5,18 +5,18 @@
     name: "{{item}}"
     state: present
   loop:
-    - docker2/media/anime
-    - docker2/media/audiobooks
-    - docker2/media/kids
-    - docker2/media/movies
-    - docker2/media/music
-    - docker2/media/tv
+    - docker_worker2/media/anime
+    - docker_worker2/media/audiobooks
+    - docker_worker2/media/kids
+    - docker_worker2/media/movies
+    - docker_worker2/media/music
+    - docker_worker2/media/tv
   tags: plex
 
 - name: Ensure Plex Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/plex
+    name: docker_worker2/apps/plex
     state: present
   tags: plex
 
@@ -39,7 +39,7 @@
       PLEX_CLAIM: "{{plex_claim_token}}"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: "/datavol/apps/plex/"
@@ -65,7 +65,7 @@
         type: bind
     labels:
       traefik.http.routers.plex.entrypoints: "websecure"
-      traefik.http.routers.plex.rule: "Host(`{{media_tld}}`)"
+      traefik.http.routers.plex.rule: "Host(`{{project_tld}}`)"
       traefik.http.routers.plex.middlewares: "default-headers@file"
       traefik.http.routers.plex.tls: "true"
       traefik.http.routers.plex.service: "plex"

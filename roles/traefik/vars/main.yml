@@ -1,2 +1,3 @@
 ---
-dreamhost_token: "{{vault_dreamhost_token}}"
+godaddy_key: "{{vault_godaddy_key}}"
+godaddy_secret: "{{vault_godaddy_secret}}"

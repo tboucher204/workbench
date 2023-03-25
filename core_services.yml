@@ -1,7 +1,7 @@
 ---
 - name: Deploy Core Services
   hosts: all
-  gather_facts: False
+  gather_facts: false
   become: false
   roles:
     - kutt

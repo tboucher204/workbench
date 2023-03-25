@@ -2,7 +2,7 @@
 - name: Ensure Wizarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/wizarr
+    name: docker_worker2/apps/wizarr
     state: present
   tags: wizarr
 
@@ -19,11 +19,11 @@
     restart_config:
       condition: on-failure
     env:
-      APP_URL: "https://join.{{media_tld}}"
+      APP_URL: "https://join.{{project_tld}}"
       DISABLE_BUILTIN_AUTH: "false"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: /datavol/apps/wizarr/
@@ -31,7 +31,7 @@
         type: bind
     labels:
       traefik.http.routers.wizarr.entrypoints: "websecure"
-      traefik.http.routers.wizarr.rule: "Host(`join.{{media_tld}}`)"
+      traefik.http.routers.wizarr.rule: "Host(`join.{{project_tld}}`)"
       traefik.http.routers.wizarr.middlewares: "default-headers@file"
       traefik.http.routers.wizarr.tls: "true"
       traefik.http.routers.wizarr.service: "wizarr"

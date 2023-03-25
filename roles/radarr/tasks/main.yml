@@ -2,21 +2,21 @@
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/media/movies
+    name: docker_worker2/media/movies
     state: present
   tags: radarr
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/media/downloads/movies
+    name: docker_worker2/media/downloads/movies
     state: present
   tags: radarr
 
 - name: Ensure Radarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/radarr
+    name: docker_worker2/apps/radarr
     state: present
   tags: radarr
 
@@ -48,7 +48,7 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: "/datavol/apps/radarr/"

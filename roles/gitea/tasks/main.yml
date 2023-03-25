@@ -40,10 +40,10 @@
       GITEA__repository.upload__FILE_MAX_SIZE: "5"
       GITEA__repository.upload__MAX_FILES: "10"
       GITEA__server__PROTOCOL: "http"
-      GITEA__server__DOMAIN: "{{ git_tld }}"
+      GITEA__server__DOMAIN: "{{ project_tld }}"
       GITEA__server__HTTP_ADDR: "0.0.0.0"
       GITEA__server__HTTP_PORT: "{{ gitea_port }}"
-      GITEA__server__SSH_DOMAIN: "{{ git_tld }}"
+      GITEA__server__SSH_DOMAIN: "{{ project_tld }}"
       GITEA__server__SSH_PORT: "22"
       GITEA__security__INTERNAL_TOKEN: "{{ gitea_internal_security_token }}"
       GITEA__security__SECRET_KEY: "{{ gitea_secret_key }}"
@@ -71,7 +71,7 @@
       GITEA_CUSTOM: "/data/gitea"
     placement:
       constraints:
-        - node.id == {{ docker1_node_id }}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
       - source: /datavol/apps/gitea/
@@ -79,7 +79,7 @@
         type: bind
     labels:
       traefik.http.routers.gitea.entrypoints: "websecure"
-      traefik.http.routers.gitea.rule: "Host(`{{ git_tld }}`)"
+      traefik.http.routers.gitea.rule: "Host(`{{ project_tld }}`)"
       traefik.http.middlewares.gitea_rewrite_theme.plugin.rewritebody.rewrites.regex: "</head>"
       traefik.http.middlewares.gitea_rewrite_theme.plugin.rewritebody.rewrites.replacement: "<link rel=stylesheet type=text/css href=https://gilbn.github.io/theme.park/CSS/themes/gitea/{{ theme_park_default }}.css></head>"
       traefik.http.routers.gitea.middlewares: "default-headers@file,gitea_rewrite_theme"

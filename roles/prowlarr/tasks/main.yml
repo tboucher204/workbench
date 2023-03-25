@@ -2,7 +2,7 @@
 - name: Ensure Prowlarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/prowlarr
+    name: docker_worker2/apps/prowlarr
     state: present
   tags: prowlarr
 
@@ -28,7 +28,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     env:
       PUID: "{{media_user}}"

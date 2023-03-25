@@ -5,8 +5,8 @@
     name: "{{item}}"
     state: present
   loop:
-    - docker2/media/music
-    - docker2/media/music-videos
+    - docker_worker2/media/music
+    - docker_worker2/media/music-videos
   tags: lidarr
 
 - name: Ensure Media Download Datasets Exist
@@ -15,14 +15,14 @@
     name: "{{item}}"
     state: present
   loop:
-    - docker2/media/downloads/music
-    - docker2/media/downloads/music-videos
+    - docker_worker2/media/downloads/music
+    - docker_worker2/media/downloads/music-videos
   tags: lidarr
 
 - name: Ensure Lidarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/lidarr
+    name: docker_worker2/apps/lidarr
     state: present
   tags: lidarr
 
@@ -54,7 +54,7 @@
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: "/datavol/apps/lidarr/"

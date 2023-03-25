@@ -22,7 +22,7 @@
   tags: authelia
   no_log: true
 
-- import_tasks: roles/postgres/tasks/database_manager.yml
+- import_tasks: roles/mariadb/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
     database_name: "{{ authelia_database }}"
@@ -59,7 +59,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{ docker3_node_id }}
+        - node.id == {{ docker_master1_node_id }}
     mounts:
       - source: "{{ project_root_directory }}/authelia/"
         target: /config/

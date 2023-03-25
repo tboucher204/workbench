@@ -1,0 +1,25 @@
+---
+- name: Deploy Portainer Agent
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: agent
+    hostname: "{{agent_hostname}}"
+    image: "{{agent_docker_image}}:{{agent_version}}"
+    networks:
+      - "{{agent_network}}"
+    mode: global
+    force_update: yes
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.platform.os == linux
+    mounts:
+      - source: "/var/run/docker.sock"
+        target: /var/run/docker.sock
+        type: bind
+      - source: "/var/lib/docker/volumes"
+        target: /var/lib/docker/volumes
+        type: bind
+    state: present
+  tags: agent

@@ -33,7 +33,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{ docker3_node_id }}
+        - node.id == {{ docker_master1_node_id }}
     labels:
       traefik.http.routers.listmonk.entrypoints: "websecure"
       traefik.http.routers.listmonk.rule: "Host(`listmonk.{{ project_tld }}`)"

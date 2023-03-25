@@ -1,13 +1,13 @@
 [managers]
-docker3 ansible_port=22 ansible_host=192.168.1.174
+elrond ansible_port=22 ansible_host=192.168.1.80
 
 
 [workers]
-docker1 ansible_port=22 ansible_host=192.168.1.168
+elladan ansible_port=22 ansible_host=192.168.1.85
 
 [media]
-docker2 ansible_port=22 ansible_host=192.168.1.169
+elrohir ansible_port=22 ansible_host=192.168.1.86
 
 [all:vars]
 ansible_connection=ssh
-ansible_user=timadmin
+ansible_user=ansible

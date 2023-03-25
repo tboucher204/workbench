@@ -2,7 +2,7 @@
 - name: Ensure PeerTube Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/peertube
+    name: docker_worker2/apps/peertube
     state: present
   tags: peertube
 
@@ -45,7 +45,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: /datavol/apps/peertube/data/

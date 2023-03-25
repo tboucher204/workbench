@@ -5,15 +5,15 @@
     name: "{{item}}"
     state: present
   loop:
-    - docker2/media/manga
-    - docker2/media/books
-    - docker2/media/comics
+    - docker_worker2/media/manga
+    - docker_worker2/media/books
+    - docker_worker2/media/comics
   tags: kavita
 
 - name: Ensure Kavita Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/kavita
+    name: docker_worker2/apps/kavita
     state: present
   tags: kavita
 
@@ -43,7 +43,7 @@
       TZ: "{{default_timezone}}"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: "/datavol/apps/kavita/"

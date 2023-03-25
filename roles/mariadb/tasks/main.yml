@@ -1,0 +1,49 @@
+---
+- name: Ensure Mariadb Directory Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - "{{ project_root_directory }}/mariadb/data/"
+  tags: mariadb
+
+- name: Deploy Mariadb Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: mariadb
+    hostname: "{{mariadb_hostname}}"
+    image: "{{mariadb_docker_image}}:{{mariadb_version}}"
+    env:
+      MARIADB_ROOT_PASSWORD: "{{mariadb_root_password}}"
+      MARIADB_AUTO_UPGRADE: true
+      MARIADB_MYSQL_LOCALHOST_USER: 1
+      TZ: "{{default_timezone}}"
+    publish:
+      - published_port: "{{mariadb_port}}"
+        target_port: "{{mariadb_port}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: yes
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_master1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{ project_root_directory }}/mariadb/data/"
+        target: /var/lib/mysql/
+        type: bind
+    state: present
+  tags: mariadb
+
+- name: Wait for mariadb to be up and running
+  when: inventory_hostname == groups['managers'][0]
+  wait_for:
+    host: "{{mariadb_localhost}}"
+    port: "{{mariadb_port}}"
+    delay: 15
+  tags: mariadb

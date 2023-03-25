@@ -13,7 +13,7 @@
       condition: on-failure
     env:
       REGISTRY_HTTP_ADDR: "0.0.0.0:{{registry_port}}"
-      REGISTRY_HTTP_HOST: "registry.{{git_tld}}"
+      REGISTRY_HTTP_HOST: "registry.{{project_tld}}"
       REGISTRY_HTTP_DEBUG_ADDR: "0.0.0.0:{{registry_debug_port}}"
       REGISTRY_HTTP_DEBUG_PROMETHUS_ENABLED: "true"
       REGISTRY_HTTP_DEBUG_PROMETHUS_PATH: "/metrics"
@@ -32,7 +32,7 @@
           backoff: 1s
     placement:
       constraints:
-        - node.id == {{docker1_node_id}}
+        - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
       - source: /datavol/apps/portus/registry/
@@ -40,7 +40,7 @@
         type: bind
     labels:
       traefik.http.routers.registry.entrypoints: "websecure"
-      traefik.http.routers.registry.rule: "Host(`registry.{{git_tld}}`)"
+      traefik.http.routers.registry.rule: "Host(`registry.{{project_tld}}`)"
       traefik.http.routers.registry.tls: "true"
       traefik.http.routers.registry.service: "registry"
       traefik.http.routers.registry.tls.certresolver: "{{default_certificate_resolver}}"

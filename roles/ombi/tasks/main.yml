@@ -2,7 +2,7 @@
 - name: Ensure Ombi Dataset Exist
   when: inventory_hostname == groups['media'][0]
   community.general.zfs:
-    name: docker2/apps/ombi
+    name: docker_worker2/apps/ombi
     state: present
   tags: ombi
 
@@ -24,7 +24,7 @@
       TZ: "{{default_timezone}}"
     placement:
       constraints:
-        - node.id == {{docker2_node_id}}
+        - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
       - source: "/datavol/apps/ombi/"
@@ -32,7 +32,7 @@
         type: bind
     labels:
       traefik.http.routers.ombi.entrypoints: "websecure"
-      traefik.http.routers.ombi.rule: "Host(`ombi.{{media_tld}}`)"
+      traefik.http.routers.ombi.rule: "Host(`ombi.{{project_tld}}`)"
       traefik.http.routers.ombi.middlewares: "default-headers@file"
       traefik.http.routers.ombi.tls: "true"
       traefik.http.routers.ombi.service: "ombi"
