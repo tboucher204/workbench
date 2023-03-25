@@ -22,4 +22,4 @@
         target: /var/lib/docker/volumes
         type: bind
     state: present
-  tags: agent
+  tags: portainer
