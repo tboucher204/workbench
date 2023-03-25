@@ -21,8 +21,9 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: portainer
+    hostname: "{{portainer_hostname}}"
     image: "{{portainer_docker_image}}:{{portainer_version}}"
-    command: "-H tcp://tasks.agent:9001 --tlsskipverify"
+    command: -H tcp://tasks.agent:9001 --tlsskipverify
     networks:
       - "{{ agent_network }}"
     mode: replicated
