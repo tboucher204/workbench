@@ -23,6 +23,7 @@
     publish:
       - published_port: "{{mariadb_port}}"
         target_port: "{{mariadb_port}}"
+        mode: "host"
     networks:
       - "{{traefik_network}}"
     mode: replicated

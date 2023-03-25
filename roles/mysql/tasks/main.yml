@@ -21,6 +21,7 @@
     publish:
       - published_port: "{{mysql_port}}"
         target_port: "{{mysql_port}}"
+        mode: "host"
     networks:
       - "{{traefik_network}}"
     mode: replicated
