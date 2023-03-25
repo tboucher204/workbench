@@ -3,7 +3,6 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: agent
-    hostname: "{{agent_hostname}}"
     image: "{{agent_docker_image}}:{{agent_version}}"
     networks:
       - "{{agent_network}}"
