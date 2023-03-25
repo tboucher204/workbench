@@ -1,2 +1,4 @@
 ---
 agent_network: "agent_network"
+portainer_port1: "9443"
+portainer_port2: "9000"
