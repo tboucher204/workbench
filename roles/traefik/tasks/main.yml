@@ -75,6 +75,9 @@
       - source: /datavol/apps/traefik/config.yml
         target: /config.yml
         type: bind
+      - source: "/var/run/docker.sock"
+        target: /var/run/docker.sock
+        type: bind
     labels:
       traefik.http.routers.traefiksecure.entrypoints: "websecure"
       traefik.http.routers.traefiksecure.rule: "Host(`api.{{project_tld}}`)"
