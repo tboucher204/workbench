@@ -38,7 +38,7 @@
     driver: "overlay"
     scope: "swarm"
     state: present
-    tags: traefik
+  tags: traefik
 
 - name: Deploy Traefik Service
   when: inventory_hostname == groups['managers'][0]
