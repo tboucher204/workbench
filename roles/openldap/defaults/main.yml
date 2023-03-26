@@ -1,0 +1,5 @@
+---
+openldap_version: "latest"
+openldap_hostname: "openldap"
+openldap_port: "389"
+openldap_docker_image: "osixia/openldap"

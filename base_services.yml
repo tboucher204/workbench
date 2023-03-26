@@ -2,10 +2,11 @@
 - name: Deploy Base Services
   hosts: all
   gather_facts: true
-  become: true
+  become: false
   roles:
     - traefik
     - portainer
+    - openldap
     - vault
     - homer
     # - postgres
