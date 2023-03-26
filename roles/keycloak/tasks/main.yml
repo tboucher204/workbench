@@ -41,7 +41,7 @@
     labels:
       traefik.http.routers.keycloak.entrypoints: "websecure"
       traefik.http.routers.keycloak.rule: "Host(`sso.{{ project_tld }}`)"
-      traefik.http.routers.keycloak.middlewares: "chain-authelia@file"
+      traefik.http.routers.keycloak.middlewares: "authelia@file"
       traefik.http.routers.keycloak.tls: "true"
       traefik.http.routers.keycloak.service: "keycloak"
       traefik.http.routers.keycloak.tls.certresolver: "{{ default_certificate_resolver }}"
