@@ -26,14 +26,14 @@ providers:
     watch: true
     network: {{traefik_network}}
   file:
-    filename: /config.yml
+    filename: "/config.yml"
     watch: true
 
 certificatesResolvers:
   dnsChallenge:
     acme:
       email: "tboucher@live.com"
-      storage: acme.json
+      storage: "/acme.json"
       dnsChallenge:
         provider: godaddy
         disablePropagationCheck: true
