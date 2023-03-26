@@ -91,8 +91,8 @@ access_control:
 authentication_backend:
   disable_reset_password: false
   ldap:
-    url: {{vault_authelia_ldap_url}}
-    base_dn: {{vault_authelia_ldap_base_dn}}
+    url: {{authelia_ldap_url}}
+    base_dn: {{authelia_ldap_base_dn}}
     username_attribute: uid
     additional_users_dn: ou=users
     users_filter: (&({username_attribute}={input})(objectClass=person))
@@ -101,8 +101,8 @@ authentication_backend:
     group_name_attribute: cn
     mail_attribute: mail
     display_name_attribute: displayname
-    user: {{vault_authelia_ldap_user}}
-    password: {{vault_authelia_ldap_password}}
+    user: {{authelia_ldap_user}}
+    password: {{authelia_ldap_password}}
 
 storage:
   encryption_key: {{authelia_encryption_key}}
