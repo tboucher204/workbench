@@ -34,7 +34,7 @@
     replicas: 1
     mounts:
       - source: "{{ project_root_directory }}/mysql/data/"
-        target: /var/lib/mysql/data/
+        target: /var/lib/mysql
         type: bind
     state: present
   tags: mysql
