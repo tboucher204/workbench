@@ -23,3 +23,5 @@
     # - jenkins
     # - n8n
     # - minio
+    - apprise-api
+    - shepherd

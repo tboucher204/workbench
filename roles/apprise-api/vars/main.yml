@@ -1,0 +1,3 @@
+---
+apprise_to_address: "{{ vault_apprise_to_address }}"
+apprise_stateless_url: "{{ vault_apprise_stateless_url }}"

@@ -1,0 +1,5 @@
+---
+apprise_api_version: "latest"
+apprise_api_hostname: "apprise-api"
+apprise_api_port: "8000"
+apprise_api_docker_image: "lscr.io/linuxserver/apprise-api"
