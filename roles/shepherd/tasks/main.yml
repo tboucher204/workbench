@@ -25,6 +25,10 @@
     placement:
       constraints:
         - node.id == {{ docker_master1_node_id }}
+    mounts:
+      - source: "/var/run/docker.sock"
+        target: /var/run/docker.sock
+        type: bind
     replicas: 1
     state: present
   tags: shepherd
