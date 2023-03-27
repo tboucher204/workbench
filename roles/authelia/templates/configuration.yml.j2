@@ -2,8 +2,9 @@ server:
   host: 0.0.0.0
   port: {{authelia_port}}
   path: ""
-  read_buffer_size: 4096
-  write_buffer_size: 4096
+  buffers:
+    read: 4096
+    write: 4096
   enable_pprof: false
   enable_expvars: false
   disable_healthcheck: false
@@ -89,7 +90,8 @@ access_control:
     - "group:Media_Users"
 
 authentication_backend:
-  disable_reset_password: false
+  password_reset:
+    disable: false
   ldap:
     url: {{authelia_ldap_url}}
     base_dn: {{authelia_ldap_base_dn}}
