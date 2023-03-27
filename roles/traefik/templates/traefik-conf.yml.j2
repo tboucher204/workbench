@@ -32,13 +32,15 @@ providers:
 certificatesResolvers:
   letsEncrypt:
     acme:
-      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
-      email: "tboucher@live.com"
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      email: tboucher@live.com
       storage: acme.json
       dnsChallenge:
         provider: godaddy
-        disablePropagationCheck: true
         delayBeforeCheck: 0
+        resolvers:
+        - "1.1.1.1:53"
+        - "8.8.8.8:53"
 
 pilot:
     token: "0ae604b9-e403-4150-95c9-34fe538588db"
