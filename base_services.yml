@@ -2,7 +2,7 @@
 - name: Deploy Base Services
   hosts: all
   gather_facts: true
-  become: false
+  become: true
   roles:
     - traefik
     - portainer
