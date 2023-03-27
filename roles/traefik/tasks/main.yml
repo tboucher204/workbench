@@ -59,7 +59,7 @@
       - published_port: "1935"
         target_port: "1935"
     mode: global
-    force_update: yes
+    force_update: false
     restart_config:
       condition: on-failure
     placement:

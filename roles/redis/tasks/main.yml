@@ -19,7 +19,7 @@
         target: /data/
         type: bind
     mode: replicated
-    force_update: yes
+    force_update: false
     restart_config:
       condition: on-failure
     placement:

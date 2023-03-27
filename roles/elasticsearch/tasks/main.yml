@@ -26,7 +26,7 @@
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
       ELASTIC_USERNAME: "{{ elasticsearch_username }}"
       ELASTIC_PASSWORD: "{{ elasticsearch_password }}"
-    force_update: yes
+    force_update: false
     restart_config:
       condition: on-failure
     placement:

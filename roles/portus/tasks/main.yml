@@ -27,7 +27,7 @@
     networks:
       - "{{traefik_network}}"
     mode: replicated
-    force_update: yes
+    force_update: false
     mounts:
       - source: "/datavol/apps/portus/data/"
         target: /data/
