@@ -25,6 +25,7 @@
     image: "{{portainer_docker_image}}:{{portainer_version}}"
     networks:
       - "{{ agent_network }}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
