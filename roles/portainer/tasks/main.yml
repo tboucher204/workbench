@@ -36,10 +36,8 @@
     publish:
       - published_port: "{{portainer_port1}}"
         target_port: "{{portainer_port1}}"
-        mode: "host"
       - published_port: "{{portainer_port2}}"
         target_port: "{{portainer_port2}}"
-        mode: "host"
     mounts:
       - source: "/datavol/apps/portainer/data/"
         target: /data/
