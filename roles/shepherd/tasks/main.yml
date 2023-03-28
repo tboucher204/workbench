@@ -2,7 +2,7 @@
 - name: Create secret for Shepherd Registry Password
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_secret:
-    name: SHEPHERD_REGISTRY_PASSWORD
+    name: shepherd_registry_password
     data: "{{ shepherd_registry_password }}"
     state: present
   tags: shepherd
