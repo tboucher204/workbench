@@ -1,5 +1,5 @@
 ---
-- name: Ensure MondoDB Databases are Present.
+- name: Ensure MongoDB Databases are Present.
   mongodb_user:
     login_host: "{{mongodb_localhost}}"
     login_port: "{{mongodb_port}}"

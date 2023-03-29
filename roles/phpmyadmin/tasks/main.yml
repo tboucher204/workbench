@@ -1,0 +1,38 @@
+---
+- name: Deploy phpmyadmin Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: phpmyadmin
+    hostname: "{{ phpmyadmin_hostname }}"
+    image: "{{ phpmyadmin_docker_image }}:{{ phpmyadmin_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PMA_ARBITRARY: "1"
+      PMA_HOSTS: "{{ phpmyadmin_hosts }}"
+      PMA_USER: "{{ phpmyadmin_user }}"
+      PMA_PASSWORD: "{{ phpmyadmin_password }}"
+      PMA_ABSOLUTE_URI: "https://{{home_tld}}/phpmyadmin/"
+      PMA_PMADB: "phpmyadmin"
+      PMA_CONTROLUSER: "{{ phpmyadmin_controluser }}"
+      PMA_CONTROLPASS: "{{ phpmyadmin_controlpass }}"
+      PMA_QUERYHISTORYDB: "true"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    labels:
+      traefik.http.routers.phpmyadmin.entrypoints: "websecure"
+      traefik.http.routers.phpmyadmin.rule: "Host(`{{home_tld}}/phpmyadmin/`)"
+      traefik.http.routers.phpmyadmin.middlewares: "default-headers@file"
+      traefik.http.routers.phpmyadmin.tls: "true"
+      traefik.http.routers.phpmyadmin.service: "phpmyadmin"
+      traefik.http.routers.phpmyadmin.tls.certresolver: "{{default_certificate_resolver}}"
+      traefik.http.services.phpmyadmin.loadbalancer.server.port: "{{phpmyadmin_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: phpmyadmin

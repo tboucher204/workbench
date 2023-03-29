@@ -1,0 +1,6 @@
+---
+graylog_version: "5.0.5"
+graylog_hostname: "graylog"
+graylog_port: "9000"
+graylog_sylog_port: "1514"
+graylog_docker_image: "graylog/graylog"

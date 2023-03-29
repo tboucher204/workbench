@@ -1,0 +1,7 @@
+---
+phpmyadmin_hosts: vault_phpmyadmin_hosts
+phpmyadmin_controlpass: vault_phpmyadmin_controlpass
+phpmyadmin_contoluser: vault_phpmyadmin_controluser
+phpmyadmin_password: vault_phpmyadmin_password
+phpmyadmin_user: vault_phpmyadmin_user
+

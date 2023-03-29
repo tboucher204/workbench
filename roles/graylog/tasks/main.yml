@@ -1,0 +1,38 @@
+---
+- name: Create Graylog Docker Container
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: graylog
+    image: "{{ graylog_docker_image }}:{{ graylog_version }}"
+    hostname: "{{ graylog_hostname }}"
+    command: "/usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh"
+    networks:
+      - "{{ traefik_network }}"
+    publish:
+      - published_port: "{{  graylog_sylog_port }}"
+        target_port: "{{ graylog_sylog_port }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    env:
+      TZ: "{{ default_timezone }}"
+      ROOT_TIMEZONE: "{{ default_timezone }}"
+      GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_root_password_hash }}"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000"
+    labels:
+      traefik.http.routers.graylog.entrypoints: "websecure"
+      traefik.http.routers.graylog.rule: "Host(`logs.{{ project_tld }}`)"
+      traefik.http.routers.graylog.middlewares: "authelia@file"
+      traefik.http.routers.graylog.tls: "true"
+      traefik.http.routers.graylog.service: "graylog"
+      traefik.http.routers.graylog.tls.certresolver: "{{ default_certificate_resolver }}"
+      traefik.http.services.graylog.loadbalancer.server.port: "{{ graylog_port }}"
+      traefik.enable: "true"
+    state: present
+  tags: graylog

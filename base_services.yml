@@ -13,14 +13,14 @@
     - mariadb
     - mysql
     - redis
-    # - mongodb
-    # - elasticsearch
+    - mongodb
+    - elasticsearch
     - keycloak
     - authelia
     # - mailrise
     # - gitea
     # - portus
-    # - jenkins
+    - jenkins
     # - n8n
     # - minio
     - apprise-api

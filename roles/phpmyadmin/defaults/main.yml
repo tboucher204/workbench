@@ -1,0 +1,5 @@
+---
+phpmyadmin_version: "latest"
+phpmyadmin_hostname: "phpmyadmin"
+phpmyadmin_docker_image: "phpmyadmin"
+phpmyadmin_port: "80"
