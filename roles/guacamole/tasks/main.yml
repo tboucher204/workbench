@@ -7,7 +7,7 @@
     state: directory
   tags: guacamole
 
-- import_tasks: roles/mariadb/tasks/database_manager.yml
+- import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
     database_name: "{{ guacamole_database }}"
@@ -52,11 +52,11 @@
       JAVA_OPTS: "-Dserver.use-forward-headers=true"
       GUACD_HOSTNAME: "{{ guacd_hostname }}"
       GUACAMOLE_HOME: "/etc/guacamole"
-      MYSQL_HOSTNAME: "{{ mariadb_hostname }}"
-      MYSQL_PORT: "{{ mariadb_port }}"
-      MYSQL_DATABASE: "{{ guacamole_database }}"
-      MYSQL_USER: "{{ guacamole_database_user }}"
-      MYSQL_PASSWORD: "{{ guacamole_database_password }}"
+      POSTGRES_HOSTNAME: "{{ postgres_hostname }}"
+      POSTGRES_PORT: "{{ postgres_port }}"
+      POSTGRES_DATABASE: "{{ guacamole_database }}"
+      POSTGRES_USER: "{{ guacamole_database_user }}"
+      POSTGRES_PASSWORD: "{{ guacamole_database_password }}"
       TOTP_ENABLED: "true"
     restart_config:
       condition: on-failure
