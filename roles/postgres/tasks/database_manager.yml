@@ -1,4 +1,13 @@
 ---
+- name: Upgrade pip to be able to install PostgreSQL
+  pip:
+     name: pip
+     extra_args: --upgrade
+
+- name: Install pip Psycopg2 package
+  pip:
+     name: psycopg2-binary
+
 - name: Ensure PostgreSQL Databases are Present.
   postgresql_db:
     login_host: "{{ postgres_localhost }}"
