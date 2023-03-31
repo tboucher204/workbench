@@ -1,4 +1,5 @@
 ---
-shepherd_version: "latest"
-shepherd_hostname: "shepherd"
-shepherd_docker_image: "mazzolino/shepherd"
+phpldapadmin_version: "latest"
+phpldapadmin_hostname: "phpldapadmin"
+phpldapadmin_docker_image: "osixia/phpldapadmin"
+phpldapadmin_port: "80"

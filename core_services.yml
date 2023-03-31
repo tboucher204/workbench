@@ -4,15 +4,16 @@
   gather_facts: false
   become: false
   roles:
-    - kutt
-    - wallabag
-    - freshrss
-    - xbrowsersync
-    - cyberchef
-    - omada
-    - guacamole
-    - paperless
-    - plausible
-    - listmonk
-    - wiki.js
+    # - kutt
+    # - wallabag
+    # - freshrss
+    # - xbrowsersync
+    # - cyberchef
+    # - omada
+    # - guacamole
+    # - paperless
+    # - plausible
+    # - listmonk
+    # - wiki.js
     - phpmyadmin
+    - phpldapadmin

@@ -1,44 +1,33 @@
 ---
-- name: Create secret for Shepherd Registry Password
-  when: inventory_hostname == groups['managers'][0]
-  community.docker.docker_secret:
-    name: shepherd_registry_password
-    data: "{{ shepherd_registry_password }}"
-    state: present
-  tags: shepherd
-
-- name: Deploy Shepherd Service
+- name: Deploy Phpldapadmin Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: shepherd
-    hostname: "{{ shepherd_hostname }}"
-    image: "{{ shepherd_docker_image }}:{{ shepherd_version }}"
+    name: phpldapadmin
+    hostname: "{{ phpldapadmin_hostname }}"
+    image: "{{ phpldapadmin_docker_image }}:{{ phpldapadmin_version }}"
     networks:
       - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
-    secrets:
-      - secret_name: shepherd_registry_password
     env:
-      SLEEP_TIME: "480m"
-      # IGNORELIST_SERVICES: "apps_nextcloud"
-      WITH_REGISTRY_AUTH: "true"
-      REGISTRY_USER: "{{ shepherd_registry_user }}"
-      # REGISTRY_PASSWORD: "/run/secrets/shepherd_registry_password"
-      ROLLBACK_ON_FAILURE: "true"
-      IMAGE_AUTOCLEAN_LIMIT: "2"
-      APPRISE_SIDECAR_URL: "http://apprise-api:8000/notify/"
-      # APPRISE_SIDECAR_URL: "http://notify:5000"
-      TZ: "{{ default_timezone }}"
+      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
+      PHPLDAPADMIN_SERVER_PATH: "/phpldapadmin"
+      PHPLDAPADMIN_TRUST_PROXY_SSL: "true"
+      PHPLDAPADMIN_HTTPS: "false"
     placement:
       constraints:
-        - node.id == {{ docker_master1_node_id }}
-    mounts:
-      - source: "/var/run/docker.sock"
-        target: /var/run/docker.sock
-        type: bind
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
+    labels:
+      traefik.http.routers.phpldapadmin.entrypoints: "websecure"
+      traefik.http.routers.phpldapadmin.rule: "Host(`{{home_tld}}/phpldapadmin/`)"
+      traefik.http.routers.phpldapadmin.middlewares: "authelia@file"
+      traefik.http.routers.phpldapadmin.tls: "true"
+      traefik.http.routers.phpldapadmin.service: "phpldapadmin"
+      traefik.http.routers.phpldapadmin.tls.certresolver: "{{default_certificate_resolver}}"
+      traefik.http.services.phpldapadmin.loadbalancer.server.port: "{{phpldapadmin_port}}"
+      traefik.enable: "true"
     state: present
-  tags: shepherd
+  tags: phpldapadmin

@@ -28,7 +28,7 @@
     labels:
       traefik.http.routers.phpmyadmin.entrypoints: "websecure"
       traefik.http.routers.phpmyadmin.rule: "Host(`{{home_tld}}/phpmyadmin/`)"
-      traefik.http.routers.phpmyadmin.middlewares: "default-headers@file"
+      traefik.http.routers.phpmyadmin.middlewares: "authelia@file"
       traefik.http.routers.phpmyadmin.tls: "true"
       traefik.http.routers.phpmyadmin.service: "phpmyadmin"
       traefik.http.routers.phpmyadmin.tls.certresolver: "{{default_certificate_resolver}}"
