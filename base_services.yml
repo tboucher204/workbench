@@ -9,7 +9,7 @@
     - openldap
     - vault
     - homer
-    # - postgres
+    - postgres
     - mariadb
     - mysql
     - redis
