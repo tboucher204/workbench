@@ -2,7 +2,7 @@
 - name: Deploy Core Services
   hosts: all
   gather_facts: false
-  become: false
+  become: true
   roles:
     # - kutt
     # - wallabag
