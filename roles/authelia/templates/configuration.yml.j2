@@ -94,6 +94,7 @@ authentication_backend:
     disable: false
   ldap:
     url: {{authelia_ldap_url}}
+    start_tls: true
     base_dn: {{authelia_ldap_base_dn}}
     username_attribute: uid
     additional_users_dn: ou=users
