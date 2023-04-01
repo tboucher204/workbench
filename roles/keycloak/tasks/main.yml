@@ -1,6 +1,6 @@
 ---
 - name: Create Keycloak Database
-  import_tasks: roles/mariadb/tasks/database_manager.yml
+  import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
     database_name: "{{ keycloak_database }}"
@@ -27,7 +27,7 @@
     replicas: 1
     env:
       KC_DB: "mariadb"
-      KC_DB_URL: "jdbc:mariadb://{{ mariadb_hostname }}:{{ mariadb_port }}/{{ keycloak_database }}"
+      KC_DB_URL: "jdbc:postgres://{{ postgres_hostname }}:{{ postgres_port }}/{{ keycloak_database }}"
       # KC_DB_URL_HOST: "{{ mysql_hostname }}"
       # KC_DB_URL_DATABASE: "{{ keycloak_database }}"
       # KC_DB_URL_PORT: "{{ mysql_port }}"
