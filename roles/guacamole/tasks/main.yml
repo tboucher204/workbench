@@ -3,7 +3,7 @@
   when: inventory_hostname == groups['workers'][0]
   file:
     path: "{{ project_root_directory }}/guacamole"
-    mode: 0644
+    mode: 0774
     state: directory
   tags: guacamole
 
