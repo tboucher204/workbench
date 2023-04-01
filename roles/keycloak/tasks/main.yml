@@ -26,7 +26,7 @@
         - node.id == {{ docker_master1_node_id }}
     replicas: 1
     env:
-      KC_DB: "mariadb"
+      KC_DB: "postgres"
       KC_DB_URL: "jdbc:postgres://{{ postgres_hostname }}:{{ postgres_port }}/{{ keycloak_database }}"
       # KC_DB_URL_HOST: "{{ mysql_hostname }}"
       # KC_DB_URL_DATABASE: "{{ keycloak_database }}"
