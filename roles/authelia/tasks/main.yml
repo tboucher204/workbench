@@ -3,6 +3,7 @@
   when: inventory_hostname == groups['managers'][0]
   file:
     path: "{{ item }}"
+    mode: 0644
     state: directory
   loop:
     - "{{ project_root_directory }}/authelia"
@@ -14,13 +15,15 @@
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: 0644
   with_items:
     - { src: logo.png, dest: "{{ project_root_directory }}/authelia/assets/logo.png" }
     - { src: favicon.ico, dest: "{{ project_root_directory }}/authelia/assets/favicon.ico" }
   tags: authelia
   no_log: true
 
-- import_tasks: roles/postgres/tasks/database_manager.yml
+- name: Ensure Authelia Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
     database_name: "{{ authelia_database }}"
@@ -31,9 +34,10 @@
 
 - name: Ensure Authelia Configuration Files Exist
   when: inventory_hostname == groups['managers'][0]
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
+    mode: 0644
   with_items:
     - { src: configuration.yml.j2, dest: "{{ project_root_directory }}/authelia/configuration.yml" }
     - { src: users.yml.j2, dest: "{{ project_root_directory }}/authelia/users.yml" }

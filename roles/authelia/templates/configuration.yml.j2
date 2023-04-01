@@ -84,10 +84,6 @@ access_control:
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: sabnzbd.{{project_tld}}
-    policy: two_factor
-    subject:
-    - "group:Media_Users"
 
 authentication_backend:
   password_reset:
@@ -113,10 +109,12 @@ storage:
     host: {{postgres_hostname}}
     port: {{postgres_port}}
     database: {{authelia_database}}
+    schema: public
     username: {{authelia_database_user}}
     password: {{authelia_database_password}}
 
 session:
+  name: h2oauth
   domain: {{project_tld}}
   secret: {{authelia_session_secret}}
   redis:
