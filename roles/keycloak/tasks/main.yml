@@ -26,18 +26,16 @@
         - node.id == {{ docker_master1_node_id }}
     replicas: 1
     env:
-      KC_DB: "postgres"
-      KC_DB_URL: "jdbc:postgres://{{ postgres_hostname }}:{{ postgres_port }}/{{ keycloak_database }}"
-      # KC_DB_URL_HOST: "{{ mysql_hostname }}"
-      # KC_DB_URL_DATABASE: "{{ keycloak_database }}"
-      # KC_DB_URL_PORT: "{{ mysql_port }}"
-      KC_DB_USERNAME: "{{ keycloak_database_user }}"
-      KC_DB_PASSWORD: "{{ keycloak_database_password }}"
-      KC_HOSTNAME: "sso.{{ project_tld }}"
-      KC_HTTP_ENABLED: "true"
-      KC_PROXY: "passthrough"
-      KEYCLOAK_ADMIN: "{{ keycloak_user }}"
-      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_user_password }}"
+      DB_VENDOR: "postgres"
+      DB_ADDR: "{{ postgres_hostname }}"
+      DB_PORT: "{{ postgres_port }}"
+      DB_DATABASE: "{{ keycloak_database }}"
+      DB_USER: "{{ keycloak_database_user }}"
+      DB_PASSWORD: "{{ keycloak_database_password }}"
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_HOSTNAME: "sso.{{ project_tld }}"
+      KEYCLOAK_USER: "{{ keycloak_user }}"
+      KEYCLOAK_PASSWORD: "{{ keycloak_user_password }}"
     labels:
       traefik.http.routers.keycloak.entrypoints: "websecure"
       traefik.http.routers.keycloak.rule: "Host(`sso.{{ project_tld }}`)"
