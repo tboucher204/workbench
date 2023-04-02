@@ -63,7 +63,7 @@
         - node.id == {{ docker_master1_node_id }}
     mounts:
       - source: "{{ project_root_directory }}/authelia/"
-        target: /config/
+        target: /config
         type: bind
     labels:
       traefik.http.routers.authelia.rule: "Host(`login.{{ project_tld }}`)"

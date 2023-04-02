@@ -25,6 +25,9 @@
       constraints:
         - node.id == {{ docker_master1_node_id }}
     replicas: 1
+    publish:
+      - published_port: "{{ keycloak_port }}"
+        target_port: "{{ keycloak_port }}"
     env:
       # KC_DB_URL: "jdbc:postgresql://{{ postgres_hostname }}:{{ postgres_port }}/{{ keycloak_database }}"
       KC_DB_URL_HOST: "{{ postgres_hostname }}"
