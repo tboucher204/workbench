@@ -45,7 +45,7 @@
       traefik.http.routers.keycloak.middlewares: "authelia@file"
       traefik.http.routers.keycloak.tls: "true"
       traefik.http.routers.keycloak.service: "keycloak"
-      traefik.http.routers.keycloak.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.keycloak.tls.certresolver: "{{ default_certificate_resolver }}"
       traefik.http.services.keycloak.loadbalancer.server.port: "{{ keycloak_port }}"
       traefik.enable: "true"
     state: present

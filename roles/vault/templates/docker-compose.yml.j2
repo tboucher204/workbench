@@ -20,7 +20,7 @@ services:
         - "traefik.http.routers.vault.tls=true"
         - "traefik.http.routers.vault.middlewares=authelia@file"
         - "traefik.http.routers.vault.service=vault"
-        - "traefik.http.routers.vault.tls.certresolver={{default_certificate_resolver}}"
+        # - "traefik.http.routers.vault.tls.certresolver={{default_certificate_resolver}}"
         - "traefik.http.services.vault.loadbalancer.server.port={{vault_port}}"
         - "traefik.enable=true"
       mode: global
