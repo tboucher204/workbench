@@ -73,7 +73,7 @@
       traefik.http.routers.homer.middlewares: "default-headers@file"
       traefik.http.routers.homer.tls: "true"
       traefik.http.routers.homer.service: "homer"
-      traefik.http.routers.homer.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.homer.tls.certresolver: "{{ default_certificate_resolver }}"
       traefik.http.services.homer.loadbalancer.server.port: "{{ homer_port }}"
       traefik.enable: "true"
     state: present
