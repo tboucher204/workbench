@@ -18,7 +18,7 @@
       - "{{ traefik_network }}"
     mode: replicated
     force_update: false
-    command: "/opt/keycloak/bin/kc.sh start"
+    command: "/opt/keycloak/bin/kc.sh start --optimized"
     restart_config:
       condition: on-failure
     placement:

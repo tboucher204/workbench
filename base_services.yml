@@ -10,7 +10,7 @@
     - vault
     - homer
     - postgres
-    - mariadb
+    # - mariadb
     - mysql
     - redis
     - mongodb
