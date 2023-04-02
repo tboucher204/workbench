@@ -19,8 +19,8 @@
     restart_config:
       condition: on-failure
     mounts:
-      - source: "/datavol/apps/mongodb/"
-        target: /data/db/
+      - source: "/datavol/apps/mongodb"
+        target: /data/db
         type: bind
     placement:
       constraints:

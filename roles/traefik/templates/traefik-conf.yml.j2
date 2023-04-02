@@ -9,12 +9,20 @@ serversTransport:
 entryPoints:
   web:
     address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+          permanent: true
   websecure:
     address: ":443"
     forwardedHeaders:
       trustedIPs:
         - "127.0.0.1/32"
         - "192.168.1.1"
+  mongdb:
+    address: ":{{ mongodb_port }}"
   rtmp:
     address: ":1935"
 
@@ -50,3 +58,6 @@ experimental:
     rewritebody:
       modulename: "github.com/traefik/plugin-rewritebody"
       version: "v0.3.1"
+    traefik-themepark:
+      moduleName: "github.com/packruler/traefik-themepark"
+      version: "v1.3.0"
