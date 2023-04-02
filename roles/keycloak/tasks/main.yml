@@ -18,7 +18,7 @@
       - "{{ traefik_network }}"
     mode: replicated
     force_update: false
-    command: "/opt/keycloak/bin/kc.sh start --optimized"
+    command: "/opt/keycloak/bin/kc.sh start"
     restart_config:
       condition: on-failure
     placement:
@@ -26,16 +26,16 @@
         - node.id == {{ docker_master1_node_id }}
     replicas: 1
     env:
-      KC_DB_URL: "jdbc:postgresql://{{ postgres_hostname }}:{{ postgres_port }}/{{ keycloak_database }}"
+      # KC_DB_URL: "jdbc:postgresql://{{ postgres_hostname }}:{{ postgres_port }}/{{ keycloak_database }}"
       KC_DB_URL_HOST: "{{ postgres_hostname }}"
-      KC_DB_URL_DATABASE: "{{ keycloak_database }}"
-      KC_DB_URL_PORT: "{{ postgres_port }}"
+      # KC_DB_URL_DATABASE: "{{ keycloak_database }}"
+      # KC_DB_URL_PORT: "{{ postgres_port }}"
       KC_DB: "postgres"
-      KC_DB_ADDR: "{{ postgres_hostname }}"
-      KC_DB_PORT: "{{ postgres_port }}"
-      KC_DB_DATABASE: "{{ keycloak_database }}"
-      KC_DB_USER: "{{ keycloak_database_user }}"
-      KC_DB_PASSWORD: "{{ keycloak_database_password }}"
+      # KC_DB_ADDR: "{{ postgres_hostname }}"
+      # KC_DB_PORT: "{{ postgres_port }}"
+      # KC_DB_DATABASE: "{{ keycloak_database }}"
+      KC_DB_USERNAME: "{{ keycloak_user }}"
+      KC_DB_PASSWORD: "{{ keycloak_user_password }}"
       KC_PROXY: "passthrough"
       KC_HTTP_ENABLED: "true"
       # PROXY_ADDRESS_FORWARDING: "true"
