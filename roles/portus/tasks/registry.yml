@@ -43,7 +43,7 @@
       traefik.http.routers.registry.rule: "Host(`registry.{{project_tld}}`)"
       traefik.http.routers.registry.tls: "true"
       traefik.http.routers.registry.service: "registry"
-      traefik.http.routers.registry.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.registry.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.registry.loadbalancer.server.port: "{{registry_port}}"
       traefik.enable: "true"
     state: present

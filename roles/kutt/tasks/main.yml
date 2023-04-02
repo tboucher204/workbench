@@ -46,7 +46,7 @@
       traefik.http.routers.kutt.middlewares: "default-headers@file"
       traefik.http.routers.kutt.tls: "true"
       traefik.http.routers.kutt.service: "kutt"
-      traefik.http.routers.kutt.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.kutt.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.kutt.loadbalancer.server.port: "{{kutt_port}}"
       traefik.enable: "true"
     state: present

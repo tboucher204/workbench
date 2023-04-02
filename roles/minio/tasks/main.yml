@@ -63,7 +63,7 @@
       traefik.http.routers.s3.tls: "true"
       traefik.http.routers.s3.middlewares: "default-headers@file"
       traefik.http.routers.s3.service: "s3"
-      traefik.http.routers.s3.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.s3.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.s3.loadbalancer.server.port: "9000"
       traefik.enable: "true"
     state: present

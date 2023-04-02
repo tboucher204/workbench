@@ -69,7 +69,7 @@
       traefik.http.routers.radarr.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.radarr.tls: "true"
       traefik.http.routers.radarr.service: "radarr"
-      traefik.http.routers.radarr.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.radarr.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.radarr.loadbalancer.server.port: "{{radarr_port}}"
       traefik.enable: "true"
     state: present

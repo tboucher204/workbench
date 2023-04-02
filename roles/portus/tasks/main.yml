@@ -78,7 +78,7 @@
       traefik.http.routers.portus.rule: "Host(`hub.{{project_tld}}`)"
       traefik.http.routers.portus.tls: "true"
       traefik.http.routers.portus.service: "portus"
-      traefik.http.routers.portus.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.portus.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.portus.loadbalancer.server.port: "{{portus_port}}"
       traefik.enable: "true"
     state: present

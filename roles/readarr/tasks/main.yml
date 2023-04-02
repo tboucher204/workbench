@@ -66,7 +66,7 @@
       traefik.http.routers.readarr.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.readarr.tls: "true"
       traefik.http.routers.readarr.service: "readarr"
-      traefik.http.routers.readarr.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.readarr.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.readarr.loadbalancer.server.port: "{{readarr_port}}"
       traefik.enable: "true"
     state: present

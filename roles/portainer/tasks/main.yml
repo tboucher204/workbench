@@ -49,7 +49,7 @@
       traefik.http.routers.portainer.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.portainer.tls: "true"
       traefik.http.routers.portainer.service: "portainer"
-      traefik.http.routers.portainer.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.portainer.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.portainer.loadbalancer.server.port: "{{portainer_port1}}"
       traefik.enable: "true"
     state: present

@@ -64,7 +64,7 @@
       traefik.http.routers.kavita.middlewares: "default-headers@file"
       traefik.http.routers.kavita.tls: "true"
       traefik.http.routers.kavita.service: "kavita"
-      traefik.http.routers.kavita.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.kavita.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.kavita.loadbalancer.server.port: "{{kavita_port}}"
       traefik.enable: "true"
     state: present

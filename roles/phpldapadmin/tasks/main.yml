@@ -27,7 +27,7 @@
       traefik.http.routers.phpldapadmin.middlewares: "authelia@file,phpldapadmin-prefix"
       traefik.http.routers.phpldapadmin.tls: "true"
       traefik.http.routers.phpldapadmin.service: "phpldapadmin"
-      traefik.http.routers.phpldapadmin.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.phpldapadmin.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.phpldapadmin.loadbalancer.server.port: "{{phpldapadmin_port}}"
       traefik.enable: "true"
     state: present

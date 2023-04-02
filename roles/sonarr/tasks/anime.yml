@@ -66,7 +66,7 @@
       traefik.http.routers.sonarr-anime.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.sonarr-anime.tls: "true"
       traefik.http.routers.sonarr-anime.service: "sonarr-anime"
-      traefik.http.routers.sonarr-anime.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.sonarr-anime.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.sonarr-anime.loadbalancer.server.port: "{{sonarr_anime_port}}"
       traefik.enable: "true"
     state: present

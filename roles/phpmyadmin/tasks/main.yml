@@ -32,7 +32,7 @@
       traefik.http.routers.phpmyadmin.middlewares: "authelia@file,phpmyadmin-prefix"
       traefik.http.routers.phpmyadmin.tls: "true"
       traefik.http.routers.phpmyadmin.service: "phpmyadmin"
-      traefik.http.routers.phpmyadmin.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.phpmyadmin.tls.certresolver: "{{default_certificate_resolver}}"
       traefik.http.services.phpmyadmin.loadbalancer.server.port: "{{phpmyadmin_port}}"
       traefik.enable: "true"
     state: present
