@@ -27,7 +27,7 @@
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     labels:
-      traefik.tcp.routers.mongodb.entrypoints: "mongodb"
+      traefik.tcp.routers.mongodb.entrypoints: "websecure"
       traefik.tcp.routers.mongodb.rule: "HostSNI(`mongodb.{{project_tld}}`)"
       traefik.tcp.routers.mongodb.tls: "true"
       traefik.tcp.routers.mongodb.service: "mongodb"
