@@ -48,7 +48,7 @@
       traefik.http.routers.wikijs.middlewares: "default-headers@file"
       traefik.http.routers.wikijs.tls: "true"
       traefik.http.routers.wikijs.service: "wikijs"
-      # traefik.http.routers.wikijs.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.wikijs.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.wikijs.loadbalancer.server.port: "{{wikijs_port}}"
       traefik.enable: "true"
     state: present

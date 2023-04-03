@@ -35,7 +35,7 @@
       traefik.http.routers.wizarr.middlewares: "default-headers@file"
       traefik.http.routers.wizarr.tls: "true"
       traefik.http.routers.wizarr.service: "wizarr"
-      # traefik.http.routers.wizarr.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.wizarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.wizarr.loadbalancer.server.port: "{{wizarr_port}}"
       traefik.enable: "true"
     state: present

@@ -36,7 +36,7 @@
       traefik.http.routers.ombi.middlewares: "default-headers@file"
       traefik.http.routers.ombi.tls: "true"
       traefik.http.routers.ombi.service: "ombi"
-      # traefik.http.routers.ombi.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.ombi.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.ombi.loadbalancer.server.port: "{{ombi_port}}"
       traefik.enable: "true"
     state: present

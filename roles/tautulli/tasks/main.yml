@@ -36,7 +36,7 @@
       traefik.http.routers.tautulli.middlewares: "default-headers@file"
       traefik.http.routers.tautulli.tls: "true"
       traefik.http.routers.tautulli.service: "tautulli"
-      # traefik.http.routers.tautulli.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.tautulli.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.tautulli.loadbalancer.server.port: "{{tautulli_port}}"
       traefik.enable: "true"
     state: present

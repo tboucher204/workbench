@@ -39,7 +39,7 @@
       traefik.http.routers.xbrowsersync.middlewares: "default-headers@file"
       traefik.http.routers.xbrowsersync.tls: "true"
       traefik.http.routers.xbrowsersync.service: "xbrowsersync"
-      # traefik.http.routers.xbrowsersync.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.xbrowsersync.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.xbrowsersync.loadbalancer.server.port: "{{xbrowsersync_port}}"
       traefik.enable: "true"
     state: present

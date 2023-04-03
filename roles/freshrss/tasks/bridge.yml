@@ -42,7 +42,7 @@
       traefik.http.routers.rssbridge.middlewares: "default-headers@file"
       traefik.http.routers.rssbridge.tls: "true"
       traefik.http.routers.rssbridge.service: "rssbridge"
-      traefik.http.routers.rssbridge.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.rssbridge.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.rssbridge.loadbalancer.server.port: "{{ freshrss_bridge_port }}"
       traefik.enable: "true"
     state: present

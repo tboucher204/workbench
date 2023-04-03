@@ -27,6 +27,14 @@
       constraints:
         - node.id == {{ docker_master1_node_id }}
     replicas: 1
+    labels:
+      traefik.http.routers.apprise-api.rule: "Host(`apprise.{{ project_tld }}`)"
+      traefik.http.routers.apprise-api.entrypoints: "websecure"
+      traefik.http.routers.apprise-api.tls: "true"
+      traefik.http.routers.authelia.service: "authelia"
+      # traefik.http.routers.apprise-api.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based certs
+      traefik.http.services.apprise-api.loadbalancer.server.port: "{{ apprise_api_port }}"
+      traefik.enable: "true"
     mounts:
       - source: "{{project_root_directory}}/apprise_api/"
         target: /config/

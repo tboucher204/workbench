@@ -32,7 +32,7 @@
       traefik.http.routers.jenkins.rule: "Host(`ci.{{project_tld}}`)"
       traefik.http.routers.jenkins.tls: "true"
       traefik.http.routers.jenkins.service: "jenkins"
-      # traefik.http.routers.jenkins.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.jenkins.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.jenkins.loadbalancer.server.port: "{{jenkins_port}}"
       traefik.enable: "true"
     state: present

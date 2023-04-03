@@ -28,7 +28,7 @@ services:
       - "traefik.http.routers.tdarr.tls=true"
       - "traefik.http.routers.tdarr.middlewares=default-headers@file"
       - "traefik.http.routers.tdarr.service=tdarr"
-      - "traefik.http.routers.tdarr.tls.certresolver={{default_certificate_resolver}}"
+      # - "traefik.http.routers.tdarr.tls.certresolver={{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       - "traefik.http.services.tdarr.loadbalancer.server.port=8265"
       - "traefik.enable=true"
   tdarrnode:

@@ -66,7 +66,7 @@
       traefik.http.routers.wallabag.middlewares: "default-headers@file"
       traefik.http.routers.wallabag.tls: "true"
       traefik.http.routers.wallabag.service: "wallabag"
-      # traefik.http.routers.wallabag.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.wallabag.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.wallabag.loadbalancer.server.port: "{{wallabag_port}}"
       traefik.enable: "true"
     state: present

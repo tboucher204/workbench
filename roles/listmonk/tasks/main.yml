@@ -40,7 +40,7 @@
       traefik.http.routers.listmonk.middlewares: "default-headers@file"
       traefik.http.routers.listmonk.tls: "true"
       traefik.http.routers.listmonk.service: "listmonk"
-      traefik.http.routers.listmonk.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.listmonk.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.listmonk.loadbalancer.server.port: "{{ listmonk_port }}"
       traefik.enable: "true"
     state: present

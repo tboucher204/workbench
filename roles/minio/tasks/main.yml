@@ -56,14 +56,14 @@
       traefik.http.routers.minio.middlewares: "default-headers@file"
       traefik.http.routers.minio.tls: "true"
       traefik.http.routers.minio.service: "minio"
-      traefik.http.routers.minio.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.minio.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.minio.loadbalancer.server.port: "{{minio_port}}"
       traefik.http.routers.s3.entrypoints: "websecure"
       traefik.http.routers.s3.rule: "Host(`s3.{{project_tld}}`)"
       traefik.http.routers.s3.tls: "true"
       traefik.http.routers.s3.middlewares: "default-headers@file"
       traefik.http.routers.s3.service: "s3"
-      # traefik.http.routers.s3.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.s3.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.s3.loadbalancer.server.port: "9000"
       traefik.enable: "true"
     state: present

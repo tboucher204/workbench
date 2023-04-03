@@ -63,13 +63,13 @@
       traefik.http.routers.peertube.middlewares: "default-headers@file"
       traefik.http.routers.peertube.tls: "true"
       traefik.http.routers.peertube.service: "peertube"
-      # traefik.http.routers.peertube.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.peertube.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.peertube.loadbalancer.server.port: "{{peertube_port}}"
       traefik.tcp.routers.peertubertmp.entrypoints: "rtmp"
       traefik.tcp.routers.peertubertmp.rule: "HostSNI(`{{peertube_tld}}`)"
       traefik.tcp.routers.peertubertmp.tls: "true"
       traefik.tcp.routers.peertubertmp.service: "peertubertmp"
-      # traefik.tcp.routers.peertubertmp.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.tcp.routers.peertubertmp.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.tcp.services.peertubertmp.loadbalancer.server.port: "{{peertube_rtmp_port}}"
       traefik.enable: "true"
     state: present

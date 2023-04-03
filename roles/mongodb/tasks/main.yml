@@ -31,7 +31,7 @@
       traefik.tcp.routers.mongodb.rule: "HostSNI(`mongodb.{{project_tld}}`)"
       traefik.tcp.routers.mongodb.tls: "true"
       traefik.tcp.routers.mongodb.service: "mongodb"
-      # traefik.tcp.routers.mongodb.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.tcp.routers.mongodb.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.tcp.services.mongodb.loadbalancer.server.port: "{{mongodb_port}}"
       traefik.enable: "true"
     state: present

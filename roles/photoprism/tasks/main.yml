@@ -104,7 +104,7 @@
       traefik.http.routers.photoprism.middlewares: "default-headers@file"
       traefik.http.routers.photoprism.tls: "true"
       traefik.http.routers.photoprism.service: "photoprism"
-      # traefik.http.routers.photoprism.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.photoprism.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.photoprism.loadbalancer.server.port: "{{photoprism_port}}"
       traefik.enable: "true"
     state: present

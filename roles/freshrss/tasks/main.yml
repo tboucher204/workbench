@@ -37,7 +37,7 @@
       traefik.http.routers.freshrss.middlewares: "default-headers@file"
       traefik.http.routers.freshrss.tls: "true"
       traefik.http.routers.freshrss.service: "freshrss"
-      traefik.http.routers.freshrss.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.freshrss.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based certs
       traefik.http.services.freshrss.loadbalancer.server.port: "{{ freshrss_port }}"
       traefik.enable: "true"
     state: present

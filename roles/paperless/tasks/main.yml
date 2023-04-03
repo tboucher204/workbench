@@ -84,7 +84,7 @@
       traefik.http.routers.paperless.rule: "Host(`docs.{{project_tld}}`)"
       traefik.http.routers.paperless.tls: "true"
       traefik.http.routers.paperless.service: "paperless"
-      # traefik.http.routers.paperless.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.paperless.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.paperless.loadbalancer.server.port: "{{paperless_port}}"
       traefik.enable: "true"
     state: present

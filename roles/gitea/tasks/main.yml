@@ -85,7 +85,7 @@
       traefik.http.routers.gitea.middlewares: "default-headers@file,gitea_rewrite_theme"
       traefik.http.routers.gitea.tls: "true"
       traefik.http.routers.gitea.service: "gitea"
-      traefik.http.routers.gitea.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.gitea.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.gitea.loadbalancer.server.port: "{{ gitea_port }}"
       traefik.enable: "true"
     state: present

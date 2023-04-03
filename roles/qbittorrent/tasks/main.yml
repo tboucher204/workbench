@@ -92,7 +92,7 @@
       traefik.http.routers.qbittorrent.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.qbittorrent.tls: "true"
       traefik.http.routers.qbittorrent.service: "qbittorrent"
-      # traefik.http.routers.qbittorrent.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.qbittorrent.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.qbittorrent.loadbalancer.server.port: "{{qbittorrent_port}}"
       traefik.enable: "true"
     state: present

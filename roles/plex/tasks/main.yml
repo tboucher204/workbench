@@ -69,7 +69,7 @@
       traefik.http.routers.plex.middlewares: "default-headers@file"
       traefik.http.routers.plex.tls: "true"
       traefik.http.routers.plex.service: "plex"
-      # traefik.http.routers.plex.tls.certresolver: "{{default_certificate_resolver}}"
+      # traefik.http.routers.plex.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.plex.loadbalancer.server.port: "{{plex_port}}"
       traefik.enable: "true"
     state: present

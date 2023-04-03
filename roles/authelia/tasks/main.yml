@@ -70,7 +70,7 @@
       traefik.http.routers.authelia.entrypoints: "websecure"
       traefik.http.routers.authelia.tls: "true"
       traefik.http.routers.authelia.service: "authelia"
-      # traefik.http.routers.authelia.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.authelia.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based certs
       traefik.http.services.authelia.loadbalancer.server.port: "{{ authelia_port }}"
       traefik.enable: "true"
     state: present

@@ -77,7 +77,7 @@
       traefik.http.routers.guacamole.middlewares: "default-headers@file,guacamole-prefix,guacamole_themepark"
       traefik.http.routers.guacamole.tls: "true"
       traefik.http.routers.guacamole.service: "guacamole"
-      # traefik.http.routers.guacamole.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.guacamole.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.guacamole.loadbalancer.server.port: "{{ guacamole_port }}"
       traefik.enable: "true"
     state: present
