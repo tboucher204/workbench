@@ -1,0 +1,90 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  community.general.zfs:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - blacktalon/media
+    - blacktalon/media/anime
+    - blacktalon/media/audiobooks
+    - blacktalon/media/books
+    - blacktalon/media/comics
+    - blacktalon/media/kids
+    - blacktalon/media/movies
+    - blacktalon/media/music
+    - blacktalon/media/tv
+  tags: transmission
+
+- name: Ensure Media Download Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  community.general.zfs:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - blacktalon/media/downloads
+    - blacktalon/media/downloads/incomplete
+    - blacktalon/media/downloads/anime
+    - blacktalon/media/downloads/audiobooks
+    - blacktalon/media/downloads/books
+    - blacktalon/media/downloads/comics
+    - blacktalon/media/downloads/kids
+    - blacktalon/media/downloads/movies
+    - blacktalon/media/downloads/music
+    - blacktalon/media/downloads/tv
+  tags: transmission
+
+- name: Ensure Transmission Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  community.general.zfs:
+    name: blacktalon/apps/transmission
+    state: present
+  tags: transmission
+
+- name: Deploy Transmission Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: transmission
+    hostname: "{{ transmission_hostname }}"
+    image: "{{ transmission_docker_image }}:{{ transmission_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    env:
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
+      DOCKER_MODS: "gilbn/theme.park:{{ transmission_hostname }}"
+      TP_THEME: "{{ theme_park_default }}"
+    restart_config:
+      condition: on-failure
+    publish:
+      - published_port: "51413"
+        target_port: "51413"
+      - published_port: "51413"
+        target_port: "51413"
+        protocol: "udp"
+    placement:
+      constraints:
+        - node.id == {{ blacktalon_node_id }}
+    mounts:
+      - source: "/blacktalon/apps/transmission/"
+        target: /config/
+        type: bind
+      - source: "{{ project_download_directory }}"
+        target: /downloads/
+        type: bind
+      - source: "{{ project_download_directory }}/torrentfiles"
+        target: /watch/
+        type: bind
+    labels:
+      traefik.http.routers.transmission.entrypoints: "websecure"
+      traefik.http.routers.transmission.rule: "Host(`transmission.{{ project_tld }}`)"
+      traefik.http.routers.transmission.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.transmission.tls: "true"
+      traefik.http.routers.transmission.service: "transmission"
+      traefik.http.routers.transmission.tls.certresolver: "{{ default_certificate_resolver }}"
+      traefik.http.services.transmission.loadbalancer.server.port: "{{ transmission_port }}"
+      traefik.enable: "true"
+    state: present
+  tags: transmission
