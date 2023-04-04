@@ -1,44 +1,52 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{ item }}"
-    state: present
+  file:
+    path: "{{ item }}"
+    state: directory
   loop:
-    - blacktalon/media
-    - blacktalon/media/anime
-    - blacktalon/media/audiobooks
-    - blacktalon/media/books
-    - blacktalon/media/comics
-    - blacktalon/media/kids
-    - blacktalon/media/movies
-    - blacktalon/media/music
-    - blacktalon/media/tv
+    - /media/Audiobooks/
+    - /media/Books/
+    - /media/Comics/
+    - /media/Music/
+    - /media/Music Videos/
+    - /media/Photos/
+    - /media/Playlists/
+    - /media/Podcasts/
+    - /media/Videos/
+    - /media/Videos/Anime Movies/
+    - /media/Videos/Anime TV/
+    - /media/Videos/Fitness/
+    - /media/Videos/Kids Movies/
+    - /media/Videos/Kids TV Series/
+    - /media/Videos/Miscellaneous/
+    - /media/Videos/Movies/
+    - /media/Videos/TV Series/
   tags: transmission
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{ item }}"
-    state: present
+  file:
+    path: "{{ item }}"
+    state: directory
   loop:
-    - blacktalon/media/downloads
-    - blacktalon/media/downloads/incomplete
-    - blacktalon/media/downloads/anime
-    - blacktalon/media/downloads/audiobooks
-    - blacktalon/media/downloads/books
-    - blacktalon/media/downloads/comics
-    - blacktalon/media/downloads/kids
-    - blacktalon/media/downloads/movies
-    - blacktalon/media/downloads/music
-    - blacktalon/media/downloads/tv
+    - /media/Downloads
+    - /media/Downloads/incomplete
+    - /media/Downloads/anime
+    - /media/Downloads/audiobooks
+    - /media/Downloads/books
+    - /media/Downloads/comics
+    - /media/Downloads/kids
+    - /media/Downloads/movies
+    - /media/Downloads/music
+    - /media/Downloads/tv
   tags: transmission
 
 - name: Ensure Transmission Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: blacktalon/apps/transmission
-    state: present
+  file:
+    path: /datavol/apps/transmission
+    state: directory
   tags: transmission
 
 - name: Deploy Transmission Service
@@ -66,9 +74,9 @@
         protocol: "udp"
     placement:
       constraints:
-        - node.id == {{ blacktalon_node_id }}
+        - node.id == {{ docker_worker2_node_id }}
     mounts:
-      - source: "/blacktalon/apps/transmission/"
+      - source: "/datavol/apps/transmission/"
         target: /config/
         type: bind
       - source: "{{ project_download_directory }}"
@@ -83,7 +91,7 @@
       traefik.http.routers.transmission.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.transmission.tls: "true"
       traefik.http.routers.transmission.service: "transmission"
-      traefik.http.routers.transmission.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.transmission.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.transmission.loadbalancer.server.port: "{{ transmission_port }}"
       traefik.enable: "true"
     state: present

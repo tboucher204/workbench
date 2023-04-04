@@ -1,9 +1,9 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: "{{ item }}"
-    state: present
+    state: directory
   loop:
     - docker_worker2/media/movies
     - docker_worker2/media/tv
@@ -13,9 +13,9 @@
 
 - name: Ensure Bazarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/bazarr
-    state: present
+    state: directory
   tags: bazarr
 
 - name: Ensure Bazarr Configuration Files Exist

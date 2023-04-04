@@ -1,7 +1,7 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['workers'][0]
-  community.general.zfs:
+  file:
     name: greytalon/apps/mkdocs
     state: present
   tags: mkdocs
@@ -77,7 +77,7 @@
       traefik.http.routers.mkdocs.middlewares: "default-headers@file"
       traefik.http.routers.mkdocs.tls: "true"
       traefik.http.routers.mkdocs.service: "mkdocs"
-      traefik.http.routers.mkdocs.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.mkdocs.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.mkdocs.loadbalancer.server.port: "{{ mkdocs_port }}"
       traefik.enable: "true"
     state: present

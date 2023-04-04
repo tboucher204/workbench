@@ -1,9 +1,9 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
     - docker_worker2/media/manga
     - docker_worker2/media/books
@@ -12,9 +12,9 @@
 
 - name: Ensure Kavita Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/kavita
-    state: present
+    state: directory
   tags: kavita
 
 - name: Ensure Kavita Configuration Files Exist

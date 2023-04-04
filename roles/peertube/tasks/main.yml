@@ -1,9 +1,9 @@
 ---
 - name: Ensure PeerTube Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/peertube
-    state: present
+    state: directory
   tags: peertube
 
 - name: Ensure PeerTube Directories Exist

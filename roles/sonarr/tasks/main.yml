@@ -1,9 +1,9 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
     - docker_worker2/media/kids
     - docker_worker2/media/tv
@@ -11,19 +11,19 @@
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
-    - docker_worker2/media/downloads/kids
-    - docker_worker2/media/downloads/tv
+    - /media/Downloads/kids
+    - /media/Downloads/tv
   tags: sonarr
 
 - name: Ensure Sonarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/sonarr
-    state: present
+    state: directory
   tags: sonarr
 
 - name: Ensure Sonarr Configuration Files Exist

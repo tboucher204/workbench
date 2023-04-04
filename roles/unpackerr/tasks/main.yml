@@ -23,33 +23,33 @@
       UN_DIR_MODE: "0755"
       UN_SONARR_0_URL: "http://sonarr:8989"
       UN_SONARR_0_API_KEY: "{{ sonarr_api_key }}"
-      UN_SONARR_0_PATHS_0: "/media/downloads/tv"
+      UN_SONARR_0_PATHS_0: "/media/Downloads/tv"
       UN_SONARR_0_PROTOCOLS: "torrent"
       UN_SONARR_0_TIMEOUT: "10s"
       UN_SONARR_0_DELETE_ORIG: "false"
       UN_SONARR_0_DELETE_DELAY: "5m"
       UN_RADARR_0_URL: "http://radarr:7878"
       UN_RADARR_0_API_KEY: "{{ radarr_api_key }}"
-      UN_RADARR_0_PATHS_0: "/media/downloads/movies"
+      UN_RADARR_0_PATHS_0: "/media/Downloads/movies"
       UN_RADARR_0_PROTOCOLS: "torrent"
       UN_RADARR_0_TIMEOUT: "10s"
       UN_RADARR_0_DELETE_ORIG: "false"
       UN_RADARR_0_DELETE_DELAY: "5m"
       UN_LIDARR_0_URL: "http://lidarr:8686"
       UN_LIDARR_0_API_KEY: "{{ lidarr_api_key }}"
-      UN_LIDARR_0_PATHS_0: "/media/downloads/music"
+      UN_LIDARR_0_PATHS_0: "/media/Downloads/music"
       UN_LIDARR_0_PROTOCOLS: "torrent"
       UN_LIDARR_0_TIMEOUT: "10s"
       UN_LIDARR_0_DELETE_ORIG: "false"
       UN_LIDARR_0_DELETE_DELAY: "5m"
       UN_READARR_0_URL: "http://readarr:8787"
       UN_READARR_0_API_KEY: "{{ readarr_api_key }}"
-      UN_READARR_0_PATHS_0: "/media/downloads/audiobooks"
+      UN_READARR_0_PATHS_0: "/media/Downloads/audiobooks"
       UN_READARR_0_PROTOCOLS: "torrent"
       UN_READARR_0_TIMEOUT: "10s"
       UN_READARR_0_DELETE_ORIG: "false"
       UN_READARR_0_DELETE_DELAY: "5m"
-      UN_FOLDER_0_PATH: "/media/downloads/complete"
+      UN_FOLDER_0_PATH: "/media/Downloads/complete"
       UN_FOLDER_0_DELETE_AFTER: "10m"
       UN_FOLDER_0_DELETE_ORIGINAL: "false"
       UN_FOLDER_0_DELETE_FILES: "false"
@@ -59,10 +59,10 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{ blacktalon_node_id }}
+        - node.id == {{ docker_worker2_node_id }}
     mounts:
-      - source: /blacktalon/media/downloads/
-        target: /media/downloads/
+      - source: /media/Downloads/
+        target: /media/downloads
         type: bind
     replicas: 1
     state: present

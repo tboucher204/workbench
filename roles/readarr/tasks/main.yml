@@ -1,21 +1,21 @@
 ---
 - name: Ensure Readarr Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: /media/audiobooks
     state: present
   tags: readarr
 
 - name: Ensure Readarr Media Download Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: /media/downloads/audiobooks
     state: present
   tags: readarr
 
 - name: Ensure Readarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: /datavol/apps/readarr
     state: present
   tags: readarr

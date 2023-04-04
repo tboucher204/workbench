@@ -1,44 +1,52 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
-    - docker_worker2/media
-    - docker_worker2/media/anime
-    - docker_worker2/media/audiobooks
-    - docker_worker2/media/books
-    - docker_worker2/media/comics
-    - docker_worker2/media/kids
-    - docker_worker2/media/movies
-    - docker_worker2/media/music
-    - docker_worker2/media/tv
+    - /media/Audiobooks/
+    - /media/Books/
+    - /media/Comics/
+    - /media/Music/
+    - /media/Music Videos/
+    - /media/Photos/
+    - /media/Playlists/
+    - /media/Podcasts/
+    - /media/Videos/
+    - /media/Videos/Anime Movies/
+    - /media/Videos/Anime TV/
+    - /media/Videos/Fitness/
+    - /media/Videos/Kids Movies/
+    - /media/Videos/Kids TV Series/
+    - /media/Videos/Miscellaneous/
+    - /media/Videos/Movies/
+    - /media/Videos/TV Series/
   tags: qbittorrent
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
-    - docker_worker2/media/downloads
-    - docker_worker2/media/downloads/incomplete
-    - docker_worker2/media/downloads/anime
-    - docker_worker2/media/downloads/audiobooks
-    - docker_worker2/media/downloads/books
-    - docker_worker2/media/downloads/comics
-    - docker_worker2/media/downloads/kids
-    - docker_worker2/media/downloads/movies
-    - docker_worker2/media/downloads/music
-    - docker_worker2/media/downloads/tv
+    - /media/Downloads
+    - /media/Downloads/incomplete
+    - /media/Downloads/anime
+    - /media/Downloads/audiobooks
+    - /media/Downloads/books
+    - /media/Downloads/comics
+    - /media/Downloads/kids
+    - /media/Downloads/movies
+    - /media/Downloads/music
+    - /media/Downloads/tv
   tags: qbittorrent
 
 - name: Ensure qBittorrent Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/qbittorrent
-    state: present
+    state: directory
   tags: qbittorrent
 
 - name: Ensure qBittorrent Configuration Files Exist

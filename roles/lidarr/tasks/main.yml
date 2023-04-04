@@ -1,9 +1,9 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
     - docker_worker2/media/music
     - docker_worker2/media/music-videos
@@ -11,19 +11,19 @@
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
-    - docker_worker2/media/downloads/music
-    - docker_worker2/media/downloads/music-videos
+    - /media/Downloads/music
+    - /media/Downloads/music-videos
   tags: lidarr
 
 - name: Ensure Lidarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/lidarr
-    state: present
+    state: directory
   tags: lidarr
 
 - name: Ensure Lidarr Configuration Files Exist

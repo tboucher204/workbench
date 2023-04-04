@@ -1,9 +1,9 @@
 ---
 - name: Ensure Wizarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/wizarr
-    state: present
+    state: directory
   tags: wizarr
 
 - name: Deploy Wizarr Service

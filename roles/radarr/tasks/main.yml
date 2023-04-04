@@ -1,23 +1,23 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/media/movies
-    state: present
+    state: directory
   tags: radarr
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: docker_worker2/media/downloads/movies
-    state: present
+  file:
+    name: /media/Downloads/movies
+    state: directory
   tags: radarr
 
 - name: Ensure Radarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/radarr
-    state: present
+    state: directory
   tags: radarr
 
 - name: Ensure Radarr Configuration Files Exist

@@ -1,9 +1,9 @@
 ---
 - name: Ensure Ombi Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/ombi
-    state: present
+    state: directory
   tags: ombi
 
 - name: Deploy Ombi Service

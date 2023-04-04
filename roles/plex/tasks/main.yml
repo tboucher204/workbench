@@ -1,9 +1,9 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
     - docker_worker2/media/anime
     - docker_worker2/media/audiobooks
@@ -15,9 +15,9 @@
 
 - name: Ensure Plex Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/plex
-    state: present
+    state: directory
   tags: plex
 
 - name: Deploy Plex Service

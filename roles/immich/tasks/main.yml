@@ -1,14 +1,14 @@
 ---
 - name: Ensure Immich Configuration Dataset Exist
   when: inventory_hostname == groups['workers'][0]
-  community.general.zfs:
+  file:
     name: greytalon/apps/immich
     state: present
   tags: immich
 
 - name: Ensure Immich Media Dataset Exist
   when: inventory_hostname == groups['workers'][0]
-  community.general.zfs:
+  file:
     name: greytalon/media/photos
     state: present
   tags: immich
@@ -90,7 +90,7 @@
       traefik.http.routers.immich.middlewares: "default-headers@file"
       traefik.http.routers.immich.tls: "true"
       traefik.http.routers.immich.service: "immich"
-      traefik.http.routers.immich.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.immich.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.immich.loadbalancer.server.port: "{{ immich_port }}"
       traefik.enable: "true"
     state: present

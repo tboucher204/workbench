@@ -1,23 +1,23 @@
 ---
 - name: Ensure Anime Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/media/anime
-    state: present
+    state: directory
   tags: sonarr
 
 - name: Ensure Anime Media Download Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: docker_worker2/media/downloads/anime
-    state: present
+  file:
+    name: /media/Downloads/anime
+    state: directory
   tags: sonarr
 
 - name: Ensure Sonarr Anime Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/sonarr2
-    state: present
+    state: directory
   tags: sonarr
 
 - name: Ensure Sonarr Anime Configuration Files Exist

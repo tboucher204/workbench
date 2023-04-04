@@ -1,9 +1,9 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
     - docker_worker2/media
     - docker_worker2/media/anime
@@ -18,27 +18,27 @@
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
-    name: "{{item}}"
-    state: present
+  file:
+    path: "{{item}}"
+    state: directory
   loop:
-    - docker_worker2/media/downloads
-    - docker_worker2/media/downloads/incomplete
-    - docker_worker2/media/downloads/anime
-    - docker_worker2/media/downloads/audiobooks
-    - docker_worker2/media/downloads/books
-    - docker_worker2/media/downloads/comics
-    - docker_worker2/media/downloads/kids
-    - docker_worker2/media/downloads/movies
-    - docker_worker2/media/downloads/music
-    - docker_worker2/media/downloads/tv
+    - /media/Downloads
+    - /media/Downloads/incomplete
+    - /media/Downloads/anime
+    - /media/Downloads/audiobooks
+    - /media/Downloads/books
+    - /media/Downloads/comics
+    - /media/Downloads/kids
+    - /media/Downloads/movies
+    - /media/Downloads/music
+    - /media/Downloads/tv
   tags: sabnzbd
 
 - name: Ensure Sabnzbd Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/sabnzbd
-    state: present
+    state: directory
   tags: sabnzbd
 
 - name: Ensure Sabnzbd Configuration Files Exist

@@ -1,9 +1,9 @@
 ---
 - name: Ensure Photoprism Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  community.general.zfs:
+  file:
     name: docker_worker2/apps/photoprism
-    state: present
+    state: directory
   tags: photoprism
 
 - name: Ensure Photoprism Directories Exist

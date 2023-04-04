@@ -1,7 +1,7 @@
 ---
 - name: Ensure GitLab Dataset Exist
   when: inventory_hostname == groups['workers'][0]
-  community.general.zfs:
+  file:
     name: greytalon/apps/gitlab
     state: present
   tags: gitlab
@@ -78,19 +78,19 @@
       traefik.http.routers.gitlab.rule: "Host(`{{ git_tld }}`)"
       traefik.http.routers.gitlab.tls: "true"
       traefik.http.routers.gitlab.service: "gitlab"
-      traefik.http.routers.gitlab.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.gitlab.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.gitlab.loadbalancer.server.port: "{{ gitlab_port }}"
       traefik.http.routers.registry.entrypoints: "websecure"
       traefik.http.routers.registry.rule: "Host(`registry.{{ git_tld }}`)"
       traefik.http.routers.registry.tls: "true"
       traefik.http.routers.registry.service: "registry"
-      traefik.http.routers.registry.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.http.routers.registry.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.registry.loadbalancer.server.port: "{{ gitlab_registry_port }}"
       traefik.tcp.routers.git.entrypoints: "git"
       traefik.tcp.routers.git.rule: "HostSNI(`{{ git_tld }}`)"
       traefik.tcp.routers.git.tls: "true"
       traefik.tcp.routers.git.service: "git"
-      traefik.tcp.routers.git.tls.certresolver: "{{ default_certificate_resolver }}"
+      # traefik.tcp.routers.git.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.tcp.services.git.loadbalancer.server.port: "22"
       traefik.enable: "true"
     state: present
