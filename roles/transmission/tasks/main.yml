@@ -97,8 +97,7 @@
       WEBPROXY_PORT: "8118"
       LOCAL_NETWORK: "192.168.1.0/24"
       DROP_DEFAULT_ROUTE: "true"
-    cap_add:
-      - NET_ADMIN
+    cap_add: "NET_ADMIN"
     logging:
       driver: json-file
       options:
