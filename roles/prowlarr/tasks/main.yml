@@ -2,7 +2,7 @@
 - name: Ensure Prowlarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: docker_worker2/apps/prowlarr
+    name: "{{project_root_directory}}/prowlarr"
     state: directory
   tags: prowlarr
 
@@ -37,8 +37,8 @@
       DOCKER_MODS: "gilbn/theme.park:prowlarr"
       TP_THEME: "{{theme_park_default}}"
     mounts:
-      - source: "/datavol/apps/prowlarr/"
-        target: /config/
+      - source: "{{project_root_directory}}/prowlarr/"
+        target: /config
         type: bind
     labels:
       traefik.http.routers.prowlarr.entrypoints: "websecure"
@@ -51,3 +51,4 @@
       traefik.enable: "true"
     state: present
   tags: prowlarr
+  

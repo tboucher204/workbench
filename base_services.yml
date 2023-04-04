@@ -19,6 +19,7 @@
     - authelia
     # - mailrise
     # - gitea
+    # - gitlab
     # - portus
     - jenkins
     # - n8n

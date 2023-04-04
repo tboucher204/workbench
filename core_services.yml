@@ -15,5 +15,6 @@
     # - plausible
     # - listmonk
     # - wiki.js
+    - mkdocs
     - phpmyadmin
     - phpldapadmin

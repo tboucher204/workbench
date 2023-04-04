@@ -42,11 +42,22 @@
     - /media/Downloads/tv
   tags: transmission
 
+- name: Ensure Transmission Watch Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: /media/Watch/torrentfiles
+    state: directory
+  tags: transmission
+
 - name: Ensure Transmission Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    path: /datavol/apps/transmission
+    path: "{{ item }}"
     state: directory
+  loop:
+    - /datavol/apps/transmission
+    - /datavol/apps/transmission/config
+    - /datavol/apps/transmission/data
   tags: transmission
 
 - name: Deploy Transmission Service
@@ -62,28 +73,50 @@
       PUID: "{{ media_user }}"
       PGID: "{{ media_group }}"
       TZ: "{{ default_timezone }}"
-      DOCKER_MODS: "gilbn/theme.park:{{ transmission_hostname }}"
-      TP_THEME: "{{ theme_park_default }}"
+      CREATE_TUN_DEVICE: "true"
+      OPENVPN_PROVIDER: "EXPRESSVPN"
+      OPENVPN_CONFIG: "my_expressvpn_switzerland_udp,my_expressvpn_switzerland_-_2_udp,my_expressvpn_mexico_udp"
+      OPENVPN_USERNAME: "{{ transmission_openvpn_username }}"
+      OPENVPN_PASSWORD: "{{ transmission_openvpn_password }}"
+      OPENVPN_OPTS: "--inactive 3600 --ping 10 --ping-exit 60"
+      TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED: "false"
+      TRANSMISSION_WEB_UI: "flood-for-transmission"
+      TRANSMISSION_WATCH_DIR_FORCE_GENERIC: "true"
+      TRANSMISSION_DOWNLOAD_DIR: "/downloads"
+      TRANSMISSION_WATCH_DIR: "/watch"
+      WEBPROXY_ENABLED: "true"
+      WEBPROXY_PORT: "8118"
+      LOCAL_NETWORK: "192.168.1.0/24"
+      DROP_DEFAULT_ROUTE: "true"
+    cap_add:
+      - NET_ADMIN
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
     restart_config:
       condition: on-failure
     publish:
-      - published_port: "51413"
-        target_port: "51413"
-      - published_port: "51413"
-        target_port: "51413"
-        protocol: "udp"
+      - published_port: "9091"
+        target_port: "9091"
     placement:
       constraints:
         - node.id == {{ docker_worker2_node_id }}
     mounts:
-      - source: "/datavol/apps/transmission/"
-        target: /config/
+      - source: "/datavol/apps/transmission/config/"
+        target: /config
+        type: bind
+      - source: "/datavol/apps/transmission/data/"
+        target: /data
         type: bind
       - source: "{{ project_download_directory }}"
-        target: /downloads/
+        target: /downloads
         type: bind
-      - source: "{{ project_download_directory }}/torrentfiles"
-        target: /watch/
+      - source: "{{ project_watch_directory }}/torrentfiles"
+        target: /watch
+        type: bind
+      - source: "/dev/net"
+        target: /dev/net
         type: bind
     labels:
       traefik.http.routers.transmission.entrypoints: "websecure"

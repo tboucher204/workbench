@@ -4,18 +4,23 @@
   gather_facts: False
   become: false
   roles:
-    - sabnzbd
-    - qbittorrent
-    - prowlarr
-    - sonarr
-    - radarr
-    - lidarr
-    - readarr
-    - bazarr
-    - kavita
-    - ombi
-    - plex
-    - photoprism
-    - peertube
-    - tautulli
-    - wizarr
+    - transmission
+    # - sabnzbd
+    # - qbittorrent
+    # - prowlarr
+    # - sonarr
+    # - radarr
+    # - lidarr
+    # - readarr
+    # - bazarr
+    # - kavita
+    # - ombi
+    # - plex
+    # - photoprism
+    # - immich
+    # - peertube
+    # - tautulli
+    # - wizarr
+    # - tdarr
+    # - unpackerr
+    

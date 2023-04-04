@@ -1,1 +1,3 @@
 ---
+transmission_openvpn_password: "{{ vault_transmission_openvpn_password }}"
+transmission_openvpn_username: "{{ vault_transmission_openvpn_username }}"
