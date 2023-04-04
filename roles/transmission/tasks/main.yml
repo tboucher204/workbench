@@ -1,4 +1,13 @@
 ---
+- name: Upgrade pip to be able to install docker api
+  pip:
+     name: pip
+     extra_args: --upgrade
+
+- name: Install pip docker api package
+  pip:
+     name: docker
+
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
   file:
