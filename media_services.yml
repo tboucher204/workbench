@@ -1,7 +1,7 @@
 ---
 - name: Deploy Media Services
   hosts: all
-  gather_facts: False
+  gather_facts: true
   become: false
   roles:
     - transmission
