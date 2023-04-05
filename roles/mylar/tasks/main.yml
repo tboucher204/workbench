@@ -1,0 +1,74 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_media_directory}}/Comics"
+    state: directory
+  tags: mylar
+
+- name: Ensure Media Download Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_download_directory}}/comics"
+    state: directory
+  tags: mylar
+
+- name: Ensure Mylar Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/mylar"
+    state: directory
+  tags: mylar
+
+- name: Ensure M ylar Configuration Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: config.ini.j2
+    dest: "{{project_root_directory}}/mylar/mylar/config.ini"
+  tags: mylar
+  no_log: true
+
+- name: Deploy mylar Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: mylar
+    hostname: "{{mylar_hostname}}"
+    image: "{{mylar_docker_image}}:{{mylar_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+      DOCKER_MODS: "gilbn/theme.park:{{mylar_hostname}}"
+      TP_THEME: "{{theme_park_default}}"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/mylar/"
+        target: /config
+        type: bind
+      - source: "{{project_media_directory}}/Videos/"
+        target: /media/movies
+        type: bind
+      - source: "{{project_download_directory}}"
+        target: /media/downloads
+        type: bind
+    labels:
+      traefik.http.routers.mylar.entrypoints: "websecure"
+      traefik.http.routers.mylar.rule: "Host(`mylar.{{project_tld}}`)"
+      traefik.http.routers.mylar.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.mylar.tls: "true"
+      traefik.http.routers.mylar.service: "mylar"
+      # traefik.http.routers.mylar.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.mylar.loadbalancer.server.port: "{{mylar_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: mylar
+  
