@@ -1,0 +1,62 @@
+version: '3.5'
+
+services:
+  transmission:
+    image: "{{transmission_docker_image}}:{{transmission_version}}"
+    hostname: "{{transmission_hostname}}"
+    networks:
+      - {{traefik_network}}
+    volumes:
+      - /datavol/apps/transmission/data:/data
+      - /datavol/apps/transmission/config:/config
+      - {{ project_download_directory }}:/downloads
+      - {{ project_watch_directory }}/torrentfiles:/watch
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.id == {{ docker_worker2_node_id }}]
+    labels:
+      - "traefik.http.routers.transmission.entrypoints=websecure"
+      - "traefik.http.routers.transmission.rule=Host(`transmission.{{ project_tld }}`)"
+      - "traefik.http.routers.transmission.middlewares=default-headers@file,authelia@file"
+      - "traefik.http.routers.transmission.tls=true"
+      - "traefik.http.routers.transmission.service=transmission"
+      # - "traefik.http.routers.transmission.tls.certresolver={{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
+      - "traefik.http.services.transmission.loadbalancer.server.port={{ transmission_port }}"
+      - "traefik.enable=true"
+    environment:
+      - PUID={{ media_user }}
+      - GUID={{ media_group }}
+      - TZ={{ default_timezone }}
+      - CREATE_TUN_DEVICE=true
+      - OPENVPN_PROVIDER=EXPRESSVPN
+      - OPENVPN_CONFIG=my_expressvpn_switzerland_udp,my_expressvpn_switzerland_-_2_udp,my_expressvpn_mexico_udp
+      - OPENVPN_USERNAME={{ transmission_openvpn_username }}
+      - OPENVPN_PASSWORD={{ transmission_openvpn_password }}
+      - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
+      - TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED=false
+      - TRANSMISSION_WEB_UI=flood-for-transmission
+      - TRANSMISSION_WATCH_DIR_FORCE_GENERIC=true
+      - TRANSMISSION_DOWNLOAD_DIR=/downloads
+      - TRANSMISSION_WATCH_DIR=/watch
+      - WEBPROXY_ENABLED=true
+      - WEBPROXY_PORT=8118
+      - LOCAL_NETWORK=192.168.1.0/24
+      - DROP_DEFAULT_ROUTE=true
+    cap_add:
+      - NET_ADMIN
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+    ports:
+      - target: {{ transmission_port }}
+        published: {{ transmission_port }}
+        protocol: tcp
+        mode: host
+    restart: on-failure
+
+networks:
+  {{traefik_network}}:
+    external: true
+    name: {{traefik_network}}

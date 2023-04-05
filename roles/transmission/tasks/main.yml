@@ -1,13 +1,4 @@
 ---
-- name: Upgrade pip to be able to install docker api
-  pip:
-     name: pip
-     extra_args: --upgrade
-
-- name: Install pip docker api package
-  pip:
-     name: docker
-
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
   file:
@@ -69,71 +60,20 @@
     - /datavol/apps/transmission/data
   tags: transmission
 
-- name: Deploy Transmission Service
+- name: Create Transmission Docker Compose File
   when: inventory_hostname == groups['managers'][0]
-  community.docker.docker_swarm_service:
-    name: transmission
-    hostname: "{{ transmission_hostname }}"
-    image: "{{ transmission_docker_image }}:{{ transmission_version }}"
-    networks:
-      - "{{ traefik_network }}"
-    mode: replicated
-    env:
-      PUID: "{{ media_user }}"
-      PGID: "{{ media_group }}"
-      TZ: "{{ default_timezone }}"
-      CREATE_TUN_DEVICE: "true"
-      OPENVPN_PROVIDER: "EXPRESSVPN"
-      OPENVPN_CONFIG: "my_expressvpn_switzerland_udp,my_expressvpn_switzerland_-_2_udp,my_expressvpn_mexico_udp"
-      OPENVPN_USERNAME: "{{ transmission_openvpn_username }}"
-      OPENVPN_PASSWORD: "{{ transmission_openvpn_password }}"
-      OPENVPN_OPTS: "--inactive 3600 --ping 10 --ping-exit 60"
-      TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED: "false"
-      TRANSMISSION_WEB_UI: "flood-for-transmission"
-      TRANSMISSION_WATCH_DIR_FORCE_GENERIC: "true"
-      TRANSMISSION_DOWNLOAD_DIR: "/downloads"
-      TRANSMISSION_WATCH_DIR: "/watch"
-      WEBPROXY_ENABLED: "true"
-      WEBPROXY_PORT: "8118"
-      LOCAL_NETWORK: "192.168.1.0/24"
-      DROP_DEFAULT_ROUTE: "true"
-    cap_add: "NET_ADMIN"
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-    restart_config:
-      condition: on-failure
-    publish:
-      - published_port: "9091"
-        target_port: "9091"
-    placement:
-      constraints:
-        - node.id == {{ docker_worker2_node_id }}
-    mounts:
-      - source: "/datavol/apps/transmission/config/"
-        target: /config
-        type: bind
-      - source: "/datavol/apps/transmission/data/"
-        target: /data
-        type: bind
-      - source: "{{ project_download_directory }}"
-        target: /downloads
-        type: bind
-      - source: "{{ project_watch_directory }}/torrentfiles"
-        target: /watch
-        type: bind
-      - source: "/dev/net"
-        target: /dev/net
-        type: bind
-    labels:
-      traefik.http.routers.transmission.entrypoints: "websecure"
-      traefik.http.routers.transmission.rule: "Host(`transmission.{{ project_tld }}`)"
-      traefik.http.routers.transmission.middlewares: "default-headers@file,authelia@file"
-      traefik.http.routers.transmission.tls: "true"
-      traefik.http.routers.transmission.service: "transmission"
-      # traefik.http.routers.transmission.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.transmission.loadbalancer.server.port: "{{ transmission_port }}"
-      traefik.enable: "true"
-    state: present
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{project_root_directory}}/transmission/docker-compose.yml"
+    mode: 0775
   tags: transmission
+
+- name: Deploy Transmission from Compose File
+  when: inventory_hostname == groups['managers'][0]
+  docker_stack:
+    state: present
+    name: transmission
+    compose:
+      - "{{project_root_directory}}/transmission/docker-compose.yml"
+  tags: transmission
+   
