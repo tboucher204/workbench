@@ -38,11 +38,13 @@ services:
       - TRANSMISSION_WEB_UI=flood-for-transmission
       - TRANSMISSION_WATCH_DIR_FORCE_GENERIC=true
       - TRANSMISSION_DOWNLOAD_DIR=/downloads
+      - TRANSMISSION_INCOMPLETE_DIR=/downloads/incomplete
       - TRANSMISSION_WATCH_DIR=/watch
       - WEBPROXY_ENABLED=true
       - WEBPROXY_PORT=8118
       - LOCAL_NETWORK=192.168.1.0/24
       - DROP_DEFAULT_ROUTE=true
+      - LOG_TO_STDOUT=true
     cap_add:
       - NET_ADMIN
     logging:
