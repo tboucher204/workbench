@@ -52,7 +52,7 @@
 - name: Ensure Sabnzbd Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: docker_worker2/apps/sabnzbd
+    name: "{{project_root_directory}}/apps/sabnzbd"
     state: directory
   tags: sabnzbd
 
