@@ -52,45 +52,16 @@
       TZ: "{{default_timezone}}"
       DOCKER_MODS: "gilbn/theme.park:{{lidarr_hostname}}"
       TP_THEME: "{{theme_park_default}}"
-      enableAudioScript: "true"
-      enableVideoScript: "false"
-      scriptInterval: "15m"
-      configureLidarrWithOptimalSettings: "true"
-      searchSort: "date"
-      audioFormat: "mp3"
-      audioBitrate: "320"
-      requireQuality: "true"
-      enableReplaygainTags: "true"
-      audioLyricType: "both"
-      dlClientSource: "deezer"
-      arlToken: "{{lidarr_arl_token}}"
-      tidalCountryCode: "US"
-      addDeezerTopArtists: "false"
-      addDeezerTopAlbumArtists: "false"
-      addDeezerTopTrackArtists: "false"
-      topLimit: "10"
-      addRelatedArtists: "false"
-      numberOfRelatedArtistsToAddPerArtist: "5"
-      lidarrSearchForMissing: "true"
-      addFeaturedVideoArtists: "false"
-      plexUrl: "{{plex_url}}"
-      plexToken: "{{plex_token}}"
-      youtubeSubtitleLanguage: "en"
-      enableQueueCleaner: "true"
-      matchDistance: "5"
-      enableBeetsTagging: "true"
-      beetsMatchPercentage: "90"
-      retryNotFound: "90"
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/lidarr/"
+      - source: "{{project_media_directory}}/lidarr/"
         target: /config
         type: bind
-      - source: "{{project_media_directory}}/Music/"
-        target: /media/movies
+      - source: "{{project_media_directory}}/music/"
+        target: /media/music
         type: bind
       - source: "{{project_download_directory}}"
         target: /media/downloads
@@ -106,4 +77,11 @@
       traefik.enable: "true"
     state: present
   tags: lidarr
-  
+
+- import_tasks: "{{role_path}}/tasks/amd.yml"
+  tags:
+    - lidarr
+
+- import_tasks: "{{role_path}}/tasks/amvd.yml"
+  tags:
+    - lidarr

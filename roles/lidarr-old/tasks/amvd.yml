@@ -28,10 +28,10 @@
       constraints:
         - node.id == {{docker_worker2_node_id}}
     mounts:
-      - source: "/datavol/apps/lidarr/"
+      - source: "{{project_root_directory}}/lidarr/"
         target: /config/
         type: bind
-      - source: "{{project_media_directory}}/music-videos/"
+      - source: "{{project_media_directory}}/Music Videos/"
         target: /downloads-amvd/
         type: bind
     replicas: 1

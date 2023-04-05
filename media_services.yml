@@ -5,13 +5,13 @@
   become: false
   roles:
     - transmission
-    # - sabnzbd
+    - sabnzbd
     # - qbittorrent
-    # - prowlarr
-    # - sonarr
-    # - radarr
-    # - lidarr
-    # - readarr
+    - prowlarr
+    - sonarr
+    - radarr
+    - lidarr
+    - readarr
     # - bazarr
     # - kavita
     # - ombi

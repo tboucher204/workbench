@@ -1,6 +1,7 @@
 ---
+sabnzbd_host_whitelist: "{{vault_sabnzbd_host_whitelist}}"
 sabnzbd_password: "{{vault_sabnzbd_password}}"
-sabnzbd_nzb_key: "{{vault_sabnzbd_nzb_key}}"
+sabnzbd_username: "{{vault_sabnzbd_username}}"
 sabnzbd_primary_server: "{{vault_sabnzbd_primary_server}}"
 sabnzbd_primary_server_host: "{{vault_sabnzbd_primary_server_host}}"
 sabnzbd_primary_server_port: "{{vault_sabnzbd_primary_server_port}}"

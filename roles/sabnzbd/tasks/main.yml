@@ -5,15 +5,23 @@
     path: "{{item}}"
     state: directory
   loop:
-    - docker_worker2/media
-    - docker_worker2/media/anime
-    - docker_worker2/media/audiobooks
-    - docker_worker2/media/books
-    - docker_worker2/media/comics
-    - docker_worker2/media/kids
-    - docker_worker2/media/movies
-    - docker_worker2/media/music
-    - docker_worker2/media/tv
+    - /media/Audiobooks/
+    - /media/Books/
+    - /media/Comics/
+    - /media/Music/
+    - /media/Music Videos/
+    - /media/Photos/
+    - /media/Playlists/
+    - /media/Podcasts/
+    - /media/Videos/
+    - /media/Videos/Anime Movies/
+    - /media/Videos/Anime TV/
+    - /media/Videos/Fitness/
+    - /media/Videos/Kids Movies/
+    - /media/Videos/Kids TV Series/
+    - /media/Videos/Miscellaneous/
+    - /media/Videos/Movies/
+    - /media/Videos/TV Series/
   tags: sabnzbd
 
 - name: Ensure Media Download Datasets Exist
@@ -32,6 +40,13 @@
     - /media/Downloads/movies
     - /media/Downloads/music
     - /media/Downloads/tv
+  tags: sabnzbd
+
+- name: Ensure Sabnzdb Watch Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: /media/Watch/nzbfiles
+    state: directory
   tags: sabnzbd
 
 - name: Ensure Sabnzbd Dataset Exist
@@ -73,13 +88,13 @@
     replicas: 1
     mounts:
       - source: "/datavol/apps/sabnzbd/"
-        target: /config/
+        target: /config
         type: bind
-      - source: "{{project_download_directory}}"
-        target: /media/downloads/
+      - source: "{{project_download_directory}}/"
+        target: /media/downloads
         type: bind
-      - source: "{{project_download_directory}}/incomplete/"
-        target: /media/downloads/incomplete/
+      - source: "{{project_media_directory}}/Watch/nzbfiles/"
+        target: /media/watch
         type: bind
     labels:
       traefik.http.routers.sabnzbd.entrypoints: "websecure"

@@ -2,3 +2,6 @@
 readarr_version: "nightly"
 readarr_hostname: "readarr"
 readarr_docker_image: "ghcr.io/linuxserver/readarr"
+readarr_audiobooks_version: "nightly"
+readarr_audiobooks_hostname: "readarr_audiobooks"
+readarr_audiobooks_docker_image: "ghcr.io/linuxserver/readarr"
