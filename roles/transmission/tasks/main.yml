@@ -57,7 +57,6 @@
   loop:
     - /datavol/apps/transmission
     - /datavol/apps/transmission/config
-    - /datavol/apps/transmission/data
   tags: transmission
 
 - name: Create Transmission Docker Compose File

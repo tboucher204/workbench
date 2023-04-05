@@ -7,7 +7,6 @@ services:
     networks:
       - {{traefik_network}}
     volumes:
-      - /datavol/apps/transmission/data:/data
       - /datavol/apps/transmission/config:/config
       - {{ project_download_directory }}:/downloads
       - {{ project_watch_directory }}/torrentfiles:/watch
