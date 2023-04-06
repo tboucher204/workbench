@@ -29,7 +29,7 @@
     src: config.ini.j2
     dest: "{{project_root_directory}}/mylar/mylar/config.ini"
   tags: mylar
-  no_log: true
+  no_log: false
 
 - name: Deploy mylar Service
   when: inventory_hostname == groups['managers'][0]
