@@ -16,7 +16,7 @@
 - name: Ensure Sonarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_root_directory}}/apps/sonarr"
+    name: "{{project_root_directory}}/sonarr"
     state: directory
   tags: sonarr
 
