@@ -2,7 +2,7 @@
 - name: Ensure Wizarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_root_directory}}"/wizarr
+    name: "{{project_root_directory}}/wizarr"
     state: directory
   tags: wizarr
 
