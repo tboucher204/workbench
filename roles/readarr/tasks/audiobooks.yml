@@ -3,21 +3,21 @@
   when: inventory_hostname == groups['media'][0]
   file:
     name: "{{project_media_directory}}/Audiobooks"
-    state: present
+    state: directory
   tags: readarr
 
 - name: Ensure Readarr Audiobooks Media Download Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
     name: "{{project_download_directory}}/audiobooks"
-    state: present
+    state: directory
   tags: readarr
 
 - name: Ensure Readarr Audiobooks Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
     name: "{{project_root_directory}}/readarr2"
-    state: present
+    state: directory
   tags: readarr
 
 - name: Ensure Readarr Audiobooks Configuration Files Exist
