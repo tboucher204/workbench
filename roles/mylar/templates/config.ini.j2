@@ -121,7 +121,7 @@ mass_publishers = []
 auto_mass_add = False
 
 [Interface]
-http_port = 8090
+http_port = {{mylar_port}}
 http_host = 0.0.0.0
 http_username = None
 http_password = None
@@ -256,26 +256,25 @@ gotify_token = None
 gotify_onsnatch = False
 
 [Providers]
-provider_order = 0, TorrentGalaxy (Prowlarr), 1, TorrentDownload (Prowlarr), 2, DOGnzb (Prowlarr), 3, 1337x (Prowlarr), 4, DrunkenSlug (Prowlarr)
+provider_order = 
 usenet_retention = 1500
 
 [Client]
 nzb_downloader = 0
-torrent_downloader = 3
+torrent_downloader = 0
 
 [SABnzbd]
-sab_host = http://sabnzbd:8080
+sab_host = None
 sab_username = None
 sab_password = None
-sab_apikey = daae7ce1995c412ba10abd3b41692a75
-sab_category = comics
+sab_apikey = None
+sab_category = None
 sab_priority = Default
-sab_to_mylar = True
-sab_directory = /downloads/Downloads/complete
-sab_version = 3.7.2
-	
+sab_to_mylar = False
+sab_directory = None
+sab_version = None
 sab_moving_delay = 5
-sab_client_post_processing = True
+sab_client_post_processing = False
 
 [NZBGet]
 nzbget_host = None
@@ -298,21 +297,16 @@ nzbsu_verify = True
 
 [DOGnzb]
 dognzb = False
-dognzb_apikey = 7f6d4812c9a6e5ac7f180bdad98d7126
+dognzb_apikey = None
 dognzb_verify = True
 
 [Newznab]
-newznab = True
-extra_newznabs = DOGnzb (Prowlarr), http://prowlarr:9696/prowlarr/11/api, 0, cfced2e2cc704d1badf4cb99eba3acc7, #7030, 1, 3, DrunkenSlug (Prowlarr), http://prowlarr:9696/prowlarr/12/api, 0, cfced2e2cc704d1badf4cb99eba3acc7, #7030, 1, 6
+newznab = False
+extra_newznabs =
 
 [Torznab]
-enable_torznab = True
-extra_torznabs = TorrentDownload (Prowlarr), http://prowlarr:9696/prowlarr/5/api, 0, cfced2e2cc704d1badf4cb99eba3acc7, 7030, 1, 1, TorrentGalaxy (Prowlarr), http://prowlarr:9696/prowlarr/6/api, 0, cfced2e2cc704d1badf4cb99eba3acc7, 7030, 1, 2, 1337x (Prowlarr), http://prowlarr:9696/prowlarr/1/api, 0, cfced2e2cc704d1badf4cb99eba3acc7, 7030, 1, 5
-torznab_name = None
-torznab_host = None
-torznab_apikey = None
-torznab_category = None
-torznab_verify = False
+enable_torznab = False
+extra_torznabs =
 
 [Experimental]
 experimental = False
@@ -350,8 +344,8 @@ cmtag_start_year_as_volume = False
 setdefaultvolume = False
 
 [Torrents]
-enable_torrents = True
-enable_torrent_search = True
+enable_torrents = False
+enable_torrent_search = False
 minseeds = 0
 enable_public = False
 public_verify = True
@@ -420,10 +414,10 @@ utorrent_password = None
 utorrent_label = None
 
 [Transmission]
-transmission_host = transmission-openvpn
+transmission_host = None
 transmission_username = None
 transmission_password = None
-transmission_directory = /data/completed
+transmission_directory = None
 
 [Deluge]
 deluge_host = None
