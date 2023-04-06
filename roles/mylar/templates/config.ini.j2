@@ -12,7 +12,7 @@ search_delay = 1
 grabbag_dir = None
 highcount = 0
 maintainseriesfolder = False
-destination_dir = /comics
+destination_dir = /media/comics
 multiple_dest_dirs = None
 create_folders = True
 delete_remove_dir = False
@@ -131,7 +131,7 @@ https_cert = None
 https_key = None
 https_chain = None
 https_force_on = False
-host_return = http://mylar:8090
+host_return = http://{{mylar_hostname}}:{{mylar_port}}
 authentication = 0
 login_timeout = 43800
 alphaindex = True
@@ -139,11 +139,11 @@ cherrypy_logging = False
 
 [API]
 api_enabled = True
-api_key = 527b8dbee6bdb9d453ca13886c46df9e
+api_key = {{mylar_api_key}}
 
 [CV]
 cvapi_rate = 2
-comicvine_api = 064b0cd144b74c9dcc6bdbbc35ce1cbd5147f42a
+comicvine_api = {{comicvine_api_key}}
 ignored_publishers = 
 cv_verify = True
 cv_only = True
@@ -175,7 +175,7 @@ chgroup = 1000
 
 [Import]
 add_comics = False
-comic_dir = /import/_import
+comic_dir = /import
 imp_move = True
 imp_paths = False
 imp_rename = True

@@ -1,4 +1,4 @@
 ---
-radarr_version: "latest"
-radarr_hostname: "mylar"
-radarr_docker_image: "ghcr.io/linuxserver/mylar3"
+mylar_version: "latest"
+mylar_hostname: "mylar"
+mylar_docker_image: "ghcr.io/linuxserver/mylar3"
