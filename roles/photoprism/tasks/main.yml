@@ -2,7 +2,7 @@
 - name: Ensure Photoprism Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: docker_worker2/apps/photoprism
+    name: "{{project_root_directory}}/photoprism"
     state: directory
   tags: photoprism
 
@@ -89,14 +89,14 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: /datavol/apps/photoprism/originals/
-        target: /config/
+      - source: "{{project_root_directory}}/photoprism/originals/"
+        target: /config
         type: bind
-      - source: /datavol/apps/photoprism/import/
-        target: /photoprism/import/
+      - source: "{{project_root_directory}}/photoprism/import/"
+        target: /photoprism/import
         type: bind
-      - source: /datavol/apps/photoprism/data/
-        target: /photoprism/storage/
+      - source: "{{project_root_directory}}/photoprism/data/"
+        target: /photoprism/storage
         type: bind
     labels:
       traefik.http.routers.photoprism.entrypoints: "websecure"

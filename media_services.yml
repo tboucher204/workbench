@@ -14,14 +14,14 @@
     - readarr
     - mylar
     # - bazarr
-    # - kavita
-    # - ombi
+    - kavita
+    - ombi
     # - plex
-    # - photoprism
+    - photoprism
     # - immich
     # - peertube
     # - tautulli
-    # - wizarr
+    - wizarr
     # - tdarr
     # - unpackerr
     

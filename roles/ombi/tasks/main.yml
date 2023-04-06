@@ -2,7 +2,7 @@
 - name: Ensure Ombi Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: docker_worker2/apps/ombi
+    name: "{{project_root_directory}}/ombi"
     state: directory
   tags: ombi
 
@@ -27,8 +27,8 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/datavol/apps/ombi/"
-        target: /config/
+      - source: "{{project_root_directory}}/ombi/"
+        target: /config
         type: bind
     labels:
       traefik.http.routers.ombi.entrypoints: "websecure"

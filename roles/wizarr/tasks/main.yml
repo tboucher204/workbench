@@ -2,7 +2,7 @@
 - name: Ensure Wizarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: docker_worker2/apps/wizarr
+    name: "{{project_root_directory}}"/wizarr
     state: directory
   tags: wizarr
 
@@ -26,8 +26,8 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: /datavol/apps/wizarr/
-        target: /data/database/
+      - source: "{{project_root_directory}}/wizarr/"
+        target: /data/database
         type: bind
     labels:
       traefik.http.routers.wizarr.entrypoints: "websecure"

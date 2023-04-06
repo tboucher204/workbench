@@ -5,15 +5,15 @@
     path: "{{item}}"
     state: directory
   loop:
-    - docker_worker2/media/manga
-    - docker_worker2/media/books
-    - docker_worker2/media/comics
+    - "{{project_media_directory}}/Manga"
+    - "{{project_media_directory}}/Books"
+    - "{{project_media_directory}}/Comics"
   tags: kavita
 
 - name: Ensure Kavita Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: docker_worker2/apps/kavita
+    name: "{{project_root_directory}}/kavita"
     state: directory
   tags: kavita
 
@@ -47,16 +47,16 @@
     replicas: 1
     mounts:
       - source: "/datavol/apps/kavita/"
-        target: /kavita/config/
+        target: /kavita/config
         type: bind
-      - source: "{{project_media_directory}}/manga/"
-        target: /media/manga/
+      - source: "{{project_media_directory}}/Manga/"
+        target: /media/manga
         type: bind
-      - source: "{{project_media_directory}}/books/"
-        target: /media/books/
+      - source: "{{project_media_directory}}/Books/"
+        target: /media/books
         type: bind
-      - source: "{{project_media_directory}}/comics/"
-        target: /media/comics/
+      - source: "{{project_media_directory}}/Comics/"
+        target: /media/comics
         type: bind
     labels:
       traefik.http.routers.kavita.entrypoints: "websecure"
