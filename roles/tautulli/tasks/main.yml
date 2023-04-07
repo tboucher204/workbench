@@ -27,8 +27,8 @@
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
-      - source: /datavol/apps/tautulli/
-        target: /config/
+      - source: "{{project_root_directory}}/tautulli/"
+        target: /config
         type: bind
     labels:
       traefik.http.routers.tautulli.entrypoints: "websecure"

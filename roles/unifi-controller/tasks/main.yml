@@ -1,0 +1,42 @@
+---
+- name: Ensure Unifi Data Volume Exist
+  when: inventory_hostname == groups['managers'][0]
+  file:
+    path: "{{project_root_directory}}/unifi-controller"
+    state: directory
+  tags: unifi-controller
+
+- name: Deploy Unifi Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: unifi
+    hostname: "{{unifi_hostname}}"
+    image: "{{unifi_docker_image}}:{{unifi_version}}"
+    networks:
+      - "{{traefik_network}}"
+    env:
+      PGID: "{{default_pgid}}"
+      PUID: "{{default_puid}}"
+      TZ: "{{default_timezone}}"
+    mode: global
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    mounts:
+      - source: "{{project_root_directory}}/unifi-controller"
+        target: /config
+        type: volume
+    labels:
+      traefik.http.routers.unifi.entrypoints: "websecure"
+      traefik.http.routers.unifi.rule: "Host(`unifi.{{project_tld}}`)"
+      traefik.http.routers.unifi.middlewares: "authelia@file"
+      traefik.http.routers.unifi.tls: "true"
+      traefik.http.routers.unifi.service: "unifi"
+      # traefik.http.routers.unifi.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.unifi.loadbalancer.server.port: "{{unifi_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: unifi

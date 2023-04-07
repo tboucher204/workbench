@@ -18,3 +18,4 @@
     # - mkdocs
     - phpmyadmin
     - phpldapadmin
+    - unifi-controller
