@@ -19,3 +19,9 @@
     - phpmyadmin
     - phpldapadmin
     - unifi-controller
+    - graphite
+    - prometheus
+    - influxdb
+    - telegraf
+    - grafana
+    - speedtest

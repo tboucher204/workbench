@@ -21,6 +21,7 @@
     # - immich
     # - peertube
     - tautulli
+    - embystat
     - wizarr
     # - tdarr
     # - unpackerr

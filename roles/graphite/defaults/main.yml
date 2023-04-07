@@ -1,0 +1,5 @@
+---
+graphite_version: latest
+graphite_hostname: "graphite"
+graphite_port: "80"
+graphite_docker_image: "graphiteapp/graphite-statsd"

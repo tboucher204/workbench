@@ -1,0 +1,51 @@
+---
+- name: Ensure Telegraf Dataset Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    name: "{{project_root_directory}}/telegraf"
+    state: directory
+  tags: telegraf
+
+- name: Ensure telegraf Configuration Files Exist
+  when: inventory_hostname == groups['workers'][0]
+  template:
+    src: telegraf.conf.j2
+    dest: "{{project_root_directory}}/telegraf/telegraf.conf"
+  tags: telegraf
+  no_log: true
+
+- name: Deploy telegraf Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: telegraf
+    hostname: "{{telegraf_hostname}}"
+    image: "{{telegraf_docker_image}}:{{telegraf_version}}"
+    networks:
+      - "{{traefik_network}}"
+    publish:
+      - published_port: "8092"
+        target_port: "8092"
+        protocol: tcp
+        mode: host
+      - published_port: "8094"
+        target_port: "8094"
+        protocol: tcp
+        mode: host
+      - published_port: "8125"
+        target_port: "8125"
+        protocol: tcp
+        mode: host
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/telegraf/telegraf.conf"
+        target: /etc/telegraf/telegraf.conf
+        type: bind
+    state: present
+  tags: telegraf

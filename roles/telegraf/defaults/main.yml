@@ -1,0 +1,5 @@
+---
+telegraf_version: latest
+telegraf_hostname: "telegraf"
+telegraf_port: "8086"
+telegraf_docker_image: "telegraf"

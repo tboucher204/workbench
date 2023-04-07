@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Telegraf"
+      include_role:
+        name: "telegraf"

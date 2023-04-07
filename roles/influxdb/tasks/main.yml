@@ -1,0 +1,54 @@
+---
+- name: Ensure Influxdb Directories Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/influxdb"
+    - "{{project_root_directory}}/influxdb/config"
+    - "{{project_root_directory}}/influxdb/data"
+  tags: influxdb
+
+- name: Deploy influxdb Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: influxdb
+    hostname: "{{influxdb_hostname}}"
+    image: "{{influxdb_docker_image}}:{{influxdb_version}}"
+    env:
+      DOCKER_INFLUXDB_INIT_MODE: "upgrade"
+      DOCKER_INFLUXDB_INIT_USERNAME: "{{influxdb_username}}"
+      DOCKER_INFLUXDB_INIT_PASSWORD: :{{influxdb_password}}
+      DOCKER_INFLUXDB_INIT_ORG: "{{influxdb_org}}"
+      DOCKER_INFLUXDB_INIT_BUCKET: "{{influxdb_bucket}}"
+      DOCKER_INFLUXDB_INIT_RETENTION: "1m"
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: "{{influxdb_admin_token}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/influxdb/config/"
+        target: /etc/influxdb
+        type: bind
+      - source: "{{project_root_directory}}/influxdb/data/"
+        target: /var/lib/influxdb
+        type: bind
+    labels:
+      traefik.http.routers.influxdb.entrypoints: "websecure"
+      traefik.http.routers.influxdb.rule: "Host(`influxdb.{{project_tld}}`)"
+      traefik.http.routers.influxdb.middlewares: "default-headers@file"
+      traefik.http.routers.influxdb.tls: "true"
+      traefik.http.routers.influxdb.service: "influxdb"
+      # traefik.http.routers.influxdb.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.influxdb.loadbalancer.server.port: "{{influxdb_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: influxdb

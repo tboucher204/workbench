@@ -1,0 +1,5 @@
+---
+grafana_version: latest
+grafana_hostname: "grafana"
+grafana_port: "3000"
+grafana_docker_image: "grafana/grafana"

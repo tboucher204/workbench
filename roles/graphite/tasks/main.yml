@@ -1,0 +1,75 @@
+---
+- name: Ensure Graphite Directories Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/graphite"
+    - "{{project_root_directory}}/graphite/config"
+    - "{{project_root_directory}}/graphite/data"
+    - "{{project_root_directory}}/graphite/statsd"
+  tags: graphite
+
+- name: Deploy Graphite Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: graphite
+    hostname: "{{graphite_hostname}}"
+    image: "{{graphite_docker_image}}:{{graphite_version}}"
+    networks:
+      - "{{traefik_network}}"
+    publish:
+      - published_port: "2003"
+        target_port: "2003"
+        protocol: tcp
+        mode: host
+      - published_port: "2004"
+        target_port: "2004"
+        protocol: tcp
+        mode: host
+      - published_port: "2023"
+        target_port: "2023"
+        protocol: tcp
+        mode: host
+      - published_port: "2024"
+        target_port: "2024"
+        protocol: tcp
+        mode: host
+      - published_port: "8125"
+        target_port: "8125"
+        protocol: udp
+        mode: host
+      - published_port: "8126"
+        target_port: "8126"
+        protocol: tcp
+        mode: host
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/graphite/config/"
+        target: /opt/graphite/conf
+        type: bind
+      - source: "{{project_root_directory}}/graphite/data/"
+        target: /opt/graphite/storage
+        type: bind
+      - source: "{{project_root_directory}}/graphite/statsd/"
+        target: /opt/graphite/config
+        type: bind
+    labels:
+      traefik.http.routers.graphite.entrypoints: "websecure"
+      traefik.http.routers.graphite.rule: "Host(`graphite.{{project_tld}}`)"
+      traefik.http.routers.graphite.middlewares: "default-headers@file"
+      traefik.http.routers.graphite.tls: "true"
+      traefik.http.routers.graphite.service: "graphite"
+      # traefik.http.routers.graphite.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.graphite.loadbalancer.server.port: "{{graphite_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: graphite

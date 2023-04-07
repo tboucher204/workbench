@@ -1,0 +1,53 @@
+---
+- name: Ensure grafana Directories Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/grafana"
+    - "{{project_root_directory}}/grafana/config"
+    - "{{project_root_directory}}/grafana/data"
+  tags: grafana
+
+- name: Deploy grafana Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: grafana
+    hostname: "{{grafana_hostname}}"
+    image: "{{grafana_docker_image}}:{{grafana_version}}"
+    env:
+      GF_PATHS_CONFIG: "/etc/grafana/grafana.ini"
+      GF_PATHS_DATA: "/var/lib/grafana"
+      GF_PATHS_HOME: "/usr/share/grafana"
+      GF_PATHS_LOGS: "/var/log/grafana"
+      GF_PATHS_PLUGINS: "/var/lib/grafana/plugins"
+      GF_PATHS_PROVISIONING: "/etc/grafana/provisioning"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/grafana/config/"
+        target: /etc/grafana
+        type: bind
+      - source: "{{project_root_directory}}/grafana/data/"
+        target: /var/lib/grafana
+        type: bind
+    labels:
+      traefik.http.routers.grafana.entrypoints: "websecure"
+      traefik.http.routers.grafana.rule: "Host(`grafana.{{project_tld}}`)"
+      traefik.http.routers.grafana.middlewares: "default-headers@file"
+      traefik.http.routers.grafana.tls: "true"
+      traefik.http.routers.grafana.service: "grafana"
+      # traefik.http.routers.grafana.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.grafana.loadbalancer.server.port: "{{grafana_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: grafana

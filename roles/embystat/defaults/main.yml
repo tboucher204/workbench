@@ -1,0 +1,5 @@
+---
+embystat_version: latest
+embystat_hostname: "embystat"
+embystat_port: "6555"
+embystat_docker_image: "lscr.io/linuxserver/embystat"

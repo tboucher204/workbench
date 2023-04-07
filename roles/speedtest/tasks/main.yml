@@ -1,0 +1,33 @@
+---
+- name: Deploy speedtest Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: speedtest
+    hostname: "{{speedtest_hostname}}"
+    image: "{{speedtest_docker_image}}:{{speedtest_version}}"
+    networks:
+      - "{{traefik_network}}"
+    env:
+      TZ: "{{default_timezone}}"
+      INTERVAL: "3600"
+      INFLUXDB_USE: "true"
+      INFLUXDB_DB: "{{speedtest_influxdb_db}}"
+      INFLUXDB_URL: "http://influxdb:8086"
+      INFLUXDB_USER: "{{speedtest_influxdb_user}}"
+      INFLUXDB_PWD: "{{speedtest_influxdb_password}}"
+      HOST: "local"
+      SPEEDTEST_LIST_SERVERS: "false"
+      SPEEDTEST_LIST_KEEP_CONTAINER_RUNNING: "false"
+      SPEEDTEST_ALGO_TYPE: "max"
+      SPEEDTEST_SERVER: "21362"
+      SHOW_EXTERNAL_IP: "true"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    state: present
+  tags: speedtest

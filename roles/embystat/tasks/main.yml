@@ -1,0 +1,43 @@
+---
+- name: Ensure Embystat Directory Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{project_root_directory}}/embystat"
+    state: directory
+  tags: embystat
+
+- name: Deploy Embystat Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: embystat
+    hostname: "{{embystat_hostname}}"
+    image: "{{embystat_docker_image}}:{{embystat_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    env:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "{{default_timezone}}"
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/embystat/"
+        target: /config
+        type: bind
+    labels:
+      traefik.http.routers.embystat.entrypoints: "websecure"
+      traefik.http.routers.embystat.rule: "Host(`embystat.{{project_tld}}`)"
+      traefik.http.routers.embystat.middlewares: "default-headers@file"
+      traefik.http.routers.embystat.tls: "true"
+      traefik.http.routers.embystat.service: "embystat"
+      # traefik.http.routers.embystat.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.embystat.loadbalancer.server.port: "{{embystat_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: embystat

@@ -1,0 +1,4 @@
+---
+speedtest_version: latest
+speedtest_hostname: "speedtest"
+speedtest_docker_image: "quadstingray/speedtest-influxdb"

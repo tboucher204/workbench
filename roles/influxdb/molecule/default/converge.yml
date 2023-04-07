@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Influxdb"
+      include_role:
+        name: "influxdb"
