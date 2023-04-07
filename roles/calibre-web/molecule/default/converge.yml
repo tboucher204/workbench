@@ -2,6 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include Sabnzbd"
+    - name: "Include Calibre-Web"
       include_role:
-        name: "sabnzbd"
+        name: "calibre-web"

@@ -1,0 +1,5 @@
+---
+audiobookshelf_version: "latest"
+audiobookshelf_hostname: "audiobookshelf"
+audiobookshelf_port: "80"
+audiobookshelf_docker_image: "ghcr.io/advplyr/audiobookshelf"

@@ -1,0 +1,5 @@
+---
+tinymediamanager_version: "latest"
+tinymediamanager_hostname: "tinymediamanager"
+tinymediamanager_port: "4000"
+tinymediamanager_docker_image: "tinymediamanager/tinymediamanager"

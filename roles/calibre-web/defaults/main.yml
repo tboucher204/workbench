@@ -1,0 +1,5 @@
+---
+calibre_web_version: "latest"
+calibre_web_hostname: "calibre-web"
+calibre_web_port: "8083"
+calibre_web_docker_image: "lscr.io/linuxserver/calibre-web"

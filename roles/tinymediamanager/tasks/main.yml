@@ -1,0 +1,134 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - /media/Videos/
+    - /media/Videos/Anime Movies/
+    - /media/Videos/Anime TV/
+    - /media/Videos/Fitness/
+    - /media/Videos/Kids Movies/
+    - /media/Videos/Kids TV Series/
+    - /media/Videos/Miscellaneous/
+    - /media/Videos/Movies/
+    - /media/Videos/TV Series/
+  tags: tinymediamanager
+
+- name: Ensure Tinymediamanager Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/tinymediamanager"
+    - "{{project_root_directory}}/tinymediamanager/backup"
+    - "{{project_root_directory}}/tinymediamanager/cache"
+    - "{{project_root_directory}}/tinymediamanager/data"
+    - "{{project_root_directory}}/tinymediamanager/logs"
+  tags: tinymediamanager
+
+- name: Ensure Tinymediamanager Movies Configuration File Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: movies.json.j2
+    dest: "{{project_root_directory}}/tinymediamanager/data/movies.json"
+  tags: tinymediamanager
+  no_log: true
+
+- name: Ensure Tinymediamanager Tvdb Scraper Configuration File Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: scraper_tvdb_tvshow.conf.j2
+    dest: "{{project_root_directory}}/tinymediamanager/data/scraper_tvdb_tvshow.conf"
+  tags: tinymediamanager
+  no_log: true
+
+- name: Ensure Tinymediamanager TMM Configuration File Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: tmm.json.j2
+    dest: "{{project_root_directory}}/tinymediamanager/data/tmm.json"
+  tags: tinymediamanager
+  no_log: true
+
+- name: Ensure Tinymediamanager TMM License Configuration File Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: tmm.lic.j2
+    dest: "{{project_root_directory}}/tinymediamanager/data/tmm.lic"
+  tags: tinymediamanager
+  no_log: true
+
+- name: Ensure Tinymediamanager TMM Properties Configuration File Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: tmm.prop.j2
+    dest: "{{project_root_directory}}/tinymediamanager/data/tmm.prop"
+  tags: tinymediamanager
+  no_log: true
+
+- name: Ensure Tinymediamanager tvShows Configuration File Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: tvShows.json.j2
+    dest: "{{project_root_directory}}/tinymediamanager/data/tvShows.json"
+  tags: tinymediamanager
+  no_log: true
+
+- name: Deploy Tinymediamanager Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: tinymediamanager
+    hostname: "{{tinymediamanager_hostname}}"
+    image: "{{tinymediamanager_docker_image}}:{{tinymediamanager_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      USER_ID: "{{media_user}}"
+      GROUP_ID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+      DISPLAY_WIDTH: "1920"
+      DISPLAY_HEIGHT: "927"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/tinymediamanager/"
+        target: /data
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Movies/"
+        target: /media/movies
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Kids Movies/"
+        target: /media/kidsmovies
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Anime Movies/"
+        target: /media/animemovies
+        type: bind
+      - source: "{{project_media_directory}}/Videos/TV Series/"
+        target: /media/tvshows
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Kids TV Series/"
+        target: /media/kidstvshows
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Anime TV/"
+        target: /media/animetvshows
+        type: bind
+    labels:
+      traefik.http.routers.tinymediamanager.entrypoints: "websecure"
+      traefik.http.routers.tinymediamanager.rule: "Host(`tinymediamanager.{{project_tld}}`)"
+      traefik.http.routers.tinymediamanager.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.tinymediamanager.tls: "true"
+      traefik.http.routers.tinymediamanager.service: "tinymediamanager"
+      # traefik.http.routers.tinymediamanager.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.tinymediamanager.loadbalancer.server.port: "{{tinymediamanager_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: tinymediamanager

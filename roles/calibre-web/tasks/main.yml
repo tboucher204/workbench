@@ -1,0 +1,55 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_media_directory}}/Books"
+    state: directory
+  tags: calibre-web
+
+- name: Ensure Calibre-Web Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/calibre-web"
+    state: directory
+  tags: calibre-web
+
+- name: Deploy Calibre-Web Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: calibre-web
+    hostname: "{{calibre_web_hostname}}"
+    image: "{{calibre_web_docker_image}}:{{calibre_web_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+      DOCKER_MODS: "linuxserver/mods:universal-calibre"
+      OAUTHLIB_RELAX_TOKEN_SCOPE: "1"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/calibre-web/"
+        target: /config
+        type: bind
+      - source: "{{project_media_directory}}/Books/"
+        target: /books
+        type: bind
+    labels:
+      traefik.http.routers.calibre-web.entrypoints: "websecure"
+      traefik.http.routers.calibre-web.rule: "Host(`books.{{project_tld}}`)"
+      traefik.http.routers.calibre-web.middlewares: "default-headers@file"
+      traefik.http.routers.calibre-web.tls: "true"
+      traefik.http.routers.calibre-web.service: "calibre-web"
+      # traefik.http.routers.calibre-web.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.calibre-web.loadbalancer.server.port: "{{calibre_web_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: calibre-web

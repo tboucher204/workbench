@@ -1,0 +1,5 @@
+---
+calibre_version: "latest"
+calibre_hostname: "calibre"
+calibre_port: "8080"
+calibre_docker_image: "lscr.io/linuxserver/calibre"

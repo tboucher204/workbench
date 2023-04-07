@@ -42,7 +42,7 @@
     - /media/Downloads/tv
   tags: sabnzbd
 
-- name: Ensure Sabnzdb Watch Dataset Exist
+- name: Ensure Sabnzbd Watch Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
     path: /media/Watch/nzbfiles

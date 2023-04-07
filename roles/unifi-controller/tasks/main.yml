@@ -18,6 +18,43 @@
       PGID: "{{default_pgid}}"
       PUID: "{{default_puid}}"
       TZ: "{{default_timezone}}"
+    publish:
+      - published_port: "3478"
+        target_port: "3478"
+        protocol: udp
+        mode: host
+      - published_port: "10001"
+        target_port: "10001"
+        protocol: udp
+        mode: host
+      - published_port: "8080"
+        target_port: "8080"
+        protocol: tcp
+        mode: host
+      - published_port: "8443"
+        target_port: "8443"
+        protocol: tcp
+        mode: host
+      - published_port: "1900"
+        target_port: "1900"
+        protocol: udp
+        mode: host
+      - published_port: "8843"
+        target_port: "8843"
+        protocol: tcp
+        mode: host
+      - published_port: "8880"
+        target_port: "8880"
+        protocol: tcp
+        mode: host
+      - published_port: "6789"
+        target_port: "6789"
+        protocol: tcp
+        mode: host
+      - published_port: "5514"
+        target_port: "5514"
+        protocol: udp
+        mode: host
     mode: global
     force_update: false
     restart_config:
@@ -36,7 +73,7 @@
       traefik.http.routers.unifi.tls: "true"
       traefik.http.routers.unifi.service: "unifi"
       # traefik.http.routers.unifi.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.unifi.loadbalancer.server.port: "{{unifi_port}}"
+      traefik.http.services.unifi.loadbalancer.server.port: "8443"
       traefik.enable: "true"
     state: present
   tags: unifi

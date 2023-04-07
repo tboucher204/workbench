@@ -1,0 +1,64 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_media_directory}}/Audiobooks"
+    - "{{project_media_directory}}/Podcasts"
+  tags: audiobookshelf
+
+- name: Ensure Audiobookshelf Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/audiobookshelf"
+    - "{{project_root_directory}}/audiobookshelf/config"
+    - "{{project_root_directory}}/audiobookshelf/metadata"
+  tags: audiobookshelf
+
+- name: Deploy audiobookshelf Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: audiobookshelf
+    hostname: "{{audiobookshelf_hostname}}"
+    image: "{{audiobookshelf_docker_image}}:{{audiobookshelf_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      TZ: "{{default_timezone}}"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/audiobookshelf/config/"
+        target: /config
+        type: bind
+      - source: "{{project_root_directory}}/audiobookshelf/metadata/"
+        target: /metadata
+        type: bind
+      - source: "{{project_media_directory}}/Audiobooks/"
+        target: /audiobooks
+        type: bind
+      - source: "{{project_media_directory}}/Podcasts/"
+        target: /podcasts
+        type: bind
+    labels:
+      traefik.http.routers.audiobookshelf.entrypoints: "websecure"
+      traefik.http.routers.audiobookshelf.rule: "Host(`audiobooks.{{project_tld}}`)"
+      traefik.http.routers.audiobookshelf.middlewares: "default-headers@file"
+      traefik.http.routers.audiobookshelf.tls: "true"
+      traefik.http.routers.audiobookshelf.service: "audiobookshelf"
+      # traefik.http.routers.audiobookshelf.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.audiobookshelf.loadbalancer.server.port: "{{audiobookshelf_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: audiobookshelf

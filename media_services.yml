@@ -24,4 +24,9 @@
     - wizarr
     # - tdarr
     # - unpackerr
+    - calibre
+    - calibre-web
+    - airsonic
+    - audiobookshelf
+    - tinymediamanager
     

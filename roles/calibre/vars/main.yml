@@ -1,0 +1,2 @@
+---
+calibre_password: "{{ vault_calibre_password }}"

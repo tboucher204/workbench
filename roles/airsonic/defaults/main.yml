@@ -1,0 +1,5 @@
+---
+airsonic_version: "latest"
+airsonic_hostname: "airsonic"
+airsonic_port: "4040"
+airsonic_docker_image: "lscr.io/linuxserver/airsonic-advanced"

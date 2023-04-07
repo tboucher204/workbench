@@ -1,0 +1,44 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_media_directory}}/Books"
+    state: directory
+  tags: calibre
+
+- name: Deploy Calibre Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: calibre
+    hostname: "{{calibre_hostname}}"
+    image: "{{calibre_docker_image}}:{{calibre_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+      PASSWORD: "{{calibre_password}}"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_media_directory}}/Books/"
+        target: /config
+        type: bind
+    labels:
+      traefik.http.routers.calibre.entrypoints: "websecure"
+      traefik.http.routers.calibre.rule: "Host(`calibre.{{project_tld}}`)"
+      traefik.http.routers.calibre.middlewares: "default-headers@file"
+      traefik.http.routers.calibre.tls: "true"
+      traefik.http.routers.calibre.service: "calibre"
+      # traefik.http.routers.calibre.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.calibre.loadbalancer.server.port: "{{calibre_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: calibre
