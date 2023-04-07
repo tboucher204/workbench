@@ -6,14 +6,6 @@
     state: directory
   tags: telegraf
 
-- name: Ensure telegraf Configuration Files Exist
-  when: inventory_hostname == groups['workers'][0]
-  template:
-    src: telegraf.conf.j2
-    dest: "{{project_root_directory}}/telegraf/telegraf.conf"
-  tags: telegraf
-  no_log: false
-
 - name: Deploy telegraf Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
