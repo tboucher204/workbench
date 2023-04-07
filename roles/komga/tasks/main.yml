@@ -1,0 +1,54 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_media_directory}}/Comics"
+    state: directory
+  tags: komga
+
+- name: Ensure komga Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/komga"
+    state: directory
+  tags: komga
+
+- name: Deploy komga Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: komga
+    hostname: "{{komga_hostname}}"
+    image: "{{komga_docker_image}}:{{komga_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+      JAVA_TOOL_OPTIONS: "-Xmx2g"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/komga/"
+        target: /config
+        type: bind
+      - source: "{{project_media_directory}}/Comics/"
+        target: /data
+        type: bind
+    labels:
+      traefik.http.routers.komga.entrypoints: "websecure"
+      traefik.http.routers.komga.rule: "Host(`comics.{{project_tld}}`)"
+      traefik.http.routers.komga.middlewares: "default-headers@file"
+      traefik.http.routers.komga.tls: "true"
+      traefik.http.routers.komga.service: "komga"
+      # traefik.http.routers.komga.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.komga.loadbalancer.server.port: "{{komga_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: komga

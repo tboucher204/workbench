@@ -46,7 +46,7 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/datavol/apps/kavita/"
+      - source: "{{project_root_directory}}/kavita/"
         target: /kavita/config
         type: bind
       - source: "{{project_media_directory}}/Manga/"

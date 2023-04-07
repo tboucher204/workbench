@@ -1,0 +1,5 @@
+---
+codeserver_version: "latest"
+codeserver_hostname: "code-server"
+codeserver_port: "8443"
+codeserver_docker_image: "lscr.io/linuxserver/code-server"

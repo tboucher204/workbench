@@ -1,0 +1,55 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: /media/Audiobooks
+    state: directory
+  tags: automb4
+
+- name: Ensure Auto-mb4 Watch Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: /media/Watch/auto-mb4
+    state: directory
+  tags: automb4
+
+- name: Ensure Auto-mb4 Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/automb4"
+    state: directory
+  tags: automb4
+
+- name: Deploy Auto-mb4 Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: automb4
+    hostname: "{{automb4_hostname}}"
+    image: "{{automb4_docker_image}}:{{automb4_version}}"
+    networks:
+      - "{{traefik_network}}"
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+      SLEEPTIME: "5m"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    mounts:
+      - source: "{{ project_root_directory }}/automb4/"
+        target: /config
+        type: bind
+      - source: "{{ project_media_directory }}/Audiobooks/"
+        target: /media
+        type: bind
+      - source: "{{ project_media_directory }}/Watch/auto-mb4/"
+        target: /temp
+        type: bind
+    replicas: 1
+    state: present
+  tags: automb4

@@ -1,0 +1,4 @@
+---
+automb4_version: latest
+automb4_hostname: "auto-mb4"
+automb4_docker_image: "seanap/auto-m4b"

@@ -1,0 +1,67 @@
+---
+- name: Create secret for Code-Server Password
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_secret:
+    name: codeserver_password
+    data: "{{ codeserver_password }}"
+    state: present
+  tags: codeserver
+
+- name: Create secret for Code-Server Sudo Password
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_secret:
+    name: codeserver_sudo_password
+    data: "{{ codeserver_sudo_password }}"
+    state: present
+  tags: codeserver
+
+- name: Ensure Code-server Directory Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{project_root_directory}}/codeserver"
+    state: directory
+  tags: codeserver
+
+- name: Deploy Code-server Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: code-server
+    hostname: "{{codeserver_hostname}}"
+    user: root
+    image: "{{codeserver_docker_image}}:{{codeserver_version}}"
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+      EDITOR: "nano"
+      FILE__PASSWORD: "/run/secrets/codeserver_password"
+      FILE__SUDO_PASSWORD: "/run/secrets/codeserver_sudo_password"
+      PROXY_DOMAIN: codeserver.{{project_tld}}"
+      DOCKER_MODS: "linuxserver/mods:code-server-powershell|linuxserver/mods:universal-docker"
+    networks:
+      - "{{traefik_network}}"
+    secrets:
+      - secret_name: codeserver_password
+      - secret_name: codeserver_sudo_password
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/codeserver/"
+        target: /config
+        type: bind
+    labels:
+      traefik.http.routers.codeserver.entrypoints: "websecure"
+      traefik.http.routers.codeserver.rule: "Host(`codeserver.{{project_tld}}`)"
+      traefik.http.routers.codeserver.tls: "true"
+      traefik.http.routers.codeserver.service: "codeserver"
+      # traefik.http.routers.codeserver.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.codeserver.loadbalancer.server.port: "{{codeserver_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: codeserver
