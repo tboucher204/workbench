@@ -1,6 +1,6 @@
 ---
 - name: Create secret for Code-Server Password
-  when: inventory_hostname == groups['workers'][0]
+  when: inventory_hostname == groups['managers'][0]
   community.docker.docker_secret:
     name: codeserver_password
     data: "{{ codeserver_password }}"
@@ -8,7 +8,7 @@
   tags: codeserver
 
 - name: Create secret for Code-Server Sudo Password
-  when: inventory_hostname == groups['workers'][0]
+  when: inventory_hostname == groups['managers'][0]
   community.docker.docker_secret:
     name: codeserver_sudo_password
     data: "{{ codeserver_sudo_password }}"
