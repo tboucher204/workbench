@@ -12,7 +12,7 @@
     src: telegraf.conf.j2
     dest: "{{project_root_directory}}/telegraf/telegraf.conf"
   tags: telegraf
-  no_log: true
+  no_log: false
 
 - name: Deploy telegraf Service
   when: inventory_hostname == groups['managers'][0]
