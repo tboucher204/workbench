@@ -34,7 +34,7 @@
       TZ: "{{default_timezone}}"
       SLEEPTIME: "5m"
     mode: replicated
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     placement:

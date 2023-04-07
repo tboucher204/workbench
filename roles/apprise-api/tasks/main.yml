@@ -15,7 +15,7 @@
     networks:
       - "{{ traefik_network }}"
     mode: replicated
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     env:
@@ -31,7 +31,7 @@
       traefik.http.routers.apprise-api.rule: "Host(`apprise.{{ project_tld }}`)"
       traefik.http.routers.apprise-api.entrypoints: "websecure"
       traefik.http.routers.apprise-api.tls: "true"
-      traefik.http.routers.authelia.service: "authelia"
+      traefik.http.routers.apprise-api.service: "apprise-api"
       # traefik.http.routers.apprise-api.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based certs
       traefik.http.services.apprise-api.loadbalancer.server.port: "{{ apprise_api_port }}"
       traefik.enable: "true"

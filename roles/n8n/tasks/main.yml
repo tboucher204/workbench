@@ -36,7 +36,7 @@
       N8N_BASIC_AUTH_USER: "{{n8n_default_user}}"
       N8N_BASIC_AUTH_PASSWORD: "{{n8n_default_password}}"
     mode: replicated
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     placement:

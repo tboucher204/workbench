@@ -28,7 +28,7 @@
     networks:
       - "{{traefik_network}}"
     mode: replicated
-    force_update: false
+    force_update: true
     command: "server /data --console-address :9001"
     restart_config:
       condition: on-failure

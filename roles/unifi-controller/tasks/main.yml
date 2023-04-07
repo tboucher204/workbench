@@ -56,7 +56,7 @@
         protocol: udp
         mode: host
     mode: global
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     placement:

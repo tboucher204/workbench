@@ -25,7 +25,7 @@
     networks:
       - "{{ traefik_network }}"
     mode: replicated
-    force_update: false
+    force_update: true
     publish:
       - published_port: "2222"
         target_port: "22"

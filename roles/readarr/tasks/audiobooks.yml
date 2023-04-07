@@ -37,7 +37,7 @@
     networks:
       - "{{traefik_network}}"
     mode: replicated
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     env:
@@ -61,13 +61,13 @@
         target: /media/downloads
         type: bind
     labels:
-      traefik.http.routers.readarr.entrypoints: "websecure"
-      traefik.http.routers.readarr.rule: "Host(`readarraudio.{{project_tld}}`)"
-      traefik.http.routers.readarr.middlewares: "default-headers@file,authelia@file"
-      traefik.http.routers.readarr.tls: "true"
-      traefik.http.routers.readarr.service: "readarr"
-      # traefik.http.routers.readarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.readarr.loadbalancer.server.port: "{{readarr_audiobooks_port}}"
+      traefik.http.routers.readarraudio.entrypoints: "websecure"
+      traefik.http.routers.readarraudio.rule: "Host(`readarraudio.{{project_tld}}`)"
+      traefik.http.routers.readarraudio.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.readarraudio.tls: "true"
+      traefik.http.routers.readarraudio.service: "readarr"
+      # traefik.http.routers.readarraudio.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.readarraudio.loadbalancer.server.port: "{{readarr_audiobooks_port}}"
       traefik.enable: "true"
     state: present
   tags: readarr

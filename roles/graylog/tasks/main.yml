@@ -12,7 +12,7 @@
       - published_port: "{{  graylog_sylog_port }}"
         target_port: "{{ graylog_sylog_port }}"
     mode: replicated
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     placement:

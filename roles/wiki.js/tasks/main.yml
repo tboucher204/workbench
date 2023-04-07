@@ -31,7 +31,7 @@
       DB_PASS: "{{wikijs_database_password}}"
       DB_NAME: "{{wikijs_database}}"
     mode: replicated
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     mounts:

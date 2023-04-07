@@ -44,7 +44,7 @@
       - secret_name: codeserver_password
       - secret_name: codeserver_sudo_password
     mode: replicated
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     placement:

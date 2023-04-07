@@ -22,7 +22,7 @@
       SPEEDTEST_SERVER: "21362"
       SHOW_EXTERNAL_IP: "true"
     mode: replicated
-    force_update: false
+    force_update: true
     restart_config:
       condition: on-failure
     placement:
