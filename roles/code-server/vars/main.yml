@@ -1,0 +1,3 @@
+---
+codeserver_password: "{{vault_codeserver_password}}"
+codeserver_sudo_password: "{{vault_codeserver_sudo_password}}"
