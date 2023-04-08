@@ -39,7 +39,7 @@
         target: /config
         type: bind
       - source: "{{project_media_directory}}/Comics/"
-        target: /data
+        target: /media/comics
         type: bind
     labels:
       traefik.http.routers.komga.entrypoints: "websecure"
