@@ -47,7 +47,7 @@
       PUID: "{{media_user}}"
       PGID: "{{media_group}}"
       TZ: "{{default_timezone}}"
-      DOCKER_MODS: "gilbn/theme.park:{{mylar_hostname}}"
+      DOCKER_MODS: "gilbn/theme.park:mylar3"
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
