@@ -3,7 +3,7 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: phpmyadmin
-    hostname: "{{ phpmyadmin_hostname }}"
+    hostname: "{{ phpmyadmin_hostname }}.{{ project_tld }}"
     image: "{{ phpmyadmin_docker_image }}:{{ phpmyadmin_version }}"
     networks:
       - "{{ traefik_network }}"
