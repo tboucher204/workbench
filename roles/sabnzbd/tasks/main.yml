@@ -87,7 +87,7 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/datavol/apps/sabnzbd/"
+      - source: "{{project_root_directory}}/sabnzbd/"
         target: /config
         type: bind
       - source: "{{project_download_directory}}/"
