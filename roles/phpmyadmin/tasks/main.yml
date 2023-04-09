@@ -3,7 +3,7 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: phpmyadmin
-    hostname: "{{ phpmyadmin_hostname }}.{{ project_tld }}"
+    hostname: "{{ phpmyadmin_hostname }}"
     image: "{{ phpmyadmin_docker_image }}:{{ phpmyadmin_version }}"
     networks:
       - "{{ traefik_network }}"
@@ -28,8 +28,7 @@
     labels:
       traefik.http.routers.phpmyadmin.entrypoints: "websecure"
       traefik.http.routers.phpmyadmin.rule: "Host(`{{home_tld}}`) && PathPrefix(`/phpmyadmin`)"
-      traefik.http.middlewares.phpmyadmin-prefix.addPrefix.prefix: "/"
-      traefik.http.routers.phpmyadmin.middlewares: "authelia@file,phpmyadmin-prefix"
+      traefik.http.routers.phpmyadmin.middlewares: "authelia@file"
       traefik.http.routers.phpmyadmin.tls: "true"
       traefik.http.routers.phpmyadmin.service: "phpmyadmin"
       # traefik.http.routers.phpmyadmin.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

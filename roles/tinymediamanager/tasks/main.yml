@@ -123,7 +123,7 @@
         type: bind
     labels:
       traefik.http.routers.tinymediamanager.entrypoints: "websecure"
-      traefik.http.routers.tinymediamanager.rule: "Host(`tinymediamanager.{{project_tld}}`)"
+      traefik.http.routers.tinymediamanager.rule: "Host(`tmm.{{project_tld}}`)"
       traefik.http.routers.tinymediamanager.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.tinymediamanager.tls: "true"
       traefik.http.routers.tinymediamanager.service: "tinymediamanager"
