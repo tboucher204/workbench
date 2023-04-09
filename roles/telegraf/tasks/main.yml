@@ -4,6 +4,8 @@
   file:
     name: "{{project_root_directory}}/telegraf"
     state: directory
+    owner: 1000
+    group: 1000
   tags: telegraf
 
 - name: Deploy telegraf Service

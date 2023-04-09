@@ -4,6 +4,8 @@
   file:
     path: "{{project_root_directory}}/unifi-controller"
     state: directory
+    owner: 1000
+    group: 1000
   tags: unifi-controller
 
 - name: Deploy Unifi Service
@@ -63,7 +65,7 @@
       constraints:
         - node.id == {{docker_worker1_node_id}}
     mounts:
-      - source: "{{project_root_directory}}/unifi-controller"
+      - source: "{{project_root_directory}}/unifi-controller/"
         target: /config
         type: volume
     labels:

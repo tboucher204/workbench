@@ -33,6 +33,7 @@
       traefik.http.routers.ldapusermanager.tls: "true"
       traefik.http.routers.ldapusermanager.service: "ldapusermanager"
       # traefik.http.routers.ldapusermanager.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.ldapusermanager.loadbalancer.server.scheme: "https"
       traefik.http.services.ldapusermanager.loadbalancer.server.port: "{{ldapusermanager_port}}"
       traefik.enable: "true"
     state: present
