@@ -22,7 +22,7 @@
     replicas: 1
     labels:
       traefik.http.routers.phpldapadmin.entrypoints: "websecure"
-      traefik.http.routers.phpldapadmin.rule: "Host(`{{home_tld}}`) && PathPrefix(`/phpldapadmin`)"
+      traefik.http.routers.phpldapadmin.rule: "HostHeader(`{{home_tld}}`) && PathPrefix(`/phpldapadmin`)"
       # traefik.http.middlewares.phpldapadmin-prefix.addPrefix.prefix: "/"
       traefik.http.routers.phpldapadmin.middlewares: "authelia@file"
       traefik.http.routers.phpldapadmin.tls: "true"

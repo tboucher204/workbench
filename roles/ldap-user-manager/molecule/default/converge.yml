@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include ldapusermanager"
+      include_role:
+        name: "ldapusermanager"

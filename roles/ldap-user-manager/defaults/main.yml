@@ -1,0 +1,5 @@
+---
+ldapusermanager_version: "latest"
+ldapusermanager_hostname: "ldapusermanager"
+ldapusermanager_docker_image: "wheelybird/ldap-user-manager"
+ldapusermanager_port: "443"

@@ -1,0 +1,39 @@
+---
+- name: Deploy ldapusermanager Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: ldapusermanager
+    hostname: "{{ ldapusermanager_hostname }}.{{ project_tld }}"
+    image: "{{ ldapusermanager_docker_image }}:{{ ldapusermanager_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      SERVER_HOSTNAME: "{{ ldapusermanager_hostname }}"
+      LDAP_URI: "ldap://openldap:389"
+      LDAP_BASE_DN: "{{ openldap_base_dn }}"
+      LDAP_REQUIRE_STARTTLS: "TRUE"
+      LDAP_ADMINS_GROUP: "admins"
+      LDAP_ADMIN_BIND_DN: "{{ openldap_admin_dn }}"
+      LDAP_ADMIN_BIND_PWD: "{{ openldap_admin_password }}"
+      LDAP_IGNORE_CERT_ERRORS: "true"
+      EMAIL_DOMAIN: "{{ project_tld }}"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    labels:
+      traefik.http.routers.ldapusermanager.entrypoints: "websecure"
+      traefik.http.routers.ldapusermanager.rule: "Host(`ldapmanager.{{project_tld}}`)"
+      # traefik.http.middlewares.ldapusermanager-prefix.addPrefix.prefix: "/"
+      traefik.http.routers.ldapusermanager.middlewares: "authelia@file"
+      traefik.http.routers.ldapusermanager.tls: "true"
+      traefik.http.routers.ldapusermanager.service: "ldapusermanager"
+      # traefik.http.routers.ldapusermanager.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.ldapusermanager.loadbalancer.server.port: "{{ldapusermanager_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: ldapusermanager

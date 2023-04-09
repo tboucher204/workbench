@@ -1,4 +1,3 @@
 ---
 openldap_organisation: "{{ vault_openldap_organisation }}"
 openldap_domain: "{{ vault_openldap_domain }}"
-openldap_admin_password: "{{ vault_openldap_admin_password }}"
