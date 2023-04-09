@@ -12,15 +12,15 @@
     restart_config:
       condition: on-failure
     env:
-      PMA_ARBITRARY: "1"
+      PMA_ARBITRARY: "0"
       PMA_HOSTS: "{{ phpmyadmin_hosts }}"
       PMA_USER: "{{ phpmyadmin_user }}"
       PMA_PASSWORD: "{{ phpmyadmin_password }}"
-      PMA_ABSOLUTE_URI: "https://{{home_tld}}/phpmyadmin/"
-      PMA_PMADB: "phpmyadmin"
-      PMA_CONTROLUSER: "{{ phpmyadmin_controluser }}"
-      PMA_CONTROLPASS: "{{ phpmyadmin_controlpass }}"
-      PMA_QUERYHISTORYDB: "true"
+      PMA_ABSOLUTE_URI: "https://{{home_tld}}/phpmyadmin"
+      # PMA_PMADB: "phpmyadmin"
+      # PMA_CONTROLUSER: "{{ phpmyadmin_controluser }}"
+      # PMA_CONTROLPASS: "{{ phpmyadmin_controlpass }}"
+      # PMA_QUERYHISTORYDB: "true"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}

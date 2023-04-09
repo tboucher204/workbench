@@ -18,6 +18,7 @@
     # - mkdocs
     - phpmyadmin
     - phpldapadmin
+    - ldap-user-manager
     - unifi-controller
     - graphite
     - prometheus

@@ -95,10 +95,10 @@ authentication_backend:
     additional_users_dn: ou=users
     users_filter: (&({username_attribute}={input})(objectClass=person))
     additional_groups_dn: ou=groups
-    groups_filter: (&(member={dn})(objectclass=groupOfNames))
+    groups_filter: (&(memberUid={uid})(objectclass=posixGroups))
     group_name_attribute: cn
     mail_attribute: mail
-    display_name_attribute: displayname
+    display_name_attribute: cn
     user: {{authelia_ldap_user}}
     password: {{authelia_ldap_password}}
 
@@ -116,6 +116,9 @@ session:
   name: h2oauth
   domain: {{project_tld}}
   secret: {{authelia_session_secret}}
+  expiration: 4h
+  inactivity: 1h
+  remember_me_duration: 1M
   redis:
     host: {{redis_hostname}}
     port: {{redis_port}}
