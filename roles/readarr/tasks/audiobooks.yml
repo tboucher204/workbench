@@ -65,7 +65,7 @@
       traefik.http.routers.readarraudio.rule: "Host(`readarraudio.{{project_tld}}`)"
       traefik.http.routers.readarraudio.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.readarraudio.tls: "true"
-      traefik.http.routers.readarraudio.service: "readarr"
+      traefik.http.routers.readarraudio.service: "readarraudio"
       # traefik.http.routers.readarraudio.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.readarraudio.loadbalancer.server.port: "{{readarr_audiobooks_port}}"
       traefik.enable: "true"
