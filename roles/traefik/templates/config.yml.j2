@@ -2,7 +2,7 @@ http:
   middlewares:
     authelia:
       forwardauth:
-        address: "http://authelia:9091/api/verify?rd=https://login.{{project_tld}}/"
+        address: "http://{{authelia_hostname}}:{{authelia_port}}/api/verify?rd=https://login.{{project_tld}}"
         trustForwardHeader: true
         authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
     authelia-basic:
@@ -22,30 +22,6 @@ http:
         customRequestHeaders:
           X-Forwarded-Proto: https
   routers:
-    homeassistant:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`hass.{{project_tld}}`)"
-      tls: {}
-      middlewares:
-        - default-headers@file
-      service: "homeassistant"
-    nodered:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`nodered.{{project_tld}}`)"
-      tls: {}
-      middlewares:
-        - default-headers@file
-      service: "nodered"
-    cups:
-      entryPoints:
-        - "websecure"
-      rule: "Host(`print.{{project_tld}}`)"
-      tls: {}
-      middlewares:
-        - authelia@file
-      service: "cups"
     amp:
       entryPoints:
         - "websecure"
@@ -95,18 +71,6 @@ http:
         - default-headers@file
       service: "zoneminder"
   services:
-    homeassistant:
-      loadBalancer:
-        servers:
-          - url: "http://10.20.0.200:8123/"
-    nodered:
-      loadBalancer:
-        servers:
-          - url: "http://10.20.0.200:1880/"
-    cups:
-      loadBalancer:
-        servers:
-          - url: "http://10.20.0.232:631/"
     amp:
       loadBalancer:
         servers:
@@ -118,26 +82,21 @@ http:
     nas:
       loadBalancer:
         servers:
-          - url: "http://192.168.1.55:443/"
+          - url: "https://192.168.1.55:443/"
     plex:
       loadBalancer:
         servers:
           - url: "http://192.168.1.62:32400/"
     pve:
       loadBalancer:
-        passHostHeader: true
-        serversTransport: "pve"
         servers:
-          - url: "http://192.168.1.41:8006/"
-          - url: "http://192.168.1.42:8006/"
-          - url: "http://192.168.1.43:8006/"
+          - url: "https://192.168.1.41:8006/"
+          - url: "https://192.168.1.42:8006/"
+          - url: "https://192.168.1.43:8006/"
     zoneminder:
       loadBalancer:
         servers:
           - url: "http://zoneminder-1.theboucher6.com/zm/"
-  serversTransports:
-    pve:
-      insecureSkipVerify: true
 tls:
   options:
     default:
