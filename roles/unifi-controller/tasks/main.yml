@@ -21,40 +21,40 @@
     publish:
       - published_port: "3478"
         target_port: "3478"
-        protocol: udp
-        mode: host
+        protocol: "udp"
+        mode: "host"
       - published_port: "10001"
         target_port: "10001"
-        protocol: udp
-        mode: host
+        protocol: "udp"
+        mode: "host"
       - published_port: "8080"
         target_port: "8080"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "8443"
         target_port: "8443"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "1900"
         target_port: "1900"
-        protocol: udp
-        mode: host
+        protocol: "udp"
+        mode: "host"
       - published_port: "8843"
         target_port: "8843"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "8880"
         target_port: "8880"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "6789"
         target_port: "6789"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "5514"
         target_port: "5514"
-        protocol: udp
-        mode: host
+        protocol: "udp"
+        mode: "host"
     mode: global
     force_update: true
     restart_config:

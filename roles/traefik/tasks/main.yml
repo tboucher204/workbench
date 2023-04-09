@@ -54,10 +54,12 @@
     publish:
       - published_port: "{{traefik_http_port}}"
         target_port: "{{traefik_http_port}}"
+        protocol: "tcp"
+        mode: "host"
       - published_port: "{{traefik_https_port}}"
         target_port: "{{traefik_https_port}}"
-      - published_port: "1935"
-        target_port: "1935"
+        protocol: "tcp"
+        mode: "host"
     mode: global
     force_update: true
     restart_config:

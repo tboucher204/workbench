@@ -22,28 +22,28 @@
     publish:
       - published_port: "2003"
         target_port: "2003"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "2004"
         target_port: "2004"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "2023"
         target_port: "2023"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "2024"
         target_port: "2024"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
       - published_port: "8125"
         target_port: "8125"
-        protocol: udp
-        mode: host
+        protocol: "udp"
+        mode: "host"
       - published_port: "8126"
         target_port: "8126"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
     mode: replicated
     force_update: true
     restart_config:

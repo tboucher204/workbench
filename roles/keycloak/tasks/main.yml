@@ -28,8 +28,8 @@
     publish:
       - published_port: "{{ keycloak_port }}"
         target_port: "{{ keycloak_port }}"
-        protocol: tcp
-        mode: host
+        protocol: "tcp"
+        mode: "host"
     env:
       # KC_DB_URL: "jdbc:postgresql://{{ postgres_hostname }}:{{ postgres_port }}/{{ keycloak_database }}"
       KC_DB_URL_HOST: "{{ postgres_hostname }}"

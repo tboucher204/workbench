@@ -11,6 +11,7 @@
     publish:
       - published_port: "{{  graylog_sylog_port }}"
         target_port: "{{ graylog_sylog_port }}"
+        mode: "host"
     mode: replicated
     force_update: true
     restart_config:
