@@ -37,7 +37,7 @@
       FILE__PASSWORD: "/run/secrets/codeserver_password"
       FILE__SUDO_PASSWORD: "/run/secrets/codeserver_sudo_password"
       PROXY_DOMAIN: codeserver.{{project_tld}}"
-      DOCKER_MODS: "linuxserver/mods:code-server-powershell|linuxserver/mods:universal-docker"
+      DOCKER_MODS: "linuxserver/mods:code-server-python3|linuxserver/mods:code-server-powershell|linuxserver/mods:universal-docker|linuxserver/mods:code-server-terraform"
     networks:
       - "{{traefik_network}}"
     secrets:

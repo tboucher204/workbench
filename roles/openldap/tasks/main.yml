@@ -17,6 +17,15 @@
     hostname: "{{ openldap_hostname }}"
     networks:
       - "{{ traefik_network }}"
+    publish:
+      - published_port: "{{openldap_port}}"
+        target_port: "{{openldap_port}}"
+        protocol: tcp
+        mode: host
+      - published_port: "636"
+        target_port: "636"
+        protocol: tcp
+        mode: host
     mode: replicated
     force_update: true
     restart_config:
