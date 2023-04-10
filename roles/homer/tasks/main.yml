@@ -70,7 +70,7 @@
     labels:
       traefik.http.routers.homer.entrypoints: "websecure"
       traefik.http.routers.homer.rule: "Host(`{{ project_tld }}`,`www.{{ project_tld }}`)"
-      traefik.http.routers.homer.middlewares: "default-headers@file"
+      traefik.http.routers.homer.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.homer.tls: "true"
       traefik.http.routers.homer.service: "homer"
       # traefik.http.routers.homer.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert

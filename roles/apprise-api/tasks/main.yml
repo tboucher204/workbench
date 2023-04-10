@@ -29,6 +29,7 @@
     replicas: 1
     labels:
       traefik.http.routers.apprise-api.rule: "Host(`apprise.{{ project_tld }}`)"
+      traefik.http.routers.apprise-api.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.apprise-api.entrypoints: "websecure"
       traefik.http.routers.apprise-api.tls: "true"
       traefik.http.routers.apprise-api.service: "apprise-api"

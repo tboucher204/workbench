@@ -37,8 +37,6 @@
     publish:
       - published_port: "{{portainer_port1}}"
         target_port: "{{portainer_port1}}"
-      - published_port: "{{portainer_port2}}"
-        target_port: "{{portainer_port2}}"
     mounts:
       - source: "/datavol/apps/portainer/data/"
         target: /data/
