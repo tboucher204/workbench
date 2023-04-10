@@ -1,0 +1,111 @@
+http:
+  middlewares:
+    authelia:
+      forwardauth:
+        address: "http://{{authelia_hostname}}:{{authelia_port}}/api/verify?rd=https://login.{{project_tld}}"
+        trustForwardHeader: true
+        authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
+    authelia-basic:
+      forwardauth:
+        address: "http://{{authelia_hostname}}:{{authelia_port}}/api/verify?auth=basic"
+        trustForwardHeader: true
+        authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
+    default-headers:
+      headers:
+        referrerPolicy: no-referrer
+        forceSTSHeader: true
+        stsSeconds: 31536000
+        stsIncludeSubdomains: true
+        stsPreload: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+  routers:
+    amp:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`amp.{{project_tld}}`)"
+      tls: {}
+      middlewares:
+        - default-headers@file
+      service: "amp"
+    emby:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`emby.{{project_tld}}`)"
+      tls: {}
+      middlewares:
+        - default-headers@file
+      service: "emby"
+    nas:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`gandalf.{{project_tld}}`)"
+      tls: {}
+      middlewares:
+        - default-headers@file
+      service: "nas"
+    plex:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`plex.{{project_tld}}`)"
+      tls: {}
+      middlewares:
+        - default-headers@file
+      service: "plex"
+    pve:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`pve.{{project_tld}}`)"
+      tls: {}
+      middlewares:
+        - default-headers@file
+      service: "pve"
+    zoneminder:
+      entryPoints:
+        - "websecure"
+      rule: "Host(`zoneminder.{{project_tld}}`)"
+      tls: {}
+      middlewares:
+        - default-headers@file
+      service: "zoneminder"
+  services:
+    amp:
+      loadBalancer:
+        servers:
+          - url: "http://amp-1.theboucher6.com:8080/"
+    emby:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.61:8096/"
+    nas:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.55:443/"
+    plex:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.62:32400/"
+    pve:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.41:8006/"
+          - url: "https://192.168.1.42:8006/"
+          - url: "https://192.168.1.43:8006/"
+    zoneminder:
+      loadBalancer:
+        servers:
+          - url: "http://zoneminder-1.theboucher6.com/zm/"
+tls:
+  options:
+    default:
+      minVersion: VersionTLS12
+      sniStrict : true
+      cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305

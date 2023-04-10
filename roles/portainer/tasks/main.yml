@@ -50,6 +50,7 @@
       traefik.http.routers.portainer.tls: "true"
       traefik.http.routers.portainer.service: "portainer"
       # traefik.http.routers.portainer.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.portainer.loadbalancer.server.scheme: "https"
       traefik.http.services.portainer.loadbalancer.server.port: "{{portainer_port1}}"
       traefik.enable: "true"
     state: present

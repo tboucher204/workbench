@@ -1,15 +1,24 @@
 ---
-- name: Ensure grafana Directories Exist
+- name: Ensure Grafana Directories Exist
   when: inventory_hostname == groups['workers'][0]
   file:
     path: "{{item}}"
     state: directory
-    owner: 472
-    group: 472
+    owner: root
+    group: root
   loop:
     - "{{project_root_directory}}/grafana"
     - "{{project_root_directory}}/grafana/config"
-    - "{{project_root_directory}}/grafana/data"
+  tags: grafana
+
+- name: Ensure Grafana Data Directory Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/grafana/data"
+    state: directory
+    owner: root
+    group: root
+    mode: 0777
   tags: grafana
 
 - name: Deploy grafana Service

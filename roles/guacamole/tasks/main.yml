@@ -35,7 +35,6 @@
     state: present
   tags: guacamole
 
-
 - name: Deploy Guacamole Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
@@ -82,3 +81,4 @@
       traefik.enable: "true"
     state: present
   tags: guacamole
+  
