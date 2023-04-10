@@ -16,8 +16,8 @@
     owner: root
     group: root
     mode: 0644
-  tags: traefik
-  no_log: true
+  tags: telegraf
+  no_log: false
 
 - name: Deploy telegraf Service
   when: inventory_hostname == groups['managers'][0]
