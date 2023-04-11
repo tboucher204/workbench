@@ -16,6 +16,7 @@
     # - listmonk
     # - wiki.js
     # - mkdocs
+    - adminer
     - phpmyadmin
     - phpldapadmin
     - ldap-user-manager
@@ -27,3 +28,4 @@
     - grafana
     - speedtest
     - auto-mb4
+    - firefox
