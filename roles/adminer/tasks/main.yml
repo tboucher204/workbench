@@ -4,6 +4,8 @@
   file:
     path: "{{ project_root_directory }}/adminer"
     state: directory
+    owner: 0999
+    group: 0999
   tags: adminer
 
 - name: Ensure Homer Configuration Files Exist
@@ -11,6 +13,8 @@
   template:
     src: login-servers.php.j2
     dest: "{{ project_root_directory }}/adminer/login-servers.php"
+    owner: 0999
+    group: 0999
   tags: adminer
   no_log: true
 
