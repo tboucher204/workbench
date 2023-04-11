@@ -15,10 +15,11 @@
       SERVER_HOSTNAME: "{{ ldapusermanager_hostname }}"
       LDAP_URI: "ldap://openldap:389"
       LDAP_BASE_DN: "{{ openldap_base_dn }}"
-      # LDAP_REQUIRE_STARTTLS: "TRUE"
       LDAP_ADMINS_GROUP: "admins"
       LDAP_ADMIN_BIND_DN: "{{ openldap_admin_dn }}"
       LDAP_ADMIN_BIND_PWD: "{{ openldap_admin_password }}"
+      LDAP_USER_OU: "users"
+      LDAP_GROUP_OU: "groups"
       LDAP_IGNORE_CERT_ERRORS: "true"
       EMAIL_DOMAIN: "{{ project_tld }}"
     placement:

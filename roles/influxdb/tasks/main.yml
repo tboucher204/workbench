@@ -1,4 +1,11 @@
 ---
+- name: Ensure Guacamole Extension Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: influxdb_data
+    state: present
+  tags: influxdb
+
 - name: Ensure Influxdb Directories Exist
   when: inventory_hostname == groups['workers'][0]
   file:

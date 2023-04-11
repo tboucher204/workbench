@@ -6,7 +6,7 @@
     state: directory
     owner: 1000
     group: 1000
-  tags: unifi-controller
+  tags: unifi
 
 - name: Deploy Unifi Service
   when: inventory_hostname == groups['managers'][0]
@@ -63,7 +63,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{docker_master1_node_id}}
     mounts:
       - source: "{{project_root_directory}}/unifi-controller/"
         target: /config
@@ -75,6 +75,7 @@
       traefik.http.routers.unifi.tls: "true"
       traefik.http.routers.unifi.service: "unifi"
       # traefik.http.routers.unifi.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.unifi.loadbalancer.server.scheme: "https"
       traefik.http.services.unifi.loadbalancer.server.port: "8443"
       traefik.enable: "true"
     state: present

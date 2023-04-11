@@ -40,3 +40,4 @@
       traefik.enable: "true"
     state: present
   tags: wizarr
+  

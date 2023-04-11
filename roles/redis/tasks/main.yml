@@ -10,13 +10,13 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: redis
-    hostname: "{{redis_hostname}}"
+    hostname: "redis"
     image: "{{redis_docker_image}}:{{redis_version}}"
     networks:
       - "{{traefik_network}}"
     mounts:
-      - source: "/datavol/apps/redis/"
-        target: /data/
+      - source: "{{project_root_directory}}/redis/"
+        target: /data
         type: bind
     mode: replicated
     force_update: true
