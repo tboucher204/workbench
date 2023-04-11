@@ -52,7 +52,7 @@
         type: bind
     labels:
       traefik.http.routers.airsonic.entrypoints: "websecure"
-      traefik.http.routers.airsonic.rule: "Host(`airsonic.{{project_tld}}`)"
+      traefik.http.routers.airsonic.rule: "Host(`audio.{{project_tld}}`)"
       traefik.http.routers.airsonic.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.airsonic.tls: "true"
       traefik.http.routers.airsonic.service: "airsonic"

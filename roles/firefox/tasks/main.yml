@@ -1,0 +1,34 @@
+---
+- name: Deploy Firefox Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: firefox
+    hostname: "{{ firefox_hostname }}.{{ project_tld }}"
+    image: "{{ firefox_docker_image }}:{{ firefox_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      TZ: "{{ default_timezone }}"
+      PUID: "{{ default_puid }}"
+      GUID: "{{ default_pgid }}"
+      FF_PREF_DOWNLOAD_DIR: "browser.download.dir=/Downloads"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    labels:
+      traefik.http.routers.firefox.entrypoints: "websecure"
+      traefik.http.routers.firefox.rule: "Host(`firefox.{{project_tld}}`)"
+      # traefik.http.middlewares.firefox-prefix.addPrefix.prefix: "/"
+      traefik.http.routers.firefox.middlewares: "authelia@file"
+      traefik.http.routers.firefox.tls: "true"
+      traefik.http.routers.firefox.service: "firefox"
+      # traefik.http.routers.firefox.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.firefox.loadbalancer.server.port: "{{firefox_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: firefox

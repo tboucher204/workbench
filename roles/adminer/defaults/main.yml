@@ -1,0 +1,5 @@
+---
+adminer_version: "latest"
+adminer_hostname: "adminer"
+adminer_docker_image: "adminer"
+adminer_port: "8080"

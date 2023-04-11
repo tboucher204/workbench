@@ -1,0 +1,5 @@
+---
+firefox_version: "latest"
+firefox_hostname: "firefox"
+firefox_docker_image: "ghcr.io/linuxserver/firefox"
+firefox_port: "3000"

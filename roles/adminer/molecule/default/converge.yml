@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Adminer"
+      include_role:
+        name: "adminer"
