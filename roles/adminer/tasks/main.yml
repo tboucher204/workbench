@@ -18,8 +18,6 @@
     force_update: true
     restart_config:
       condition: on-failure
-    env:
-      ADMINER_PLUGINS: "login-servers"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}
