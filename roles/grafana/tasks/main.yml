@@ -1,24 +1,16 @@
 ---
-- name: Ensure Grafana Directories Exist
+- name: Ensure Grafana Data Volume Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
-    path: "{{item}}"
-    state: directory
-    owner: root
-    group: root
-  loop:
-    - "{{project_root_directory}}/grafana"
-    - "{{project_root_directory}}/grafana/config"
+  community.docker.docker_volume:
+    name: grafana_data
+    state: present
   tags: grafana
 
-- name: Ensure Grafana Data Directory Exist
-  when: inventory_hostname == groups['media'][0]
-  file:
-    name: "{{project_root_directory}}/grafana/data"
-    state: directory
-    owner: root
-    group: root
-    mode: 0777
+- name: Ensure Grafana Config Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: grafana_config
+    state: present
   tags: grafana
 
 - name: Deploy grafana Service
@@ -45,12 +37,12 @@
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/grafana/config/"
-        target: /etc/grafana
-        type: bind
-      - source: "{{project_root_directory}}/grafana/data/"
+      - source: grafana_data
         target: /var/lib/grafana
-        type: bind
+        type: volume
+      - source: grafana_config
+        target: /etc/grafana
+        type: volume
     labels:
       traefik.http.routers.grafana.entrypoints: "websecure"
       traefik.http.routers.grafana.rule: "Host(`grafana.{{project_tld}}`)"

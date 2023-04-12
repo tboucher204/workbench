@@ -21,6 +21,8 @@
     env:
       APP_URL: "https://join.{{project_tld}}"
       DISABLE_BUILTIN_AUTH: "false"
+      DOCKER_MODS: "gilbn/theme.park:{{wizarr_hostname}}"
+      TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}

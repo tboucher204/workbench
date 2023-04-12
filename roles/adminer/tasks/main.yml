@@ -13,8 +13,8 @@
   template:
     src: login-servers.php.j2
     dest: "{{ project_root_directory }}/adminer/login-servers.php"
-    owner: 0999
-    group: 0999
+    owner: root
+    group: root
   tags: adminer
   no_log: true
 
@@ -38,7 +38,7 @@
     replicas: 1
     mounts:
       - source: "{{project_root_directory}}/adminer/"
-        target: /var/www/html/plugins-enabled
+        target: /var/www/html/plugins-enabled/
         type: bind
     labels:
       traefik.http.routers.adminer.entrypoints: "websecure"

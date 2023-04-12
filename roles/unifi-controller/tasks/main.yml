@@ -67,7 +67,7 @@
     mounts:
       - source: "{{project_root_directory}}/unifi-controller/"
         target: /config
-        type: volume
+        type: bind
     labels:
       traefik.http.routers.unifi.entrypoints: "websecure"
       traefik.http.routers.unifi.rule: "Host(`unifi.{{project_tld}}`)"

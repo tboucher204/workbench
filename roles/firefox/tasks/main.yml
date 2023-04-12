@@ -6,6 +6,15 @@
     state: directory
   tags: firefox
 
+- name: Ensure Media Download Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_download_directory}}/firefox"
+  tags: firefox
+
 - name: Deploy Firefox Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
@@ -22,7 +31,7 @@
       TZ: "{{ default_timezone }}"
       PUID: "{{ default_puid }}"
       GUID: "{{ default_pgid }}"
-      FF_PREF_DOWNLOAD_DIR: "browser.download.dir=/Downloads"
+      FF_PREF_DOWNLOAD_DIR: "browser.download.dir=/media/downloads/firefox"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}
@@ -30,6 +39,9 @@
     mounts:
       - source: "{{project_root_directory}}/firefox/"
         target: /config
+        type: bind
+      - source: "{{project_download_directory}}"
+        target: /media/downloads
         type: bind
     labels:
       traefik.http.routers.firefox.entrypoints: "websecure"

@@ -1,22 +1,16 @@
 ---
-- name: Ensure Guacamole Extension Volume Exist
+- name: Ensure Influxdb Data Volume Exist
   when: inventory_hostname == groups['workers'][0]
   community.docker.docker_volume:
     name: influxdb_data
     state: present
   tags: influxdb
 
-- name: Ensure Influxdb Directories Exist
+- name: Ensure Influxdb Config Volume Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
-    path: "{{item}}"
-    state: directory
-    owner: root
-    group: root
-  loop:
-    - "{{project_root_directory}}/influxdb"
-    - "{{project_root_directory}}/influxdb/config"
-    - "{{project_root_directory}}/influxdb/data"
+  community.docker.docker_volume:
+    name: influxdb_config
+    state: present
   tags: influxdb
 
 - name: Deploy influxdb Service
@@ -44,12 +38,12 @@
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/influxdb/config/"
-        target: /etc/influxdb2
-        type: bind
-      - source: "{{project_root_directory}}/influxdb/data/"
+      - source: influxdb_data
         target: /var/lib/influxdb2
-        type: bind
+        type: volume
+      - source: influxdb_config
+        target: /etc/influxdb2
+        type: volume
     labels:
       traefik.http.routers.influxdb.entrypoints: "websecure"
       traefik.http.routers.influxdb.rule: "Host(`influxdb.{{project_tld}}`)"
