@@ -1,22 +1,10 @@
 ---
-- name: Ensure Adminer Directory Exist
+- name: Ensure Adminer Data Volume Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
-    path: "{{ project_root_directory }}/adminer"
-    state: directory
-    owner: 0999
-    group: 0999
+  community.docker.docker_volume:
+    name: adminer_data
+    state: present
   tags: adminer
-
-- name: Ensure Homer Configuration Files Exist
-  when: inventory_hostname == groups['workers'][0]
-  template:
-    src: login-servers.php.j2
-    dest: "{{ project_root_directory }}/adminer/login-servers.php"
-    owner: root
-    group: root
-  tags: adminer
-  no_log: true
 
 - name: Deploy Adminer Service
   when: inventory_hostname == groups['managers'][0]
@@ -37,9 +25,9 @@
         - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/adminer/"
-        target: /var/www/html/plugins-enabled/
-        type: bind
+      - source: adminer_data
+        target: /var/www/html/plugins-enabled
+        type: volume
     labels:
       traefik.http.routers.adminer.entrypoints: "websecure"
       traefik.http.routers.adminer.rule: "Host(`adminer.{{project_tld}}`)"

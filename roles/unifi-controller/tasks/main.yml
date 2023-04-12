@@ -1,11 +1,9 @@
 ---
-- name: Ensure Unifi Data Volume Exist
-  when: inventory_hostname == groups['managers'][0]
-  file:
-    path: "{{project_root_directory}}/unifi-controller"
-    state: directory
-    owner: 1000
-    group: 1000
+- name: Ensure Unifi Config Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: unifi_config
+    state: present
   tags: unifi
 
 - name: Deploy Unifi Service
@@ -65,9 +63,9 @@
       constraints:
         - node.id == {{docker_master1_node_id}}
     mounts:
-      - source: "{{project_root_directory}}/unifi-controller/"
+      - source: unifi_config
         target: /config
-        type: bind
+        type: volume
     labels:
       traefik.http.routers.unifi.entrypoints: "websecure"
       traefik.http.routers.unifi.rule: "Host(`unifi.{{project_tld}}`)"
