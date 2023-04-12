@@ -261,18 +261,19 @@ usenet_retention = 1500
 
 [Client]
 nzb_downloader = 0
-torrent_downloader = 0
+torrent_downloader = 3
 
 [SABnzbd]
-sab_host = None
+sab_host = http://sabnzbd:8080
 sab_username = None
 sab_password = None
-sab_apikey = None
-sab_category = None
+sab_apikey = {{sabnzbd_api_key}}
+sab_category = comics
 sab_priority = Default
-sab_to_mylar = False
-sab_directory = None
-sab_version = None
+sab_to_mylar = True
+sab_directory = /media/downloads
+sab_version = 3.7.2
+	
 sab_moving_delay = 5
 sab_client_post_processing = False
 
@@ -301,12 +302,17 @@ dognzb_apikey = None
 dognzb_verify = True
 
 [Newznab]
-newznab = False
-extra_newznabs =
+newznab = True
+extra_newznabs = 
 
 [Torznab]
-enable_torznab = False
-extra_torznabs =
+enable_torznab = True
+extra_torznabs = 
+torznab_name = None
+torznab_host = None
+torznab_apikey = None
+torznab_category = None
+torznab_verify = False
 
 [Experimental]
 experimental = False
@@ -344,8 +350,8 @@ cmtag_start_year_as_volume = False
 setdefaultvolume = False
 
 [Torrents]
-enable_torrents = False
-enable_torrent_search = False
+enable_torrents = True
+enable_torrent_search = True
 minseeds = 0
 enable_public = False
 public_verify = True
@@ -414,10 +420,10 @@ utorrent_password = None
 utorrent_label = None
 
 [Transmission]
-transmission_host = None
+transmission_host = transmission
 transmission_username = None
 transmission_password = None
-transmission_directory = None
+transmission_directory = /media/downloads
 
 [Deluge]
 deluge_host = None
