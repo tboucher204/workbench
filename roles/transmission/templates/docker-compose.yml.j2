@@ -8,7 +8,7 @@ services:
       - {{traefik_network}}
     volumes:
       - /datavol/apps/transmission/config:/config
-      - {{ project_download_directory }}:/downloads
+      - {{ project_download_directory }}:/media/downloads
       - {{ project_watch_directory }}/torrentfiles:/watch
     deploy:
       mode: global
