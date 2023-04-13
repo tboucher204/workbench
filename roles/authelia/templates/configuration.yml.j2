@@ -64,6 +64,14 @@ access_control:
     policy: two_factor
     subject:
     - "group:Media_Users"
+  - domain: readarraudio.{{project_tld}}
+    policy: two_factor
+    subject:
+    - "group:Media_Users"
+  - domain: mylar.{{project_tld}}
+    policy: two_factor
+    subject:
+    - "group:Media_Users"
   - domain: prowlarr.{{project_tld}}
     policy: two_factor
     subject:
@@ -72,7 +80,7 @@ access_control:
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: qbittorrent.{{project_tld}}
+  - domain: transmission.{{project_tld}}
     policy: two_factor
     subject:
     - "group:Media_Users"

@@ -12,7 +12,8 @@
     restart_config:
       condition: on-failure
     env:
-      SERVER_HOSTNAME: "{{ ldapusermanager_hostname }}"
+      SERVER_HOSTNAME: "ldapmanager.{{project_tld}}"
+      ORGANISATION_NAME: "{{openldap_organisation}}"
       LDAP_URI: "ldap://openldap:389"
       LDAP_BASE_DN: "{{ openldap_base_dn }}"
       LDAP_ADMINS_GROUP: "admins"
@@ -20,7 +21,9 @@
       LDAP_ADMIN_BIND_PWD: "{{ openldap_admin_password }}"
       LDAP_USER_OU: "users"
       LDAP_GROUP_OU: "groups"
+      LDAP_REQUIRE_STARTTLS: "FALSE"
       LDAP_IGNORE_CERT_ERRORS: "true"
+      NO_HTTPS: "TRUE"
       EMAIL_DOMAIN: "{{ project_tld }}"
     placement:
       constraints:
@@ -34,7 +37,6 @@
       traefik.http.routers.ldapusermanager.tls: "true"
       traefik.http.routers.ldapusermanager.service: "ldapusermanager"
       # traefik.http.routers.ldapusermanager.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.ldapusermanager.loadbalancer.server.scheme: "https"
       traefik.http.services.ldapusermanager.loadbalancer.server.port: "{{ldapusermanager_port}}"
       traefik.enable: "true"
     state: present
