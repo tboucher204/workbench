@@ -13,7 +13,6 @@
       condition: on-failure
     env:
       SERVER_HOSTNAME: "ldapmanager.{{project_tld}}"
-      ORGANISATION_NAME: "{{openldap_organisation}}"
       LDAP_URI: "ldap://openldap:389"
       LDAP_BASE_DN: "{{ openldap_base_dn }}"
       LDAP_ADMINS_GROUP: "admins"
