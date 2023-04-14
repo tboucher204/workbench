@@ -58,7 +58,7 @@
       configureLidarrWithOptimalSettings: "true"
       searchSort: "date"
       audioFormat: "mp3"
-      audioBitrate: "320"
+      audioBitrate: "high"
       requireQuality: "true"
       enableReplaygainTags: "true"
       audioLyricType: "both"
