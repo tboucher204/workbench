@@ -17,8 +17,8 @@
     mode: replicated
     force_update: true
     env:
-      PUID: "1000"
-      PGID: "1000"
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
       TZ: "{{default_timezone}}"
     restart_config:
       condition: on-failure

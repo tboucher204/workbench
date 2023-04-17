@@ -16,7 +16,7 @@ services:
         constraints: [node.id == {{ docker_worker2_node_id }}]
     labels:
       - "traefik.http.routers.transmission.entrypoints=websecure"
-      - "traefik.http.routers.transmission.rule=Host(`transmission.{{ project_tld }}`)"
+      - "traefik.http.routers.transmission.rule=HostHeader(`{{ home_tld }}`) && PathPrefix(`/transmission`)"
       - "traefik.http.routers.transmission.middlewares=default-headers@file,authelia@file"
       - "traefik.http.routers.transmission.tls=true"
       - "traefik.http.routers.transmission.service=transmission"

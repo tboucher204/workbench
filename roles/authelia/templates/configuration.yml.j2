@@ -34,11 +34,17 @@ access_control:
     - "^/control.*$"
     - "^/meshrelay.*$"
     - "^/github-webhook/.*$"
+  - domain: "login.{{project_tld}}"
+    policy: bypass
   - domain: api.{{project_tld}}
     policy: two_factor
     subject:
     - "group:Authelia_Admins"
   - domain: "ci.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "codeserver.{{project_tld}}"
     policy: bypass
     networks:
     - internal
