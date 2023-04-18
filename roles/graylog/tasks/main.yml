@@ -33,7 +33,7 @@
       GRAYLOG_TIMEZONE: "{{ default_timezone }}"
       GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_root_password_hash }}"
-      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000/"
     labels:
       traefik.http.routers.graylog.entrypoints: "websecure"
       traefik.http.routers.graylog.rule: "Host(`logs.{{ project_tld }}`)"
