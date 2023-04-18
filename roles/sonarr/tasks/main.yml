@@ -72,6 +72,7 @@
     state: present
   tags: sonarr
 
-- import_tasks: "{{role_path}}/tasks/anime.yml"
-  tags:
-    - sonarr
+# Uncomment below to deploy 2nd system for Anime
+# - import_tasks: "{{role_path}}/tasks/anime.yml"
+#   tags:
+#     - sonarr
