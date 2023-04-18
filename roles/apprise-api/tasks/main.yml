@@ -1,9 +1,9 @@
 ---
-- name: Ensure Apprise-api Directory Exist
-  when: inventory_hostname == groups['managers'][0]
-  file:
-    path: "{{project_root_directory}}/apprise_api/"
-    state: directory
+- name: Ensure Apprise-api Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: apprise_api
+    state: present
   tags: apprise-api
 
 - name: Deploy Apprise-api Service
@@ -37,8 +37,8 @@
       traefik.http.services.apprise-api.loadbalancer.server.port: "{{ apprise_api_port }}"
       traefik.enable: "true"
     mounts:
-      - source: "{{project_root_directory}}/apprise_api/"
-        target: /config/
-        type: bind
+      - source: apprise_api
+        target: /config
+        type: volume
     state: present
   tags: apprise-api

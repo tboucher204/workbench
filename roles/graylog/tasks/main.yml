@@ -1,4 +1,11 @@
 ---
+- name: Ensure Graylog Dataset Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    name: "{{project_root_directory}}/graylog"
+    state: directory
+  tags: graylog
+
 - name: Create Graylog Docker Container
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
@@ -23,6 +30,7 @@
     env:
       TZ: "{{ default_timezone }}"
       ROOT_TIMEZONE: "{{ default_timezone }}"
+      GRAYLOG_TIMEZONE: "{{ default_timezone }}"
       GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_root_password_hash }}"
       GRAYLOG_HTTP_EXTERNAL_URI: "http://127.0.0.1:9000"

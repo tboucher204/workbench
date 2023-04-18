@@ -1,9 +1,9 @@
 ---
-- name: Ensure phpmyadmin Dataset Exist
+- name: Ensure phpmyadmin Volume Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
-    name: "{{project_root_directory}}/phpmyadmin"
-    state: directory
+  community.docker.docker_volume:
+    name: phpmyadmin
+    state: present
   tags: phpmyadmin
 
 - name: Deploy phpmyadmin Service
@@ -33,9 +33,9 @@
         - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/phpmyadmin/"
+      - source: phpmyadmin
         target: /config
-        type: bind
+        type: volume
     labels:
       traefik.http.routers.phpmyadmin.entrypoints: "websecure"
       traefik.http.routers.phpmyadmin.rule: "HostHeader(`{{home_tld}}`) && PathPrefix(`/phpmyadmin`)"

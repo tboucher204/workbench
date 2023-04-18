@@ -16,6 +16,7 @@
     # - listmonk
     # - wiki.js
     # - mkdocs
+    - graylog
     - adminer
     - phpmyadmin
     - phpldapadmin

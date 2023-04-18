@@ -1,9 +1,9 @@
 ---
-- name: Ensure Tautulli Directory Exist
+- name: Ensure Tautulli Volume Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
-    path: "{{project_root_directory}}/tautulli"
-    state: directory
+  community.docker.docker_volume:
+    name: tautulli
+    state: present
   tags: tautulli
 
 - name: Deploy Tautulli Service
@@ -27,9 +27,9 @@
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/tautulli/"
+      - source: tautulli
         target: /config
-        type: bind
+        type: volume
     labels:
       traefik.http.routers.tautulli.entrypoints: "websecure"
       traefik.http.routers.tautulli.rule: "Host(`stats.{{project_tld}}`)"

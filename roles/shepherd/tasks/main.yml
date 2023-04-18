@@ -22,7 +22,7 @@
     secrets:
       - secret_name: shepherd_registry_password
     env:
-      SLEEP_TIME: "480m"
+      SLEEP_TIME: "1440m"
       # IGNORELIST_SERVICES: "nextcloud"
       WITH_REGISTRY_AUTH: "true"
       REGISTRY_USER: "{{ shepherd_registry_user }}"
