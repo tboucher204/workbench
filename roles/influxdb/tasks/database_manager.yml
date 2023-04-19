@@ -12,8 +12,8 @@
   community.general.influxdb_database:
     hostname: "{{influxdb_hostname}}"
     port: "{{influxdb_port}}"
-    username: "{{ influxdb_username }}"
-    password: "{{ influxdb_password }}"
+    login_username: "{{ influxdb_username }}"
+    login_password: "{{ influxdb_password }}"
     database_name: "{{ database_name }}"
     state: "present"
 
