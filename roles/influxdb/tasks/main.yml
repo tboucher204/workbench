@@ -35,6 +35,15 @@
       constraints:
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
+    publish:
+      - published_port: "{{ influxdb_port }}"
+        target_port: "{{ influxdb_port }}"
+        protocol: "tcp"
+        mode: "host"
+      - published_port: "{{ influxdb_port_udp }}"
+        target_port: "{{ influxdb_port_udp }}"
+        protocol: "udp"
+        mode: "host"
     mounts:
       - source: influxdb_data
         target: /var/lib/influxdb2
