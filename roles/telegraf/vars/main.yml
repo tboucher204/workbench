@@ -1,0 +1,4 @@
+---
+telegraf_database: "telegraf"
+telegraf_database_user: "{{vault_telegraf_user}}"
+telegraf_database_password: "{{vault_telegraf_password}}"

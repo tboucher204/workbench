@@ -1,4 +1,2 @@
 ---
 influxdb_bucket: "{{vault_influxdb_bucket}}"
-influxdb_password: "{{vault_influxdb_password}}"
-influxdb_username: "{{vault_influxdb_username}}"

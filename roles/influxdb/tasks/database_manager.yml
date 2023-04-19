@@ -1,0 +1,31 @@
+---
+- name: Upgrade pip to be able to install Influxdb
+  pip:
+     name: pip
+     extra_args: --upgrade
+
+- name: Install pip Influxdb package
+  pip:
+     name: influxdb
+
+- name: Ensure Influxdb Databases are Present.
+  community.general.influxdb_database:
+    hostname: "{{influxdb_hostname}}"
+    port: "{{influxdb_port}}"
+    username: "{{ influxdb_username }}"
+    password: "{{ influxdb_password }}"
+    database_name: "{{ database_name }}"
+    state: "present"
+
+- name: Ensure Influxdb Users are Present.
+  mysql_user:
+    hostname: "{{influxdb_hostname}}"
+    port: "{{influxdb_port}}"
+    login_username: "{{ influxdb_username }}"
+    login_password: "{{ influxdb_password }}"
+    username: "{{ database_user }}"
+    password: "{{ database_password }}"
+    grants:
+      - database: "{{ database_name }}"
+        privilege: "ALL"
+    state: "present"

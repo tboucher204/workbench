@@ -1,4 +1,13 @@
 ---
+- name: Create Telegraf Database
+  import_tasks: roles/influxdb/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ telegraf_database }}"
+    database_user: "{{ telegraf_database_user }}"
+    database_password: "{{ telegraf_database_password }}"
+  tags: telegraf
+
 - name: Ensure Telegraf Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
