@@ -20,7 +20,7 @@
     hostname: "{{influxdb_hostname}}"
     image: "{{influxdb_docker_image}}:{{influxdb_version}}"
     env:
-      DOCKER_INFLUXDB_INIT_MODE: "upgrade"
+      DOCKER_INFLUXDB_INIT_MODE: "setup"
       DOCKER_INFLUXDB_INIT_USERNAME: "{{influxdb_username}}"
       DOCKER_INFLUXDB_INIT_PASSWORD: "{{influxdb_password}}"
       DOCKER_INFLUXDB_INIT_ORG: "{{influxdb_org}}"
