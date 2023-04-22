@@ -18,15 +18,15 @@
     - komga
     - ombi
     # - plex
-    - photoprism
-    # - immich
+    # - photoprism
+    - immich
     # - peertube
     - tautulli
     - embystat
     - wizarr
     # - tdarr
     # - unpackerr
-    - calibre
+    # - calibre
     - calibre-web
     - airsonic
     - audiobookshelf

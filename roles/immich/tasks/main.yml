@@ -42,7 +42,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{ greytalon_node_id }}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
       - source: "{{project_root_directory}}/immich/database/"
@@ -75,19 +75,19 @@
       REDIS_PORT: "{{ redis_port }}"
     placement:
       constraints:
-        - node.id == {{ greytalon_node_id }}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: /greytalon/apps/immich/config/
-        target: /config/
+      - source: "{{project_root_directory}}/immich/config/"
+        target: /config
         type: bind
-      - source: /greytalon/media/photos/
-        target: /photos/
+      - source: "{{project_media_directory}}/Photos/"
+        target: /photos
         type: bind
     labels:
       traefik.http.routers.immich.entrypoints: "websecure"
       traefik.http.routers.immich.rule: "Host(`{{ photo_tld }}`)"
-      traefik.http.routers.immich.middlewares: "default-headers@file"
+      traefik.http.routers.immich.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.immich.tls: "true"
       traefik.http.routers.immich.service: "immich"
       # traefik.http.routers.immich.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
