@@ -1,4 +1,13 @@
 ---
+- name: Create Immich Database
+  import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ immich_database }}"
+    database_user: "{{ immich_database_user }}"
+    database_password: "{{ immich_database_password }}"
+  tags: immich
+
 - name: Ensure Immich Configuration Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   file:
@@ -24,32 +33,32 @@
     - "{{project_root_directory}}/immich/database"
   tags: immich
 
-- name: Deploy Immich Database Service
-  when: inventory_hostname == groups['managers'][0]
-  community.docker.docker_swarm_service:
-    name: immich-database
-    hostname: "{{ immich_database_hostname }}"
-    image: "{{ immich_database_docker_image }}:{{ immich_database_version }}"
-    env:
-      POSTGRES_USER: "{{ immich_database_user }}"
-      POSTGRES_PASSWORD: "{{ immich_database_password }}"
-      POSTGRES_DB: "{{ immich_database }}"
-    networks:
-      - "{{ traefik_network }}"
-    mode: replicated
-    force_update: yes
-    restart_config:
-      condition: on-failure
-    placement:
-      constraints:
-        - node.id == {{ docker_worker1_node_id }}
-    replicas: 1
-    mounts:
-      - source: "{{project_root_directory}}/immich/database/"
-        target: /var/lib/postgresql/data
-        type: bind
-    state: present
-  tags: immich
+# - name: Deploy Immich Database Service
+#   when: inventory_hostname == groups['managers'][0]
+#   community.docker.docker_swarm_service:
+#     name: immich-database
+#     hostname: "{{ immich_database_hostname }}"
+#     image: "{{ immich_database_docker_image }}:{{ immich_database_version }}"
+#     env:
+#       POSTGRES_USER: "{{ immich_database_user }}"
+#       POSTGRES_PASSWORD: "{{ immich_database_password }}"
+#       POSTGRES_DB: "{{ immich_database }}"
+#     networks:
+#       - "{{ traefik_network }}"
+#     mode: replicated
+#     force_update: yes
+#     restart_config:
+#       condition: on-failure
+#     placement:
+#       constraints:
+#         - node.id == {{ docker_worker1_node_id }}
+#     replicas: 1
+#     mounts:
+#       - source: "{{project_root_directory}}/immich/database/"
+#         target: /var/lib/postgresql/data
+#         type: bind
+#     state: present
+#   tags: immich
 
 - name: Deploy Immich Server
   when: inventory_hostname == groups['managers'][0]
@@ -65,13 +74,13 @@
       condition: on-failure
     env:
       TZ: "{{ default_timezone }}"
-      DB_HOSTNAME: "{{ immich_database_hostname }}"
+      DB_HOSTNAME: "{{ postgres_hostname }}"
       DB_USERNAME: "{{ immich_database_user }}"
       DB_PASSWORD: "{{ immich_database_password }}"
       DB_DATABASE_NAME: "{{ immich_database }}"
       REDIS_HOSTNAME: "{{ redis_hostname }}"
       JWT_SECRET: "{{ immich_jwt_secret }}"
-      DB_PORT: "{{ immich_database_port }}"
+      DB_PORT: "{{ postgres_port }}"
       REDIS_PORT: "{{ redis_port }}"
     placement:
       constraints:
