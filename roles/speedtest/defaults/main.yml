@@ -1,4 +1,4 @@
 ---
 speedtest_version: latest
 speedtest_hostname: "speedtest"
-speedtest_docker_image: "dbsqp/speedtest-influxdbv2"
+speedtest_docker_image: "loganmarchione/docker-speedtest-influxdbv2"
