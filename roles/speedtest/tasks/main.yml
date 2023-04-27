@@ -9,18 +9,18 @@
       - "{{traefik_network}}"
     env:
       TZ: "{{default_timezone}}"
-      INTERVAL: "3600"
-      INFLUXDB_USE: "true"
-      INFLUXDB_DB: "{{speedtest_influxdb_db}}"
-      INFLUXDB_URL: "http://influxdb:8086"
-      INFLUXDB_USER: "{{speedtest_influxdb_user}}"
-      INFLUXDB_PWD: "{{speedtest_influxdb_password}}"
-      HOST: "local"
+      INFLUXDB2_HOST: "influxdb"
+      INFLUXDB2_PORT: "8086"
+      INFLUXDB2_ORG: "{{influxdb_org}}"
+      INFLUXDB2_TOKEN: "{{speedtest_influxdb2_token}}"
+      INFLUXDB2_BUCKET: "{{speedtest_influxdb_db}}"
+      EXPECTED_DOWN: "500"
+      EXPECTED_UP: "20"
       SPEEDTEST_LIST_SERVERS: "false"
       SPEEDTEST_LIST_KEEP_CONTAINER_RUNNING: "false"
       SPEEDTEST_ALGO_TYPE: "max"
       SPEEDTEST_SERVER: "21362"
-      SHOW_EXTERNAL_IP: "true"
+      SPEEDTEST_PERIOD: "3600"
     mode: replicated
     force_update: true
     restart_config:

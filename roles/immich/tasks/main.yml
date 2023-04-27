@@ -78,7 +78,7 @@
       DB_USERNAME: "{{ immich_database_user }}"
       DB_PASSWORD: "{{ immich_database_password }}"
       DB_DATABASE_NAME: "{{ immich_database }}"
-      REDIS_HOSTNAME: "{{ redis_hostname }}"
+      REDIS_HOSTNAME: "redis"
       JWT_SECRET: "{{ immich_jwt_secret }}"
       DB_PORT: "{{ postgres_port }}"
       REDIS_PORT: "{{ redis_port }}"

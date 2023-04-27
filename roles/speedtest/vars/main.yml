@@ -2,3 +2,4 @@
 speedtest_influxdb_db: "{{vault_speedtest_influxdb_db}}"
 speedtest_influxdb_password: "{{vault_speedtest_influxdb_password}}"
 speedtest_influxdb_user: "{{vault_speedtest_influxdb_user}}"
+speedtest_influxdb2_token: "{{vault_speedtest_influxdb2_token}}"
