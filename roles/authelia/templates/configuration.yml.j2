@@ -38,6 +38,10 @@ access_control:
     policy: two_factor
     subject:
     - "group:Authelia_Admins"
+  - domain: "portainer.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: "ci.{{project_tld}}"
     policy: bypass
     networks:

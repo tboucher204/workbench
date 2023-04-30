@@ -16,12 +16,12 @@
     networks:
       - "{{ traefik_network }}"
     publish:
-      - published_port: "{{  graylog_sylog_port }}"
-        target_port: "{{ graylog_sylog_port }}"
+      - published_port: "{{  graylog_syslog_port }}"
+        target_port: "{{ graylog_syslog_port }}"
         protocol: tcp
         mode: "host"
-      - published_port: "{{  graylog_sylog_port }}"
-        target_port: "{{ graylog_sylog_port }}"
+      - published_port: "{{  graylog_syslog_port }}"
+        target_port: "{{ graylog_syslog_port }}"
         protocol: udp
         mode: "host"
     mode: replicated
