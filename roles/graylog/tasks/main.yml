@@ -1,9 +1,16 @@
 ---
-- name: Ensure Graylog Dataset Exist
+- name: Ensure Graylog Directory Exist
   when: inventory_hostname == groups['workers'][0]
   file:
-    name: "{{project_root_directory}}/graylog"
+    path: "{{project_root_directory}}/graylog"
     state: directory
+  tags: graylog
+
+- name: Ensure Graylog Data Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  docker_volume:
+    name: graylog_data
+    state: present
   tags: graylog
 
 - name: Create Graylog Docker Container
@@ -31,6 +38,10 @@
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}
+    mounts:
+      - source: "{{project_root_directory}}/graylog/"
+        target: /usr/share/graylog/data
+        type: bind
     replicas: 1
     env:
       TZ: "{{ default_timezone }}"
