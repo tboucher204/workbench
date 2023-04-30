@@ -1,4 +1,4 @@
 ---
-elasticsearch_version: "8.7.0"
+elasticsearch_version: "7.17.9"
 elasticsearch_cluster_name: "elastic-cluster"
 elasticsearch_docker_image: "docker.elastic.co/elasticsearch/elasticsearch"
