@@ -26,7 +26,7 @@
         - node.id == {{ docker_master1_node_id }}
     replicas: 1
     publish:
-      - published_port: "{{ keycloak_port }}"
+      - published_port: "8082"
         target_port: "{{ keycloak_port }}"
         protocol: "tcp"
         mode: "host"

@@ -55,7 +55,7 @@ services:
         published: {{ transmission_port }}
         protocol: tcp
         mode: host
-    restart: on-failure
+    restart: unless-stopped
 
 networks:
   {{traefik_network}}:
