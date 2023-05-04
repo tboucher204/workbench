@@ -28,7 +28,8 @@
     # - unpackerr
     # - calibre
     - calibre-web
-    - airsonic
+    # - airsonic
+    - navidrome
     - audiobookshelf
     - tinymediamanager
     

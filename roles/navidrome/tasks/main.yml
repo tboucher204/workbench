@@ -8,21 +8,21 @@
     - "{{project_media_directory}}/Music"
     - "{{project_media_directory}}/Playlists"
     - "{{project_media_directory}}/Podcasts"
-  tags: airsonic
+  tags: navidrome
 
-- name: Ensure Airsonic Dataset Exist
+- name: Ensure Navidrome Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_root_directory}}/airsonic"
+    name: "{{project_root_directory}}/navidrome"
     state: directory
-  tags: airsonic
+  tags: navidrome
 
-- name: Deploy Airsonic Service
+- name: Deploy Navidrome Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: airsonic
-    hostname: "{{airsonic_hostname}}"
-    image: "{{airsonic_docker_image}}:{{airsonic_version}}"
+    name: navidrome
+    hostname: "{{navidrome_hostname}}"
+    image: "{{navidrome_docker_image}}:{{navidrome_version}}"
     networks:
       - "{{traefik_network}}"
     mode: replicated
@@ -30,16 +30,16 @@
     restart_config:
       condition: on-failure
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      ND_SCANSCHEDULE: "1h"
+      ND_LOGLEVEL: "info"
+      ND_SESSIONTIMEOUT: "24h"  
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/airsonic/"
-        target: /config
+      - source: "{{project_root_directory}}/navidrome/"
+        target: /data
         type: bind
       - source: "{{project_media_directory}}/Music/"
         target: /music
@@ -51,13 +51,13 @@
         target: /podcasts
         type: bind
     labels:
-      traefik.http.routers.airsonic.entrypoints: "websecure"
-      traefik.http.routers.airsonic.rule: "Host(`music.{{project_tld}}`)"
-      traefik.http.routers.airsonic.middlewares: "default-headers@file,authelia@file"
-      traefik.http.routers.airsonic.tls: "true"
-      traefik.http.routers.airsonic.service: "airsonic"
-      # traefik.http.routers.airsonic.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.airsonic.loadbalancer.server.port: "{{airsonic_port}}"
+      traefik.http.routers.navidrome.entrypoints: "websecure"
+      traefik.http.routers.navidrome.rule: "Host(`music.{{project_tld}}`)"
+      traefik.http.routers.navidrome.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.navidrome.tls: "true"
+      traefik.http.routers.navidrome.service: "navidrome"
+      # traefik.http.routers.navidrome.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.navidrome.loadbalancer.server.port: "{{navidrome_port}}"
       traefik.enable: "true"
     state: present
-  tags: airsonic
+  tags: navidrome

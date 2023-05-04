@@ -1,0 +1,5 @@
+---
+navidrome_version: "latest"
+navidrome_hostname: "navidrome"
+navidrome_port: "4533"
+navidrome_docker_image: "deluan/navidrome"
