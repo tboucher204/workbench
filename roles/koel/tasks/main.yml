@@ -42,7 +42,7 @@
     restart_config:
       condition: on-failure
     env:
-      DB_CONNECTION: "psql"
+      DB_CONNECTION: "pgsql"
       DB_HOST: "{{postgres_hostname}}"
       DB_DATABASE: "{{koel_database}}"
       DB_USERNAME: "{{koel_database_user}}"
