@@ -1,0 +1,74 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_media_directory}}/Music"
+  tags: koel
+
+- name: Ensure koel Directories Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - /datavol/apps/koel
+    - /datavol/apps/koel/covers
+    - /datavol/apps/koel/indexes
+  tags: koel
+
+- name: Ensure koel Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['media'][0]
+  vars:
+    database_name: "{{ koel_database }}"
+    database_user: "{{ koel_database_user }}"
+    database_password: "{{ koel_database_password }}"
+  tags: koel
+  no_log: true
+
+- name: Deploy koel Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: koel
+    hostname: "{{koel_hostname}}"
+    image: "{{koel_docker_image}}:{{koel_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      DB_CONNECTION: "psql"
+      DB_HOST: "{{postgres_hostname}}"
+      DB_DATABASE: "{{koel_database}}"
+      DB_USERNAME: "{{koel_database_user}}"
+      DB_PASSWORD: "{{koel_database_password}}"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/koel/covers"
+        target: /var/www/html/public/img/covers
+        type: bind
+      - source: "{{project_root_directory}}/koel/indexes"
+        target: /var/www/html/storage/search-indexes
+        type: bind
+      - source: "{{project_media_directory}}/Music/"
+        target: /music
+        type: bind
+    labels:
+      traefik.http.routers.koel.entrypoints: "websecure"
+      traefik.http.routers.koel.rule: "Host(`demo.{{project_tld}}`)"
+      traefik.http.routers.koel.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.koel.tls: "true"
+      traefik.http.routers.koel.service: "koel"
+      # traefik.http.routers.koel.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.koel.loadbalancer.server.port: "{{koel_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: koel

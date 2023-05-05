@@ -1,0 +1,4 @@
+---
+koel_database: "koel"
+koel_database_user: "{{ vault_koel_database_user }}"
+koel_database_password: "{{ vault_koel_database_password }}"

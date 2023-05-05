@@ -1,0 +1,5 @@
+---
+koel_version: "latest"
+koel_hostname: "koel"
+koel_port: "80"
+koel_docker_image: "phanan/koel"
