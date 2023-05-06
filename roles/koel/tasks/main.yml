@@ -44,6 +44,7 @@
     env:
       DB_CONNECTION: "pgsql"
       DB_HOST: "{{postgres_hostname}}"
+      DB_PORT: "{{postgres_port}}"
       DB_DATABASE: "{{koel_database}}"
       DB_USERNAME: "{{koel_database_user}}"
       DB_PASSWORD: "{{koel_database_password}}"
