@@ -49,7 +49,7 @@
       DB_USERNAME: "{{koel_database_user}}"
       DB_PASSWORD: "{{koel_database_password}}"
       FORCE_HTTPS: "true"
-      APP_KEY: "SLvZWU4mnNlf/i8pJj8V1Xhhl2lZiHjp+pVKIKrbYVc="
+      # APP_KEY: "SLvZWU4mnNlf/i8pJj8V1Xhhl2lZiHjp+pVKIKrbYVc="
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
