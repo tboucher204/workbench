@@ -27,7 +27,7 @@
       WITH_REGISTRY_AUTH: "true"
       REGISTRY_USER: "{{ shepherd_registry_user }}"
       ROLLBACK_ON_FAILURE: "true"
-      IMAGE_AUTOCLEAN_LIMIT: "2"
+      IMAGE_AUTOCLEAN_LIMIT: "1"
       APPRISE_SIDECAR_URL: "http://apprise-api:8000/notify/"
       TZ: "{{ default_timezone }}"
     placement:
