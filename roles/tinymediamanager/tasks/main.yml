@@ -93,8 +93,6 @@
       USER_ID: "{{media_user}}"
       GROUP_ID: "{{media_group}}"
       TZ: "{{default_timezone}}"
-      DISPLAY_WIDTH: "1920"
-      DISPLAY_HEIGHT: "927"
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
