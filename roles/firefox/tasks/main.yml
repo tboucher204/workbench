@@ -30,7 +30,7 @@
     env:
       TZ: "{{ default_timezone }}"
       PUID: "{{ default_puid }}"
-      GUID: "{{ default_pgid }}"
+      PGID: "{{ default_pgid }}"
       FF_PREF_DOWNLOAD_DIR: "browser.download.dir=/media/downloads/firefox"
     placement:
       constraints:
