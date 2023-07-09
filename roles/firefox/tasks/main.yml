@@ -6,6 +6,13 @@
     state: directory
   tags: firefox
 
+- name: Ensure Firefox Data Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  docker_volume:
+    name: firefox
+    state: present
+  tags: firefox
+
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
   file:
@@ -37,9 +44,9 @@
         - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/firefox/"
+      - source: firefox
         target: /config
-        type: bind
+        type: volume
       - source: "{{project_download_directory}}"
         target: /media/downloads
         type: bind
