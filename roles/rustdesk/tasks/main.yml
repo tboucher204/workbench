@@ -39,9 +39,6 @@
         target: /data
         type: bind
     labels:
-      ## Configure Traefik Defaults
-      traefik.enable: true
-
       ## Configure Rustdesk HTTPS
       traefik.http.routers.rustdesk.entrypoints: "websecure"
       traefik.http.routers.rustdesk.rule: "Host(`rust.{{project_tld}}`)"
@@ -91,5 +88,8 @@
       traefik.udp.routers.rustdesk-rd6.entrypoints: "rd6-udp"
       traefik.udp.routers.rustdesk-rd6.service: "rustdesk-rd6"
       traefik.udp.services.rustdesk-rd6.loadbalancer.server.port: "{{rustdesk6_port}}"
+      
+      ## Configure Traefik Defaults
+      traefik.enable: "true"
     state: present
   tags: rustdesk
