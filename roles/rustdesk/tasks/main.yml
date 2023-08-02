@@ -74,7 +74,7 @@
       traefik.tcp.routers.rustdesk-rd8.rule: "HostSNI(`*`)"
       traefik.tcp.routers.rustdesk-rd8.service: "rustdesk-rd8"
       traefik.tcp.services.rustdesk-rd8.loadbalancer.server.port: "{{rustdesk8_port}}"
-      traefik.tcp.routers.rustdesk-rd8.tls: false
+      traefik.tcp.routers.rustdesk-rd8.tls: "false"
       traefik.tcp.routers.rustdesk-rd8.tls.passthrough: true
 
       traefik.tcp.routers.rustdesk-rd9.entrypoints: "rd9-tcp"
@@ -88,7 +88,7 @@
       traefik.udp.routers.rustdesk-rd6.entrypoints: "rd6-udp"
       traefik.udp.routers.rustdesk-rd6.service: "rustdesk-rd6"
       traefik.udp.services.rustdesk-rd6.loadbalancer.server.port: "{{rustdesk6_port}}"
-      
+
       ## Configure Traefik Defaults
       traefik.enable: "true"
     state: present
