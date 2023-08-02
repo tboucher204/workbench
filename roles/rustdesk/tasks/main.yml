@@ -52,44 +52,44 @@
       traefik.http.services.rustdesk.loadbalancer.server.port: "{{rustdesk4_port}}"
 
       ## Configure Rustdesk TCP
-      traefik.tcp.routers.rustdesk-rd5.entrypoints: rd5-tcp
-      traefik.tcp.routers.rustdesk-rd5.rule: HostSNI(`*`)
-      traefik.tcp.routers.rustdesk-rd5.service: rustdesk-rd5
-      traefik.tcp.services.rustdesk-rd5.loadbalancer.server.port: {{rustdesk5_port}}
-      traefik.tcp.routers.rustdesk-rd5.tls: false
-      traefik.tcp.routers.rustdesk-rd5.tls.passthrough: true
+      traefik.tcp.routers.rustdesk-rd5.entrypoints: "rd5-tcp"
+      traefik.tcp.routers.rustdesk-rd5.rule: "HostSNI(`*`)"
+      traefik.tcp.routers.rustdesk-rd5.service: "rustdesk-rd5"
+      traefik.tcp.services.rustdesk-rd5.loadbalancer.server.port: "{{rustdesk5_port}}"
+      traefik.tcp.routers.rustdesk-rd5.tls: "false"
+      traefik.tcp.routers.rustdesk-rd5.tls.passthrough: "true"
 
-      traefik.tcp.routers.rustdesk-rd6.entrypoints: rd6-tcp
-      traefik.tcp.routers.rustdesk-rd6.rule: HostSNI(`*`)
-      traefik.tcp.routers.rustdesk-rd6.service: rustdesk-rd6
-      traefik.tcp.services.rustdesk-rd6.loadbalancer.server.port: {{rustdesk6_port}}
-      traefik.tcp.routers.rustdesk-rd6.tls: false
-      traefik.tcp.routers.rustdesk-rd6.tls.passthrough: true
+      traefik.tcp.routers.rustdesk-rd6.entrypoints: "rd6-tcp"
+      traefik.tcp.routers.rustdesk-rd6.rule: "HostSNI(`*`)"
+      traefik.tcp.routers.rustdesk-rd6.service: "rustdesk-rd6"
+      traefik.tcp.services.rustdesk-rd6.loadbalancer.server.port: "{{rustdesk6_port}}"
+      traefik.tcp.routers.rustdesk-rd6.tls: "false"
+      traefik.tcp.routers.rustdesk-rd6.tls.passthrough: "true"
 
-      traefik.tcp.routers.rustdesk-rd7.entrypoints: rd7-tcp
-      traefik.tcp.routers.rustdesk-rd7.rule: HostSNI(`*`)
-      traefik.tcp.routers.rustdesk-rd7.service: rustdesk-rd7
-      traefik.tcp.services.rustdesk-rd7.loadbalancer.server.port: {{rustdesk7_port}}
-      traefik.tcp.routers.rustdesk-rd7.tls: false
-      traefik.tcp.routers.rustdesk-rd7.tls.passthrough: true
+      traefik.tcp.routers.rustdesk-rd7.entrypoints: "rd7-tcp"
+      traefik.tcp.routers.rustdesk-rd7.rule: "HostSNI(`*`)"
+      traefik.tcp.routers.rustdesk-rd7.service: "rustdesk-rd7"
+      traefik.tcp.services.rustdesk-rd7.loadbalancer.server.port: "{{rustdesk7_port}}"
+      traefik.tcp.routers.rustdesk-rd7.tls: "false"
+      traefik.tcp.routers.rustdesk-rd7.tls.passthrough: "true"
 
-      traefik.tcp.routers.rustdesk-rd8.entrypoints: rd8-tcp
-      traefik.tcp.routers.rustdesk-rd8.rule: HostSNI(`*`)
-      traefik.tcp.routers.rustdesk-rd8.service: rustdesk-rd8
-      traefik.tcp.services.rustdesk-rd8.loadbalancer.server.port: {{rustdesk8_port}}
+      traefik.tcp.routers.rustdesk-rd8.entrypoints: "rd8-tcp"
+      traefik.tcp.routers.rustdesk-rd8.rule: "HostSNI(`*`)"
+      traefik.tcp.routers.rustdesk-rd8.service: "rustdesk-rd8"
+      traefik.tcp.services.rustdesk-rd8.loadbalancer.server.port: "{{rustdesk8_port}}"
       traefik.tcp.routers.rustdesk-rd8.tls: false
       traefik.tcp.routers.rustdesk-rd8.tls.passthrough: true
 
-      traefik.tcp.routers.rustdesk-rd9.entrypoints: rd9-tcp
-      traefik.tcp.routers.rustdesk-rd9.rule: HostSNI(`*`)
-      traefik.tcp.routers.rustdesk-rd9.service: rustdesk-rd9
-      traefik.tcp.services.rustdesk-rd9.loadbalancer.server.port: {{rustdesk9_port}}
-      traefik.tcp.routers.rustdesk-rd9.tls: false
-      traefik.tcp.routers.rustdesk-rd9.tls.passthrough: true
+      traefik.tcp.routers.rustdesk-rd9.entrypoints: "rd9-tcp"
+      traefik.tcp.routers.rustdesk-rd9.rule: "HostSNI(`*`)"
+      traefik.tcp.routers.rustdesk-rd9.service: "rustdesk-rd9"
+      traefik.tcp.services.rustdesk-rd9.loadbalancer.server.port: "{{rustdesk9_port}}"
+      traefik.tcp.routers.rustdesk-rd9.tls: "false"
+      traefik.tcp.routers.rustdesk-rd9.tls.passthrough: "true"
 
       ## Configure Rustdesk UDP
-      traefik.udp.routers.rustdesk-rd6.entrypoints: rd6-udp
-      traefik.udp.routers.rustdesk-rd6.service: rustdesk-rd6
-      traefik.udp.services.rustdesk-rd6.loadbalancer.server.port: {{rustdesk6_port}}
+      traefik.udp.routers.rustdesk-rd6.entrypoints: "rd6-udp"
+      traefik.udp.routers.rustdesk-rd6.service: "rustdesk-rd6"
+      traefik.udp.services.rustdesk-rd6.loadbalancer.server.port: "{{rustdesk6_port}}"
     state: present
   tags: rustdesk
