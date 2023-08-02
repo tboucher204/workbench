@@ -11,19 +11,16 @@
     - "{{ project_root_directory }}/rustdesk/data"
   tags: rustdesk
 
-- name: Deploy Rustdesk Service
+- name: Deploy Rustdesk hbbs Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: rustdesk
-    hostname: "{{ rustdesk_hostname }}"
+    name: hbbs
+    hostname: "hbbs"
     image: "{{ rustdesk_docker_image }}:{{ rustdesk_version }}"
+    command: "hbbs -r rust.example.com:21117"
     networks:
       - "{{ traefik_network }}"
     mode: replicated
-    env:
-      RELAY: "rust.{{project_tld}}:21117"
-      ENCRYPTED_ONLY: "1"
-      DB_URL: "/db/db_v2.sqlite3"
     force_update: true
     restart_config:
       condition: on-failure
@@ -32,22 +29,10 @@
         - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{ project_root_directory }}/rustdesk/db/"
-        target: /db
-        type: bind
-      - source: "{{ project_root_directory }}/rustdesk/data/"
-        target: /data
+      - source: "{{ project_root_directory }}/rustdesk/"
+        target: /root
         type: bind
     labels:
-      ## Configure Rustdesk HTTPS
-      traefik.http.routers.rustdesk.entrypoints: "websecure"
-      traefik.http.routers.rustdesk.rule: "Host(`rust.{{project_tld}}`)"
-      traefik.http.routers.rustdesk.middlewares: "default-headers@file,authelia@file"
-      traefik.http.routers.rustdesk.tls: "true"
-      traefik.http.routers.rustdesk.service: "rustdesk"
-      # traefik.http.routers.rustdesk.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.rustdesk.loadbalancer.server.port: "{{rustdesk4_port}}"
-
       ## Configure Rustdesk TCP
       traefik.tcp.routers.rustdesk-rd5.entrypoints: "rd5-tcp"
       traefik.tcp.routers.rustdesk-rd5.rule: "HostSNI(`*`)"
@@ -63,13 +48,6 @@
       traefik.tcp.routers.rustdesk-rd6.tls: "false"
       traefik.tcp.routers.rustdesk-rd6.tls.passthrough: "true"
 
-      traefik.tcp.routers.rustdesk-rd7.entrypoints: "rd7-tcp"
-      traefik.tcp.routers.rustdesk-rd7.rule: "HostSNI(`*`)"
-      traefik.tcp.routers.rustdesk-rd7.service: "rustdesk-rd7"
-      traefik.tcp.services.rustdesk-rd7.loadbalancer.server.port: "{{rustdesk7_port}}"
-      traefik.tcp.routers.rustdesk-rd7.tls: "false"
-      traefik.tcp.routers.rustdesk-rd7.tls.passthrough: "true"
-
       traefik.tcp.routers.rustdesk-rd8.entrypoints: "rd8-tcp"
       traefik.tcp.routers.rustdesk-rd8.rule: "HostSNI(`*`)"
       traefik.tcp.routers.rustdesk-rd8.service: "rustdesk-rd8"
@@ -77,17 +55,52 @@
       traefik.tcp.routers.rustdesk-rd8.tls: "false"
       traefik.tcp.routers.rustdesk-rd8.tls.passthrough: "true"
 
+      ## Configure Rustdesk UDP
+      traefik.udp.routers.rustdesk-rd6.entrypoints: "rd6-udp"
+      traefik.udp.routers.rustdesk-rd6.service: "rustdesk-rd6"
+      traefik.udp.services.rustdesk-rd6.loadbalancer.server.port: "{{rustdesk6_port}}"
+
+      ## Configure Traefik Defaults
+      traefik.enable: "true"
+    state: present
+  tags: rustdesk
+
+- name: Deploy Rustdesk hbbr Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: hbbr
+    hostname: "hbbr"
+    image: "{{ rustdesk_docker_image }}:{{ rustdesk_version }}"
+    command: "hbbr"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    mounts:
+      - source: "{{ project_root_directory }}/rustdesk/"
+        target: /root
+        type: bind
+    labels:
+      ## Configure Rustdesk TCP
+      traefik.tcp.routers.rustdesk-rd7.entrypoints: "rd7-tcp"
+      traefik.tcp.routers.rustdesk-rd7.rule: "HostSNI(`*`)"
+      traefik.tcp.routers.rustdesk-rd7.service: "rustdesk-rd7"
+      traefik.tcp.services.rustdesk-rd7.loadbalancer.server.port: "{{rustdesk7_port}}"
+      traefik.tcp.routers.rustdesk-rd7.tls: "false"
+      traefik.tcp.routers.rustdesk-rd7.tls.passthrough: "true"
+
       traefik.tcp.routers.rustdesk-rd9.entrypoints: "rd9-tcp"
       traefik.tcp.routers.rustdesk-rd9.rule: "HostSNI(`*`)"
       traefik.tcp.routers.rustdesk-rd9.service: "rustdesk-rd9"
       traefik.tcp.services.rustdesk-rd9.loadbalancer.server.port: "{{rustdesk9_port}}"
       traefik.tcp.routers.rustdesk-rd9.tls: "false"
       traefik.tcp.routers.rustdesk-rd9.tls.passthrough: "true"
-
-      ## Configure Rustdesk UDP
-      traefik.udp.routers.rustdesk-rd6.entrypoints: "rd6-udp"
-      traefik.udp.routers.rustdesk-rd6.service: "rustdesk-rd6"
-      traefik.udp.services.rustdesk-rd6.loadbalancer.server.port: "{{rustdesk6_port}}"
 
       ## Configure Traefik Defaults
       traefik.enable: "true"
