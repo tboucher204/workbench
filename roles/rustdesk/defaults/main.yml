@@ -1,4 +1,4 @@
 ---
 rustdesk_version: "latest"
-rustdesk_docker_image: "github/workbench/roles/redis"
+rustdesk_docker_image: "rustdesk/rustdesk-server-s6"
 rustdesk_hostname: "rustdesk"
