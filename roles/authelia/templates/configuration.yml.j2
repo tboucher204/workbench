@@ -32,6 +32,11 @@ access_control:
     - "^/control.*$"
     - "^/meshrelay.*$"
     - "^/github-webhook/.*$"
+  - domain: "music.{{project_tld}}"
+    policy: bypass
+    resources:
+    - "^/rest/.*$"
+    - "^/share/.*$"
   - domain: "login.{{project_tld}}"
     policy: bypass
   - domain: api.{{project_tld}}
