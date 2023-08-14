@@ -1,0 +1,5 @@
+---
+meshcentral_version: "latest"
+meshcentral_hostname: "meshcentral"
+meshcentral_port: "443"
+meshcentral_docker_image: "uldiseihenbergs/meshcentral"

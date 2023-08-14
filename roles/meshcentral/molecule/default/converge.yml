@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include meshcentral"
+      include_role:
+        name: "meshcentral"
