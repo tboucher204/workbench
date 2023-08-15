@@ -14,7 +14,7 @@
     - mysql
     - redis
     - mongodb
-    - elasticsearch
+    # - elasticsearch
     - opensearch
     - keycloak
     - authelia

@@ -35,11 +35,6 @@
     force_update: true
     restart_config:
       condition: on-failure
-    env:
-      HOSTNAME: "mesh.{{project_tld}}"
-      REVERSE_PROXY: "true"
-      ALLOW_NEW_ACCOUNTS: "false"
-      WEBRTC: "false"
     placement:
       constraints:
         - node.id == {{docker_worker1_node_id}}
