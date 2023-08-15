@@ -1,0 +1,4 @@
+---
+opensearch_version: "2.9.0"
+opensearch_cluster_name: "opensearch-cluster"
+opensearch_docker_image: "opensearchproject/opensearch"

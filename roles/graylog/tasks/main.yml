@@ -12,7 +12,7 @@
     name: graylog
     image: "{{ graylog_docker_image }}:{{ graylog_version }}"
     hostname: "{{ graylog_hostname }}"
-    command: "/usr/bin/tini -- wait-for-it elasticsearch:9200 --  /docker-entrypoint.sh"
+    command: "/usr/bin/tini -- wait-for-it opensearch:9200 --  /docker-entrypoint.sh"
     networks:
       - "{{ traefik_network }}"
     publish:

@@ -15,6 +15,7 @@
     - redis
     - mongodb
     - elasticsearch
+    - opensearch
     - keycloak
     - authelia
     - mailrise

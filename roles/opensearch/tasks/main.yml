@@ -1,0 +1,40 @@
+---
+- name: Ensure Opensearch Data Volume Exist
+  when: inventory_hostname == groups['managers'][0]
+  docker_volume:
+    name: opensearch_data
+    state: present
+  tags: opensearch
+
+- name: Deploy Opensearch Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: opensearch
+    hostname: "{{ opensearch_hostname }}"
+    image: "{{ opensearch_docker_image }}:{{ opensearch_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: global
+    env:
+      cluster.name: "{{ opensearch_cluster_name }}"
+      node.name: "{{ opensearch_hostname }}"
+      discovery.type: "single-node"
+      bootstrap.memory_lock: "true"
+      network.host: "0.0.0.0"
+      transport.host: "0.0.0.0"
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+      OPENSEARCH_USERNAME: "{{ opensearch_username }}"
+      OPENSEARCH_PASSWORD: "{{ opensearch_password }}"
+      DISABLE_SECURITY_PLUGIN: "true"
+    force_update: true
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{ docker_master1_node_id }}
+    mounts:
+      - source: opensearch_data
+        target: /usr/share/opensearch/data/
+        type: volume
+    state: present
+  tags: opensearch
