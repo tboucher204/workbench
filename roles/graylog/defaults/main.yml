@@ -1,5 +1,5 @@
 ---
-graylog_version: "5.0.6"
+graylog_version: "5.1.4"
 graylog_hostname: "graylog"
 graylog_port: "9000"
 graylog_syslog_port: "1514"
