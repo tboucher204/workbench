@@ -6,6 +6,13 @@
     state: directory
   tags: mongodb
 
+- name: Ensure MongoDB Data Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: mongodb_data
+    state: present
+  tags: mongodb
+
 - name: Deploy MongoDB Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
@@ -19,9 +26,9 @@
     restart_config:
       condition: on-failure
     mounts:
-      - source: "/datavol/apps/mongodb"
+      - source: mongodb_data
         target: /data/db
-        type: bind
+        type: volume
     placement:
       constraints:
         - node.id == {{docker_worker1_node_id}}

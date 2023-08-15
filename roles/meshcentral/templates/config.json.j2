@@ -1,0 +1,38 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Ylianst/MeshCentral/master/meshcentral-config-schema.json",
+  "__comment1__": "This is a simple configuration file, all values and sections that start with underscore (_) are ignored. Edit a section and remove the _ in front of the name. Refer to the user's guide for details.",
+  "__comment2__": "See node_modules/meshcentral/sample-config-advanced.json for a more advanced example.",
+  "settings": {
+    "cert": "mesh.{{project_tld}}",
+    "WANonly": true,
+    "_LANonly": true,
+    "_sessionKey": "MyReallySecretPassword1",
+    "port": 80,
+    "_aliasPort": 443,
+    "redirPort": 81,
+    "_redirAliasPort": 80,
+    "AgentPong": 300,
+    "TLSOffload": true,
+    "SelfUpdate": false,
+    "AllowFraming": true,
+    "WebRTC": false,
+    "IgnoreAgentHashCheck": false,
+    "log": "debug"
+  },
+  "domains": {
+    "": {
+      "_title": "MyServer",
+      "_title2": "Servername",
+      "_minify": true,
+      "certurl": "https://mesh.{{project_tld}}:443",
+      "newAccounts": false,
+      "_userNameIsEmail": true
+    }
+  },
+  "_letsencrypt": {
+    "__comment__": "Requires NodeJS 8.x or better, Go to https://letsdebug.net/ first before trying Let's Encrypt.",
+    "email": "myemail@mydomain.com",
+    "names": "myserver.mydomain.com",
+    "production": false
+  }
+}
