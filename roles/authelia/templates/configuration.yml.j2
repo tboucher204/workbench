@@ -37,6 +37,10 @@ access_control:
     resources:
     - "^/rest/.*$"
     - "^/share/.*$"
+  - domain: "music.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: "login.{{project_tld}}"
     policy: bypass
   - domain: api.{{project_tld}}
@@ -107,6 +111,34 @@ access_control:
     policy: two_factor
     subject:
     - "group:Media_Users"
+  - domain: "kavita.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "comics.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "audiobooks.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "books.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "photos.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "www.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "guac.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
 
 authentication_backend:
   password_reset:
