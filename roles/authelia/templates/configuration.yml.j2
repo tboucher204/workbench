@@ -63,6 +63,10 @@ access_control:
     policy: bypass
     networks:
     - internal
+  - domain: "mylar.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: "radarr.{{project_tld}}"
     policy: bypass
     networks:
