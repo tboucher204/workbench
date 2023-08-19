@@ -87,6 +87,18 @@ access_control:
     policy: bypass
     networks:
     - internal
+  - domain: "adminer.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "ldapmanager.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "{{home_tld}}/phpldapadmin"
+    policy: bypass
+    networks:
+    - internal
   - domain: cyberchef.{{project_tld}}
     policy: two_factor
     subject:
