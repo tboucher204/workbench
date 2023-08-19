@@ -59,6 +59,30 @@ access_control:
     policy: bypass
     networks:
     - internal
+  - domain: "grafana.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "radarr.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "sonarr.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "sonarr2.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "readarr.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "readarraudio.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: cyberchef.{{project_tld}}
     policy: two_factor
     subject:
