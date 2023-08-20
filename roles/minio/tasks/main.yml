@@ -37,8 +37,8 @@
       MINIO_BROWSER_REDIRECT_URL: "https://minio.{{project_tld}}"
       MINIO_SITE_NAME: "{{minio_site_name}}"
       MINIO_SITE_REGION: "{{minio_site_region}}"
-      MINIO_ROOT_USER: "{{minio_access_key}}"
-      MINIO_ROOT_PASSWORD: "{{minio_secret_key}}"
+      MINIO_ROOT_USER: "{{minio_root_user}}"
+      MINIO_ROOT_PASSWORD: "{{minio_root_password}}"
     placement:
       constraints:
         - node.id == {{docker_worker1_node_id}}

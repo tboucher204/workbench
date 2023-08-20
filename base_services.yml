@@ -25,6 +25,6 @@
     - jenkins
     - code-server
     # - n8n
-    # - minio
+    - minio
     - apprise-api
     - shepherd
