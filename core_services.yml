@@ -14,7 +14,7 @@
     # - paperless
     # - plausible
     # - listmonk
-    # - wiki.js
+    - wiki.js
     # - mkdocs
     - graylog
     - adminer
