@@ -3,16 +3,16 @@
   "__comment1__": "This is a simple configuration file, all values and sections that start with underscore (_) are ignored. Edit a section and remove the _ in front of the name. Refer to the user's guide for details.",
   "__comment2__": "See node_modules/meshcentral/sample-config-advanced.json for a more advanced example.",
   "settings": {
-    "cert": "{{project_tld}}",
+    "cert": "mesh.{{project_tld}}",
     "WANonly": true,
     "_LANonly": true,
     "_sessionKey": "MyReallySecretPassword1",
     "port": 4430,
     "aliasPort": 443,
-    "redirPort": 800,
+    "_redirPort": 800,
     "_redirAliasPort": 80,
     "_agentPong": 300,
-    "tlsOffload": "true",
+    "_tlsOffload": "true",
     "_SelfUpdate": false,
     "_AllowFraming": true,
     "_WebRTC": false,
@@ -21,19 +21,19 @@
   },
   "domains": {
     "": {
-      "title": "The Boucher 6",
-      "title2": "MeshCentral",
+      "title": "MeshCentral",
+      "title2": "The Boucher 6",
       "_minify": true,
-      "certUrl": "https://127.0.0.1:443/",
+      "certUrl": "https://mesh.{{project_tld}}/",
       "newAccounts": false,
       "agentConfig": [ "webSocketMaskOverride=1" ],
       "_userNameIsEmail": true
     }
   },
-  "_letsencrypt": {
+  "letsencrypt": {
     "__comment__": "Requires NodeJS 8.x or better, Go to https://letsdebug.net/ first before trying Let's Encrypt.",
-    "email": "myemail@mydomain.com",
-    "names": "myserver.mydomain.com",
+    "email": "tim@{{project_tld}}",
+    "names": "mesh.{{project_tld}}",
     "production": false
   }
 }
