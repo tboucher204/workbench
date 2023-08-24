@@ -95,6 +95,18 @@ access_control:
     policy: bypass
     networks:
     - internal
+  - domain: "amp.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "mesh.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "wiki.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: "{{home_tld}}/phpldapadmin"
     policy: bypass
     networks:
