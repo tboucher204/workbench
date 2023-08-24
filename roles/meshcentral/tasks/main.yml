@@ -35,6 +35,10 @@
     force_update: true
     restart_config:
       condition: on-failure
+    publish:
+      - published_port: "{{meshcentral_port}}"
+        target_port: "{{meshcentral_port}}"
+        mode: "host"
     placement:
       constraints:
         - node.id == {{docker_worker1_node_id}}
