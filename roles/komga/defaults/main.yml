@@ -1,5 +1,5 @@
 ---
 komga_version: "latest"
 komga_hostname: "komga"
-komga_port: "8080"
+komga_port: "25600"
 komga_docker_image: "gotson/komga"

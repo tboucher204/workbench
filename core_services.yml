@@ -30,5 +30,5 @@
     - speedtest
     - auto-mb4
     - firefox
-    - rustdesk
+    # - rustdesk
     - meshcentral
