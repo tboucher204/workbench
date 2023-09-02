@@ -79,6 +79,10 @@ access_control:
     policy: bypass
     networks:
     - internal
+  - domain: "lidarr.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: "readarr.{{project_tld}}"
     policy: bypass
     networks:
