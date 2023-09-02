@@ -1,0 +1,53 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_media_directory}}/Watch/music-tag"
+    state: directory
+  tags: picard
+
+- name: Ensure Picard Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/picard"
+    state: directory
+  tags: picard
+
+- name: Deploy Picard Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: picard
+    hostname: "{{picard_hostname}}"
+    image: "{{picard_docker_image}}:{{picard_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      USER_ID: "{{media_user}}"
+      GROUP_ID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/picard/"
+        target: /config
+        type: bind
+      - source: "{{project_media_directory}}/Watch/music-tag/"
+        target: /storage
+        type: bind
+    labels:
+      traefik.http.routers.picard.entrypoints: "websecure"
+      traefik.http.routers.picard.rule: "Host(`picard.{{project_tld}}`)"
+      traefik.http.routers.picard.middlewares: "default-headers@file"
+      traefik.http.routers.picard.tls: "true"
+      traefik.http.routers.picard.service: "picard"
+      # traefik.http.routers.picard.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.picard.loadbalancer.server.port: "{{picard_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: picard

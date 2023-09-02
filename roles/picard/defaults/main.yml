@@ -1,0 +1,5 @@
+---
+picard_version: "latest"
+picard_hostname: "picard"
+picard_port: "5800"
+picard_docker_image: "mikenye/picard"
