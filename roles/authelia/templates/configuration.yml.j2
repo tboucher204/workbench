@@ -83,6 +83,10 @@ access_control:
     policy: bypass
     networks:
     - internal
+  - domain: "prowlarr.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: "readarr.{{project_tld}}"
     policy: bypass
     networks:
