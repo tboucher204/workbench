@@ -1,0 +1,5 @@
+---
+mstream_version: "latest"
+mstream_hostname: "mstream"
+mstream_port: "3000"
+mstream_docker_image: "lscr.io/linuxserver/mstream"

@@ -1,0 +1,57 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_media_directory}}/Music"
+    - "{{project_media_directory}}/Playlists"
+    - "{{project_media_directory}}/Podcasts"
+  tags: mstream
+
+- name: Ensure mStream Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/mstream"
+    state: directory
+  tags: mstream
+
+- name: Deploy mStream Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: mstream
+    hostname: "{{mstream_hostname}}"
+    image: "{{mstream_docker_image}}:{{mstream_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}" 
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/mstream/"
+        target: /config
+        type: bind
+      - source: "{{project_media_directory}}/Music/"
+        target: /music
+        type: bind
+    labels:
+      traefik.http.routers.mstream.entrypoints: "websecure"
+      traefik.http.routers.mstream.rule: "Host(`mstream.{{project_tld}}`)"
+      traefik.http.routers.mstream.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.mstream.tls: "true"
+      traefik.http.routers.mstream.service: "mstream"
+      # traefik.http.routers.mstream.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.mstream.loadbalancer.server.port: "{{mstream_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: mstream
