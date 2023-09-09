@@ -1,0 +1,43 @@
+---
+- name: Ensure Overseerr Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/overseerr"
+    state: directory
+  tags: overseerr
+
+- name: Deploy Overseerr Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: overseerr
+    hostname: "{{overseerr_hostname}}"
+    image: "{{overseerr_docker_image}}:{{overseerr_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/overseerr/"
+        target: /config
+        type: bind
+    labels:
+      traefik.http.routers.overseerr.entrypoints: "websecure"
+      traefik.http.routers.overseerr.rule: "Host(`overseerr.{{project_tld}}`)"
+      traefik.http.routers.overseerr.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.overseerr.tls: "true"
+      traefik.http.routers.overseerr.service: "overseerr"
+      # traefik.http.routers.overseerr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.overseerr.loadbalancer.server.port: "{{overseerr_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: overseerr
