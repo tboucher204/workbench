@@ -99,6 +99,18 @@ access_control:
     policy: bypass
     networks:
     - internal
+  - domain: "ombi.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "overseer.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
+  - domain: "wizarr.{{project_tld}}"
+    policy: bypass
+    networks:
+    - internal
   - domain: "ldapmanager.{{project_tld}}"
     policy: bypass
     networks:
