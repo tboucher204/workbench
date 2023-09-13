@@ -108,6 +108,13 @@ access_control:
     networks:
     - internal
   - domain: "join.{{project_tld}}"
+    resources:
+    - '^/j/'
+    - '^/join/'
+    - '^/setup/*'
+    - '^/static/'
+    policy: bypass
+  - domain: "join.{{project_tld}}"
     policy: bypass
     networks:
     - internal
