@@ -32,7 +32,7 @@
     - calibre-web
     # - airsonic
     - navidrome
-    - mstream
+    # - mstream
     # - koel
     - audiobookshelf
     - tinymediamanager
