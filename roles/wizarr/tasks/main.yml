@@ -1,9 +1,9 @@
 ---
-- name: Ensure Wizarr Dataset Exist
+- name: Ensure Wizarr Data Volume Exist
   when: inventory_hostname == groups['media'][0]
-  file:
-    name: "{{project_root_directory}}/wizarr"
-    state: directory
+  community.docker.docker_volume:
+    name: wizarr
+    state: present
   tags: wizarr
 
 - name: Deploy Wizarr Service
@@ -22,16 +22,14 @@
       TZ: "{{default_timezone}}"
       APP_URL: "https://join.{{project_tld}}"
       DISABLE_BUILTIN_AUTH: "false"
-      DOCKER_MODS: "gilbn/theme.park:{{wizarr_hostname}}"
-      TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/wizarr/"
+      - source: wizarr
         target: /data/database
-        type: bind
+        type: volume
     labels:
       traefik.http.routers.wizarr.entrypoints: "websecure"
       traefik.http.routers.wizarr.rule: "Host(`join.{{project_tld}}`)"
