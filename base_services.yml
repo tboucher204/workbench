@@ -16,7 +16,7 @@
     - mongodb
     # - elasticsearch
     - opensearch
-    - keycloak
+    # - keycloak
     - authelia
     - mailrise
     # - gitea

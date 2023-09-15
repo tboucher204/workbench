@@ -103,10 +103,6 @@ access_control:
     policy: bypass
     networks:
     - internal
-  - domain: "overseerr.{{project_tld}}"
-    policy: bypass
-    networks:
-    - internal
   - domain: "join.{{project_tld}}"
     resources:
     - '^/j/'
