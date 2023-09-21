@@ -25,7 +25,6 @@
     name: authentik-server
     hostname: "authentik-server"
     image: "{{ authentik_docker_image }}:{{ authentik_version }}"
-    command: server
     networks:
       - "{{ traefik_network }}"
     mode: replicated
@@ -61,53 +60,6 @@
         type: bind
       - source: "{{project_media_directory}}/"
         target: /media
-        type: bind
-    state: present
-  tags: authentik
-
-- name: Deploy Authentik Worker Service
-  when: inventory_hostname == groups['managers'][0]
-  community.docker.docker_swarm_service:
-    name: authentik-worker
-    hostname: "authentik-worker"
-    image: "{{ authentik_docker_image }}:{{ authentik_version }}"
-    command: "worker"
-    networks:
-      - "{{ traefik_network }}"
-    mode: replicated
-    force_update: true
-    restart_config:
-      condition: on-failure
-    placement:
-      constraints:
-        - node.id == {{ docker_master1_node_id }}
-    replicas: 1
-    env:
-      AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgres
-      AUTHENTIK_POSTGRESQL__USER: "{{authentik_database_user}}"
-      AUTHENTIK_POSTGRESQL__NAME: "{{authentik_database}}"
-      AUTHENTIK_POSTGRESQL__PASSWORD: "{{authentik_database_password}}"
-      AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
-      AUTHENTIK_EMAIL__HOST: "{{email_host}}"
-      AUTHENTIK_EMAIL__PORT: "{{email_port}}"
-      AUTHENTIK_EMAIL__USERNAME: "{{email_user}}"
-      AUTHENTIK_EMAIL__PASSWORD: "{{email_password}}"
-      AUTHENTIK_EMAIL__USE_TLS: "true"
-      AUTHENTIK_EMAIL__FROM: "{{authentik_email}}"
-    mounts:
-      - source: "{{ project_root_directory }}/authentik/"
-        target: /templates
-        type: bind
-      - source: "/var/run/docker.sock"
-        target: /var/run/docker.sock
-        type: bind
-      - source: "{{project_media_directory}}/"
-        target: /media
-        type: bind
-      - source: "{{project_media_directory}}/Certificates/certs/"
-        target: /certs
         type: bind
     state: present
   tags: authentik
