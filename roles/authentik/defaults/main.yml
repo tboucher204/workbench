@@ -1,4 +1,6 @@
 ---
 authentik_version: "latest"
 authentik_docker_image: "ghcr.io/goauthentik/server"
+audiobookshelf_port_http: "9000"
+audiobookshelf_port: "9443"
 authentik_hostname: "authentik"
