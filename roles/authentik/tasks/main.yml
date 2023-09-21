@@ -79,9 +79,9 @@
     replicas: 1
     publish:
       - published_port: "9444"
-        target_port: "{{audiobookshelf_port}}"
+        target_port: "{{authentik_port}}"
       - published_port: "9001"
-        target_port: "{{audiobookshelf_port_http}}"
+        target_port: "{{authentik_port_http}}"
     env:
       AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
       AUTHENTIK_REDIS__HOST: redis
