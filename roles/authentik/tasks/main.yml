@@ -25,7 +25,7 @@
     name: authentik-server
     hostname: "authentik-server"
     image: "{{ authentik_docker_image }}:{{ authentik_version }}"
-    command: "server"
+    command: server
     networks:
       - "{{ traefik_network }}"
     mode: replicated
@@ -37,9 +37,9 @@
         - node.id == {{ docker_master1_node_id }}
     replicas: 1
     publish:
-      - published_port: "9444"
+      - published_port: "9445"
         target_port: "{{authentik_port}}"
-      - published_port: "9001"
+      - published_port: "9002"
         target_port: "{{authentik_port_http}}"
     env:
       AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
