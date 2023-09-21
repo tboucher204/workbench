@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Authentik"
+      include_role:
+        name: "rustdesk"

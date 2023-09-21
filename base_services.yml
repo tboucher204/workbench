@@ -18,6 +18,7 @@
     - opensearch
     # - keycloak
     - authelia
+    - authentik
     - mailrise
     # - gitea
     # - gitlab

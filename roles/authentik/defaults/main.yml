@@ -1,0 +1,4 @@
+---
+authentik_version: "latest"
+authentik_docker_image: "ghcr.io/goauthentik/server"
+authentik_hostname: "authentik"

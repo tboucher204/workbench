@@ -1,0 +1,108 @@
+---
+- name: Ensure Authentik Directories Exist
+  when: inventory_hostname == groups['managers'][0]
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  loop:
+    - "{{ project_root_directory }}/authentik"
+  tags: authentik
+
+- name: Ensure Authentik Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ authentik_database }}"
+    database_user: "{{ authentik_database_user }}"
+    database_password: "{{ authentik_database_password }}"
+  tags: authentik
+  no_log: true
+
+- name: Deploy Authentik Server Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: authentik-server
+    hostname: "authentik-server"
+    image: "{{ authentik_docker_image }}:{{ authentik_version }}"
+    command: "server"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{ docker_master1_node_id }}
+    replicas: 1
+    env:
+      AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__USER: "{{authentik_database_user}}"
+      AUTHENTIK_POSTGRESQL__NAME: "{{authentik_database}}"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "{{authentik_database_password}}"
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
+      AUTHENTIK_EMAIL__HOST: "{{email_host}}"
+      AUTHENTIK_EMAIL__PORT: "{{email_port}}"
+      AUTHENTIK_EMAIL__USERNAME: "{{email_user}}"
+      AUTHENTIK_EMAIL__PASSWORD: "{{email_password}}"
+      AUTHENTIK_EMAIL__USE_TLS: "true"
+      AUTHENTIK_EMAIL__FROM: "{{authentik_email}}"
+    mounts:
+      - source: "{{ project_root_directory }}/authentik/"
+        target: /templates
+        type: bind
+      - source: "{{project_media_directory}}/"
+        target: /media
+        type: bind
+    state: present
+  tags: authentik
+
+- name: Deploy Authentik Worker Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: authentik-worker
+    hostname: "authentik-worker"
+    image: "{{ authentik_docker_image }}:{{ authentik_version }}"
+    command: "worker"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{ docker_master1_node_id }}
+    replicas: 1
+    env:
+      AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__USER: "{{authentik_database_user}}"
+      AUTHENTIK_POSTGRESQL__NAME: "{{authentik_database}}"
+      AUTHENTIK_POSTGRESQL__PASSWORD: "{{authentik_database_password}}"
+      AUTHENTIK_ERROR_REPORTING__ENABLED: "false"
+      AUTHENTIK_EMAIL__HOST: "{{email_host}}"
+      AUTHENTIK_EMAIL__PORT: "{{email_port}}"
+      AUTHENTIK_EMAIL__USERNAME: "{{email_user}}"
+      AUTHENTIK_EMAIL__PASSWORD: "{{email_password}}"
+      AUTHENTIK_EMAIL__USE_TLS: "true"
+      AUTHENTIK_EMAIL__FROM: "{{authentik_email}}"
+    mounts:
+      - source: "{{ project_root_directory }}/authentik/"
+        target: /templates
+        type: bind
+      - source: "/var/run/docker.sock"
+        target: /var/run/docker.sock
+        type: bind
+      - source: "{{project_media_directory}}/"
+        target: /media
+        type: bind
+      - source: "{{project_media_directory}}/Certificates/certs/"
+        target: /certs
+        type: bind
+    state: present
+  tags: authentik
