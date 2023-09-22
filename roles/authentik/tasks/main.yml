@@ -62,5 +62,14 @@
       - source: "{{project_media_directory}}/"
         target: /media
         type: bind
+    labels:
+      traefik.http.routers.authentik.entrypoints: "websecure"
+      traefik.http.routers.authentik.rule: "Host(`authentik.{{project_tld}}`)"
+      traefik.http.routers.authentik.middlewares: "default-headers@file"
+      traefik.http.routers.authentik.tls: "true"
+      traefik.http.routers.authentik.service: "authentik"
+      # traefik.http.routers.authentik.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.authentik.loadbalancer.server.port: "{{authentik_port_http}}"
+      traefik.enable: "true"
     state: present
   tags: authentik
