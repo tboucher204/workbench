@@ -25,7 +25,7 @@ services:
         - "traefik.enable=true"
     environment:
       - PUID={{ media_user }}
-      - GUID={{ media_group }}
+      - PGID={{ media_group }}
       - TZ={{ default_timezone }}
       - CREATE_TUN_DEVICE=true
       - OPENVPN_PROVIDER=EXPRESSVPN
