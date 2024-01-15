@@ -1,4 +1,4 @@
 ---
-prowlarr_version: "develop"
+prowlarr_version: "latest"
 prowlarr_hostname: "prowlarr"
 prowlarr_docker_image: "ghcr.io/linuxserver/prowlarr"
