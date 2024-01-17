@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Socket-proxy"
+      include_role:
+        name: "socketproxy"

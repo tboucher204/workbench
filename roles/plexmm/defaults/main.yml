@@ -1,0 +1,4 @@
+---
+plexmm_version: "latest"
+plexmm_hostname: "plexmm"
+plexmm_docker_image: "ghcr.io/linuxserver/plexmm"

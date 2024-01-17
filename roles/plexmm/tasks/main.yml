@@ -1,0 +1,48 @@
+---
+- name: Ensure Plexmm Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/plexmm"
+    state: directory
+  tags: plexmm
+
+# - name: Ensure Plexmm Configuration Files Exist
+#   when: inventory_hostname == groups['media'][0]
+#   template:
+#     src: config.xml.j2
+#     dest: "{{project_root_directory}}/plexmm/config.xml"
+#   tags: plexmm
+#   no_log: true
+
+- name: Deploy Plexmm Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: plexmm
+    hostname: "{{plexmm_hostname}}"
+    image: "{{plexmm_docker_image}}:{{plexmm_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+      PMM_CONFIG: "/config/config.yml"
+      PMM_TIME: "03:00"
+      PMM_RUN: "True"
+      PMM_TEST: "False"
+      PMM_NO_MISSING: "False"
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/plexmm/"
+        target: /config
+        type: bind
+    state: present
+  tags: plexmm
+  
