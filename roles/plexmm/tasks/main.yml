@@ -30,7 +30,7 @@
       PUID: "{{media_user}}"
       PGID: "{{media_group}}"
       TZ: "{{default_timezone}}"
-      PMM_CONFIG: "/config/config.yml"
+      # PMM_CONFIG: "/config/config.yml"
       PMM_TIME: "03:00"
       PMM_RUN: "True"
       PMM_TEST: "False"
