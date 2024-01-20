@@ -4,7 +4,7 @@
   gather_facts: true
   become: false
   roles:
-    - gluetun
+    # - gluetun
     - transmission
     - sabnzbd
     # - qbittorrent
