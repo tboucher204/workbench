@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Gluetun"
+      include_role:
+        name: "Gluetun"

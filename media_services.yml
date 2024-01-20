@@ -4,9 +4,10 @@
   gather_facts: true
   become: false
   roles:
+    - gluetun
     - transmission
     - sabnzbd
-    # - qbittorrent
+    - qbittorrent
     - prowlarr
     - sonarr
     - radarr
@@ -25,7 +26,7 @@
     # - peertube
     - tautulli
     - embystat
-    - wizarr
+    # - wizarr
     # - tdarr
     # - unpackerr
     # - calibre
@@ -36,5 +37,5 @@
     # - koel
     - audiobookshelf
     - tinymediamanager
-    - plexmm
+    # - plexmm
     

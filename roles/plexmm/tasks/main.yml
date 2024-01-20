@@ -6,13 +6,13 @@
     state: directory
   tags: plexmm
 
-# - name: Ensure Plexmm Configuration Files Exist
-#   when: inventory_hostname == groups['media'][0]
-#   template:
-#     src: config.xml.j2
-#     dest: "{{project_root_directory}}/plexmm/config.xml"
-#   tags: plexmm
-#   no_log: true
+- name: Ensure Plexmm Configuration Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: config.yml.j2
+    dest: "{{project_root_directory}}/plexmm/config.yml"
+  tags: plexmm
+  no_log: true
 
 - name: Deploy Plexmm Service
   when: inventory_hostname == groups['managers'][0]
@@ -30,7 +30,7 @@
       PUID: "{{media_user}}"
       PGID: "{{media_group}}"
       TZ: "{{default_timezone}}"
-      # PMM_CONFIG: "/config/config.yml"
+      PMM_CONFIG: "/config/config.yml"
       PMM_TIME: "03:00"
       PMM_RUN: "True"
       PMM_TEST: "False"

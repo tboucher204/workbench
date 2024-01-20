@@ -29,7 +29,7 @@ services:
       - TZ={{ default_timezone }}
       - CREATE_TUN_DEVICE=true
       - OPENVPN_PROVIDER=EXPRESSVPN
-      - OPENVPN_CONFIG=my_expressvpn_switzerland_udp,my_expressvpn_switzerland_-_2_udp,my_expressvpn_mexico_udp
+      - OPENVPN_CONFIG={{ transmission_openvpn_countries }}
       - OPENVPN_USERNAME={{ transmission_openvpn_username }}
       - OPENVPN_PASSWORD={{ transmission_openvpn_password }}
       - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60

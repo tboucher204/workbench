@@ -1,0 +1,4 @@
+---
+gluetun_version: "latest"
+gluetun_hostname: "gluetun"
+gluetun_docker_image: "qmcgaw/gluetun"

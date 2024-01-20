@@ -1,3 +1,4 @@
 ---
-transmission_openvpn_password: "{{ vault_transmission_openvpn_password }}"
-transmission_openvpn_username: "{{ vault_transmission_openvpn_username }}"
+transmission_openvpn_countries: "{{ vault_expressvpn_countries }}"
+transmission_openvpn_password: "{{ vault_expressvpn_password }}"
+transmission_openvpn_username: "{{ vault_expressvpn_username }}"
