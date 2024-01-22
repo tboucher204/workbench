@@ -26,7 +26,6 @@
       OPENVPN_USER: "{{gluetun_openvpn_username}}"
       OPENVPN_PASSWORD: "{{gluetun_openvpn_password}}"
       SERVER_COUNTRIES: "{{gluetun_openvpn_countries}}"
-    replicas: 1
     mounts:
       - source: "{{project_root_directory}}/gluetun/"
         target: /gluetun
