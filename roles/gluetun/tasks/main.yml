@@ -8,16 +8,18 @@
 
 - name: Deploy Gluetun Service
   when: inventory_hostname == groups['media'][0]
-  community.docker.docker_container:
+  community.docker.docker_swarm_service:
     name: gluetun
     hostname: "{{gluetun_hostname}}"
     image: "{{gluetun_docker_image}}:{{gluetun_version}}"
     networks:
       - "{{traefik_network}}"
-    capabilities:
+    cap_add:
       - "NET_ADMIN"
     devices:
       - "/dev/net/tun"
+    mode: replicated
+    force_update: true
     restart_config:
       condition: on-failure
     env:
@@ -26,6 +28,10 @@
       OPENVPN_USER: "{{gluetun_openvpn_username}}"
       OPENVPN_PASSWORD: "{{gluetun_openvpn_password}}"
       SERVER_COUNTRIES: "{{gluetun_openvpn_countries}}"
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    replicas: 1
     mounts:
       - source: "{{project_root_directory}}/gluetun/"
         target: /gluetun
