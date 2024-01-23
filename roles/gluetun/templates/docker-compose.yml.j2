@@ -23,8 +23,8 @@ services:
         - "traefik.enable=true"
     environment:
       - TZ={{ default_timezone }}
-      - VPN_SERVICE_PROVIDER=EXPRESSVPN
-      - OPENVPN_COUNTRIES={{ gluetun_openvpn_countries }}
+      - VPN_SERVICE_PROVIDER=expressvpn
+      - SERVER_COUNTRIES={{ gluetun_openvpn_countries }}
       - OPENVPN_USER={{ gluetun_openvpn_username }}
       - OPENVPN_PASSWORD={{ gluetun_openvpn_password }}
       - HTTPPROXY=on
