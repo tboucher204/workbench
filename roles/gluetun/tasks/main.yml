@@ -6,44 +6,19 @@
     state: directory
   tags: gluetun
 
-- name: Deploy Gluetun Service
+- name: Create Gluetun Docker Compose File
   when: inventory_hostname == groups['media'][0]
-  community.docker.docker_swarm_service:
-    name: gluetun
-    hostname: "{{gluetun_hostname}}"
-    image: "{{gluetun_docker_image}}:{{gluetun_version}}"
-    networks:
-      - "{{traefik_network}}"
-    cap_add:
-      - "NET_ADMIN"
-    devices:
-      - "/dev/net/tun"
-    mode: replicated
-    force_update: true
-    restart_config:
-      condition: on-failure
-    env:
-      TZ: "{{default_timezone}}"
-      VPN_SERVICE_PROVIDER: "expressvpn"
-      OPENVPN_USER: "{{gluetun_openvpn_username}}"
-      OPENVPN_PASSWORD: "{{gluetun_openvpn_password}}"
-      SERVER_COUNTRIES: "{{gluetun_openvpn_countries}}"
-    placement:
-      constraints:
-        - node.id == {{docker_worker2_node_id}}
-    replicas: 1
-    mounts:
-      - source: "{{project_root_directory}}/gluetun/"
-        target: /gluetun
-        type: bind
-    labels:
-      traefik.http.routers.gluetun-qbittorrent.entrypoints: "websecure"
-      traefik.http.routers.gluetun-qbittorrent.rule: "Host(`qbit.{{project_tld}}`)"
-      traefik.http.routers.gluetun-qbittorrent.middlewares: "default-headers@file"
-      traefik.http.routers.gluetun-qbittorrent.tls: "true"
-      traefik.http.routers.gluetun-qbittorrent.service: "gluetun-qbittorrent"
-      # traefik.http.routers.gluetun-qbittorrent.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.gluetun-qbittorrent.loadbalancer.server.port: "8080"
-      traefik.enable: "true"
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{project_root_directory}}/gluetun/docker-compose.yml"
+    mode: 0775
+  tags: gluetun
+
+- name: Deploy Gluetun from Compose File
+  when: inventory_hostname == groups['media'][0]
+  docker_stack:
     state: present
+    name: gluetun
+    compose:
+      - "{{project_root_directory}}/gluetun/docker-compose.yml"
   tags: gluetun

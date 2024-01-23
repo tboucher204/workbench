@@ -1,0 +1,44 @@
+version: '3.5'
+
+services:
+  gluetun:
+    image: "{{gluetun_docker_image}}:{{gluetun_version}}"
+    hostname: "{{gluetun_hostname}}"
+    networks:
+      - {{traefik_network}}
+    volumes:
+      - {{ project_root_directory }}/gluetun:/gluetun
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.id == {{ docker_worker2_node_id }}]
+      labels:
+        - "traefik.http.routers.gluetun-qbittorrent.entrypoints=websecure"
+        - "traefik.http.routers.gluetun-qbittorrent.rule=Host(`qbit.{{project_tld}}`)
+        - "traefik.http.routers.gluetun-qbittorrent.middlewares=default-headers@file,authelia@file"
+        - "traefik.http.routers.gluetun-qbittorrent.tls=true"
+        - "traefik.http.routers.gluetun-qbittorrent.service=gluetun-qbittorrent"
+        # - "traefik.http.routers.gluetun-qbittorrent.tls.certresolver={{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
+        - "traefik.http.services.gluetun-qbittorrent.loadbalancer.server.port={{ gluetun_qbittorrent_port }}"
+        - "traefik.enable=true"
+    environment:
+      - TZ={{ default_timezone }}
+      - VPN_SERVICE_PROVIDER=EXPRESSVPN
+      - OPENVPN_COUNTRIES={{ gluetun_openvpn_countries }}
+      - OPENVPN_USER={{ gluetun_openvpn_username }}
+      - OPENVPN_PASSWORD={{ gluetun_openvpn_password }}
+    devices:
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - target: {{ gluetun_qbittorrent_port }}
+        published: {{ gluetun_qbittorrent_port }}
+        protocol: tcp
+        mode: host
+    restart: unless-stopped
+
+networks:
+  {{traefik_network}}:
+    external: true
+    name: {{traefik_network}}

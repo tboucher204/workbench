@@ -2,3 +2,4 @@
 gluetun_openvpn_countries: "{{ vault_expressvpn_countries }}"
 gluetun_openvpn_password: "{{ vault_expressvpn_password }}"
 gluetun_openvpn_username: "{{ vault_expressvpn_username }}"
+gluetun_qbittorrent_port: "8080"
