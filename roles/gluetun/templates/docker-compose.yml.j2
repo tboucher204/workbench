@@ -27,6 +27,9 @@ services:
       - OPENVPN_COUNTRIES={{ gluetun_openvpn_countries }}
       - OPENVPN_USER={{ gluetun_openvpn_username }}
       - OPENVPN_PASSWORD={{ gluetun_openvpn_password }}
+      - HTTPPROXY=on
+      - HTTPPROXY_LOG=on
+      - HTTPPROXY_STEALTH=on
     devices:
       - /dev/net/tun
     cap_add:
