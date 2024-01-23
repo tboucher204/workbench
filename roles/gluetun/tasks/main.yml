@@ -7,7 +7,7 @@
   tags: gluetun
 
 - name: Create Gluetun Docker Compose File
-  when: inventory_hostname == groups['media'][0]
+  when: inventory_hostname == groups['managers'][0]
   template:
     src: docker-compose.yml.j2
     dest: "{{project_root_directory}}/gluetun/docker-compose.yml"
@@ -15,7 +15,7 @@
   tags: gluetun
 
 - name: Deploy Gluetun from Compose File
-  when: inventory_hostname == groups['media'][0]
+  when: inventory_hostname == groups['managers'][0]
   docker_stack:
     state: present
     name: gluetun
