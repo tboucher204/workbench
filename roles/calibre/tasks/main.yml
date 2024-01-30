@@ -22,7 +22,6 @@
       PUID: "{{media_user}}"
       PGID: "{{media_group}}"
       TZ: "{{default_timezone}}"
-      PASSWORD: "{{calibre_password}}"
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}

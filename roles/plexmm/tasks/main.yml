@@ -2,17 +2,19 @@
 - name: Ensure Plexmm Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_root_directory}}/plexmm"
+    name: "{{ project_root_directory }}/plexmm"
     state: directory
+    mode: 0755
   tags: plexmm
 
 - name: Ensure Plexmm Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
     src: config.yml.j2
-    dest: "{{project_root_directory}}/plexmm/config.yml"
+    dest: "{{ project_root_directory }}/plexmm/config.yml"
+    mode: 0755
   tags: plexmm
-  no_log: true
+  no_log: false
 
 - name: Deploy Plexmm Service
   when: inventory_hostname == groups['managers'][0]
