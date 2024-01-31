@@ -1,14 +1,12 @@
 libraries:              # Library mappings must have a colon (:) placed after them
   Movies:
     metadata_path:
-      - file: config/Movies.yml
       - pmm: basic
       - pmm: studio
       - pmm: genre
       - pmm: actor
   TV:
     metadata_path:
-      - file: config/TV.yml
       - pmm: basic
       - pmm: network
 settings:                  # Can be individually specified per library as well
@@ -47,7 +45,7 @@ radarr:                     # Can be individually specified per library as well
   token: {{radarr_api_key}}
   version: v3
   add: false
-  root_folder_path: "/media/movies/Movies"
+  root_folder_path: /media/movies/Movies
   monitor: true
   availability: announced
   quality_profile: HD - 720p/1080p
@@ -59,7 +57,7 @@ sonarr:                      # Can be individually specified per library as well
   token: {{sonarr_api_key}}
   version: v3
   add: false
-  root_folder_path: "/media/tv/TV Series"
+  root_folder_path: /media/tv/'TV Series'
   monitor: all
   quality_profile: Any
   language_profile: English

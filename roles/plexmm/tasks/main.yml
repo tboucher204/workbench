@@ -2,9 +2,12 @@
 - name: Ensure Plexmm Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{ project_root_directory }}/plexmm"
+    path: "{{ item }}"
     state: directory
     mode: 0755
+  loop:
+    - "{{ project_root_directory }}/plexmm"
+    - "{{ project_root_directory }}/plexmm/assets"
   tags: plexmm
 
 - name: Ensure Plexmm Configuration Files Exist
