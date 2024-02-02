@@ -30,3 +30,4 @@
     # - minio
     - apprise-api
     - shepherd
+    - dockergc
