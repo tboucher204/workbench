@@ -1,0 +1,28 @@
+---
+- name: Deploy Docker-GC Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: dockergc
+    hostname: "{{ dockergc_hostname }}"
+    image: "{{ dockergc_docker_image }}:{{ dockergc_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      CRON: "0 0 0 * * ?" # Everday at midnight
+      FORCE_IMAGE_REMOVAL: "1"
+      FORCE_CONTAINER_REMOVAL: "0"
+      GRACE_PERIOD_SECONDS: "604800"
+      DRY_RUN: "0"
+      TZ: "{{ default_timezone }}"
+      DOCKER_HOST: "tcp://socket-proxy:2375"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    state: present
+  tags: dockergc
+  

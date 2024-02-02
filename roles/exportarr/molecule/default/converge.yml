@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include dockergc"
+      include_role:
+        name: "dockergc"
