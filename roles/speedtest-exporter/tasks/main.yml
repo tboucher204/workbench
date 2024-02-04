@@ -1,0 +1,19 @@
+---
+- name: Deploy Speedtest-Exporter Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: speedtestexporter
+    hostname: "{{speedtestexporter_hostname}}"
+    image: "{{speedtestexporter_docker_image}}:{{speedtestexporter_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    state: present
+  tags: speedtestexporter

@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Speedtest-Exporter"
+      include_role:
+        name: "speedtestexporter"

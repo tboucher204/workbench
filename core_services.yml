@@ -27,7 +27,7 @@
     - influxdb
     - telegraf
     - grafana
-    - speedtest
+    - speedtest-exporter
     - auto-mb4
     - firefox
     # - rustdesk
