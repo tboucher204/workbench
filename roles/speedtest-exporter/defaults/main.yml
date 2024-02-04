@@ -1,4 +1,4 @@
 ---
 speedtestexporter_version: latest
-speedtestexporter_hostname: "speedtestexporter"
+speedtestexporter_hostname: "speedtest-exporter"
 speedtestexporter_docker_image: "miguelndecarvalho/speedtest-exporter"
