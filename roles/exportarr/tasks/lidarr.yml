@@ -1,0 +1,25 @@
+---
+- name: Deploy Exportarr Lidarr Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: "{{exportarr_lidarr_hostname}}"
+    hostname: "{{exportarr_lidarr_hostname}}"
+    image: "{{exportarr_docker_image}}:{{exportarr_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      PORT: "9709"
+      URL: "http://lidarr:8686"
+      APIKEY: "15c961d3c67c4068a8c1b40f201d0bdd"
+      ENABLE_ADDITIONAL_METRICS: "TRUE"
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    state: present
+  tags: exportarr
+  

@@ -28,6 +28,7 @@
     - telegraf
     - grafana
     - speedtest-exporter
+    - exportarr
     - auto-mb4
     - firefox
     # - rustdesk

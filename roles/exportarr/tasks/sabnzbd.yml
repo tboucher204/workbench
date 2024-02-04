@@ -1,0 +1,25 @@
+---
+- name: Deploy Exportarr Sabnzbd Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: "{{exportarr_sabnzbd_hostname}}"
+    hostname: "{{exportarr_sabnzbd_hostname}}"
+    image: "{{exportarr_docker_image}}:{{exportarr_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      PORT: "9712"
+      URL: "http://sabnzbd:8080"
+      APIKEY: "daae7ce1995c412ba10abd3b41692a75"
+      ENABLE_ADDITIONAL_METRICS: "TRUE"
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    state: present
+  tags: exportarr
+  

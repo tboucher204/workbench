@@ -1,0 +1,25 @@
+---
+- name: Deploy Exportarr Radarr Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: "{{exportarr_radarr_hostname}}"
+    hostname: "{{exportarr_radarr_hostname}}"
+    image: "{{exportarr_docker_image}}:{{exportarr_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      PORT: "9707"
+      URL: "http://radarr:7878"
+      APIKEY: "72d4340e27a84c928c026a28876d5c96"
+      ENABLE_ADDITIONAL_METRICS: "TRUE"
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    state: present
+  tags: exportarr
+  

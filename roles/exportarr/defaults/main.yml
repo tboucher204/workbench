@@ -1,4 +1,8 @@
 ---
-dockergc_version: "latest"
-dockergc_hostname: "dockergc"
-dockergc_docker_image: "clockworksoul/docker-gc-cron"
+exportarr_version: "latest"
+exportarr_docker_image: "ghcr.io/onedr0p/exportarr"
+exportarr_prowlarr_hostname: "exportarr-prowlarr"
+exportarr_radarr_hostname: "exportarr-radarr"
+exportarr_sonarr_hostname: "exportarr-sonarr"
+exportarr_lidarr_hostname: "exportarr-lidarr"
+exportarr_sabnzbd_hostname: "exportarr-sabnzbd"

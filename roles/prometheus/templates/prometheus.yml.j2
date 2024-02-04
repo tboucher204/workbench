@@ -50,4 +50,11 @@ scrape_configs:
     - targets: ['jenkins:8080']
       labels:
         server_name: 'Jenkins'
+
+  - job_name: 'speedtest-exporter'
+  
+    scrape_interval: 1h
+    scrape_timeout: 1m
+    static_configs:
+    - targets: ['speedtest-exporter:9798']
         
