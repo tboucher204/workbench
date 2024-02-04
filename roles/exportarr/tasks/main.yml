@@ -5,6 +5,7 @@
     name: "{{exportarr_prowlarr_hostname}}"
     hostname: "{{exportarr_prowlarr_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
+    command: "prowlarr"
     networks:
       - "{{traefik_network}}"
     mode: replicated
