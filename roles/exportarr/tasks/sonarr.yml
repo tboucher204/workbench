@@ -5,7 +5,7 @@
     name: exportarr_sonarr
     hostname: "{{exportarr_sonarr_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
-    # command: "sonarr"
+    command: "exportarr sonarr"
     networks:
       - "{{traefik_network}}"
     mode: replicated
