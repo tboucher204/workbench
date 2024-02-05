@@ -27,6 +27,8 @@ scrape_configs:
 
     static_configs:
     - targets: ['localhost:9090']
+      labels:
+        server_name: 'Prometheus'
 
   - job_name: 'minecraft'
 
@@ -57,4 +59,40 @@ scrape_configs:
     scrape_timeout: 1m
     static_configs:
     - targets: ['speedtest-exporter:9798']
-        
+      labels:
+        server_name: 'Speedtest-Exporter'
+
+  - job_name: 'Prowlarr-exporter'
+
+    static_configs:
+    - targets: ['prowlarr-exporter:9710']
+      labels:
+        server_name: 'Jenkins'
+
+  - job_name: 'Radarr-exporter'
+
+    static_configs:
+    - targets: ['radarr-exporter:9707']
+      labels:
+        server_name: 'Radarr-exporter'
+
+  - job_name: 'sonarr-exporter'
+
+    static_configs:
+    - targets: ['sonarr-exporter:9708']
+      labels:
+        server_name: 'Sonarr-exporter'
+
+  - job_name: 'lidarr-exporter'
+
+    static_configs:
+    - targets: ['lidarr-exporter:9709']
+      labels:
+        server_name: 'Lidarr-exporter'
+
+  - job_name: 'sabnzbd-exporter'
+
+    static_configs:
+    - targets: ['sabnzbd-exporter:9712']
+      labels:
+        server_name: 'Sabnzbd-exporter'
