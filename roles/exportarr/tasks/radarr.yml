@@ -5,7 +5,7 @@
     name: "{{exportarr_radarr_hostname}}"
     hostname: "{{exportarr_radarr_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
-    command: "radarr"
+    # command: "radarr"
     networks:
       - "{{traefik_network}}"
     mode: replicated
