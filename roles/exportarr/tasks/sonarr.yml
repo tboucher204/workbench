@@ -2,7 +2,7 @@
 - name: Deploy Exportarr Sonarr Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: "{{exportarr_sonarr_hostname}}"
+    name: exportarr_sonarr
     hostname: "{{exportarr_sonarr_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
     # command: "sonarr"

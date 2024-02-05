@@ -2,7 +2,7 @@
 - name: Deploy Exportarr Sabnzbd Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: "{{exportarr_sabnzbd_hostname}}"
+    name: exportarr_sabnzbd
     hostname: "{{exportarr_sabnzbd_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
     # command: "sabnzbd"

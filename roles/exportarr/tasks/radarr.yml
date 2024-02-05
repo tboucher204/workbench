@@ -2,7 +2,7 @@
 - name: Deploy Exportarr Radarr Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: "{{exportarr_radarr_hostname}}"
+    name: exportarr_radarr
     hostname: "{{exportarr_radarr_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
     # command: "radarr"

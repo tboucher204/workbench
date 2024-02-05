@@ -2,7 +2,7 @@
 - name: Deploy Exportarr Lidarr Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: "{{exportarr_lidarr_hostname}}"
+    name: exportarr_lidarr
     hostname: "{{exportarr_lidarr_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
     # command: "lidarr"

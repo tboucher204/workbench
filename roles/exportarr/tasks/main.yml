@@ -2,10 +2,10 @@
 - name: Deploy Exportarr Prowlarr Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: "{{exportarr_prowlarr_hostname}}"
+    name: exportarr_prowlarr
     hostname: "{{exportarr_prowlarr_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
-    # command: "prowlarr"
+    # command: "exportarr prowlarr"
     networks:
       - "{{traefik_network}}"
     mode: replicated
