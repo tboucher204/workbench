@@ -5,7 +5,7 @@
     name: exportarr_lidarr
     hostname: "{{exportarr_lidarr_hostname}}"
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
-    # command: "lidarr"
+    args: "lidarr"
     networks:
       - "{{traefik_network}}"
     mode: replicated
