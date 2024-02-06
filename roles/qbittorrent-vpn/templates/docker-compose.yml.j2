@@ -4,7 +4,7 @@ services:
   qbittorrent:
     image: "{{qbittorrent_docker_image}}:{{qbittorrent_version}}"
     hostname: "{{qbittorrent_hostname}}"
-    network_mode: "service:gluetun"
+    network_mode: "service:gluetun_gluetun"
     volumes:
       - /datavol/apps/qbittorrent/config:/config
       - {{ project_download_directory }}:/media/downloads

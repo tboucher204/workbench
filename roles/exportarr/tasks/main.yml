@@ -39,4 +39,8 @@
 - import_tasks: "{{role_path}}/tasks/sonarr.yml"
   tags:
     - exportarr
+
+- import_tasks: "{{role_path}}/tasks/readarr.yml"
+  tags:
+    - exportarr
   
