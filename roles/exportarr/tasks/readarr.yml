@@ -1,0 +1,26 @@
+---
+- name: Deploy Exportarr Readarr Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: exportarr_readarr
+    hostname: "{{exportarr_readarr_hostname}}"
+    image: "{{exportarr_docker_image}}:{{exportarr_version}}"
+    args: "readarr"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: true
+    restart_config:
+      condition: on-failure
+    env:
+      PORT: "9711"
+      URL: "http://readarr:8787"
+      APIKEY: "94bcd28eb959426a8f3cd7b9ae3ae797"
+      ENABLE_ADDITIONAL_METRICS: "TRUE"
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    state: present
+  tags: exportarr
+  

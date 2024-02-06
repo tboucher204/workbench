@@ -1,0 +1,4 @@
+---
+qbittorrent_version: "latest"
+qbittorrent_hostname: "qbittorrent"
+qbittorrent_docker_image: "lscr.io/linuxserver/qbittorrent"

@@ -76,23 +76,30 @@ scrape_configs:
       labels:
         server_name: 'Radarr-exporter'
 
-  - job_name: 'sonarr-exporter'
+  - job_name: 'Sonarr-exporter'
 
     static_configs:
     - targets: ['sonarr-exporter:9708']
       labels:
         server_name: 'Sonarr-exporter'
 
-  - job_name: 'lidarr-exporter'
+  - job_name: 'Lidarr-exporter'
 
     static_configs:
     - targets: ['lidarr-exporter:9709']
       labels:
         server_name: 'Lidarr-exporter'
 
-  - job_name: 'sabnzbd-exporter'
+  - job_name: 'Sabnzbd-exporter'
 
     static_configs:
     - targets: ['sabnzbd-exporter:9712']
       labels:
         server_name: 'Sabnzbd-exporter'
+
+    - job_name: 'Readarr-exporter'
+
+    static_configs:
+    - targets: ['readarr-exporter:9711']
+      labels:
+        server_name: 'Readarr-exporter'

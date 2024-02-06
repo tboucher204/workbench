@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  qbittorrent:
+    image: "{{qbittorrent_docker_image}}:{{qbittorrent_version}}"
+    hostname: "{{qbittorrent_hostname}}"
+    network_mode: "service:gluetun"
+    volumes:
+      - /datavol/apps/qbittorrent/config:/config
+      - {{ project_download_directory }}:/media/downloads
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.id == {{ docker_worker2_node_id }}] 
+    environment:
+      - PUID={{ media_user }}
+      - PGID={{ media_group }}
+      - TZ={{ default_timezone }}
+      - UMASK_SET=002
+    healthcheck:
+      test: "curl -sf https://example.com  || exit 1"
+      interval: 1m
+      timeout: 10s
+      retries: 1
+    restart: unless-stopped
