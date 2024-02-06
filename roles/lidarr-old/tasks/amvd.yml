@@ -21,7 +21,7 @@
       LidarrUrl: "{{lidarr_url}}"
       LidarrAPIkey: "{{lidarr_api_key}}"
     mode: replicated
-    force_update: true
+    force_update: false
     restart_config:
       condition: on-failure
     placement:

@@ -33,7 +33,7 @@
       DISALLOW_ANONYMOUS_LINKS: "true"
       DISALLOW_REGISTRATION: "true"
     mode: replicated
-    force_update: true
+    force_update: false
     restart_config:
       condition: on-failure
     placement:

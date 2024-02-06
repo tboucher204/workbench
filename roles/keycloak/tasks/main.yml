@@ -17,7 +17,7 @@
     networks:
       - "{{ traefik_network }}"
     mode: replicated
-    force_update: true
+    force_update: false
     command: "/opt/keycloak/bin/kc.sh start"
     restart_config:
       condition: on-failure

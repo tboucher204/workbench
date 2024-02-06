@@ -45,7 +45,7 @@
         protocol: "tcp"
         mode: "host"
     mode: replicated
-    force_update: true
+    force_update: false
     restart_config:
       condition: on-failure
     placement:

@@ -29,7 +29,7 @@
       LidarrAPIkey: "{{lidarr_api_key}}"
       ARL_TOKEN: "{{lidarr_arl_token}}"
     mode: replicated
-    force_update: true
+    force_update: false
     restart_config:
       condition: on-failure
     placement:

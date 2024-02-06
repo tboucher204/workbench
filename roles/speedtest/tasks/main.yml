@@ -18,7 +18,7 @@
       SLEEPY_TIME: "3600"
       SPEEDTEST_SERVER: "16969"
     mode: replicated
-    force_update: true
+    force_update: false
     restart_config:
       condition: on-failure
     placement:

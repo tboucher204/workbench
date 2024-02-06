@@ -59,7 +59,7 @@
       USERMAP_UID: "{{paperless_user}}"
       USERMAP_GID: "{{paperless_group}}"
     mode: replicated
-    force_update: true
+    force_update: false
     restart_config:
       condition: on-failure
     mounts:
