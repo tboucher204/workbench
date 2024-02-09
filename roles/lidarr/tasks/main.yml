@@ -81,12 +81,12 @@
       - source: "{{project_media_directory}}/lidarr/config/"
         target: /config
         type: bind
-      - source: "{{project_media_directory}}/lidarr/config/custom-services/"
-        target: /custom-services.d
-        type: bind
-      - source: "{{project_media_directory}}/lidarr/config/custom-cont-init/"
-        target: /custom-cont-init.d
-        type: bind
+      # - source: "{{project_media_directory}}/lidarr/config/custom-services/"
+      #   target: /custom-services.d
+      #   type: bind
+      # - source: "{{project_media_directory}}/lidarr/config/custom-cont-init/"
+      #   target: /custom-cont-init.d
+      #   type: bind
       - source: "{{project_media_directory}}/music/"
         target: /media/music
         type: bind
