@@ -1,0 +1,4 @@
+---
+lidarr_version: "latest"
+lidarr_hostname: "lidarr"
+lidarr_docker_image: "randomninjaatk/lidarr-extended"

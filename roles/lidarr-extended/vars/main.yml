@@ -1,0 +1,2 @@
+---
+lidarr_arl_token: "{{vault_lidarr_arl_token}}"

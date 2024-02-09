@@ -1,4 +1,5 @@
 ---
 lidarr_version: "latest"
 lidarr_hostname: "lidarr"
-lidarr_docker_image: "randomninjaatk/lidarr-extended"
+lidarr_port: "8686"
+lidarr_docker_image: "lscr.io/linuxserver/lidarr"
