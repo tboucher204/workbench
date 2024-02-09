@@ -15,8 +15,8 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_downloads_directory}}/music"
-    - "{{project_downloads_directory}}/music-videos"
+    - "{{project_download_directory}}/music"
+    - "{{project_download_directory}}/music-videos"
   tags: lidarr
 
 - name: Ensure Lidarr Dataset Exist
