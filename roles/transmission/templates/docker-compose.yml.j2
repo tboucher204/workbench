@@ -44,6 +44,7 @@ services:
       - LOCAL_NETWORK=192.168.1.0/24
       - DROP_DEFAULT_ROUTE=true
       - LOG_TO_STDOUT=true
+      - GLOBAL_APPLY_PERMISSIONS=false
     cap_add:
       - NET_ADMIN
     logging:
