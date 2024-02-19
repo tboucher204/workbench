@@ -7,7 +7,7 @@
     # - gluetun
     - transmission
     - sabnzbd
-    # - qbittorrent-vpn
+    - qbittorrent-vpn
     - prowlarr
     - sonarr
     - radarr

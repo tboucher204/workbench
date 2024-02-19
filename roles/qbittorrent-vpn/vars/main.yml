@@ -2,3 +2,7 @@
 qbittorrent_webui_password: "{{vault_qbittorrent_webui_password}}"
 qbittorrent_webui_password_hash: "{{vault_qbittorrent_webui_password_hash}}"
 qbittorrent_cookie_cfuid: "{{vault_qbittorrent_cookie_cfuid}}"
+gluetun_openvpn_countries: "Switzerland,Mexico"
+gluetun_openvpn_password: "{{ vault_expressvpn_password }}"
+gluetun_openvpn_username: "{{ vault_expressvpn_username }}"
+gluetun_qbittorrent_port: "8080"

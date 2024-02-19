@@ -2,3 +2,6 @@
 qbittorrent_version: "latest"
 qbittorrent_hostname: "qbittorrent"
 qbittorrent_docker_image: "lscr.io/linuxserver/qbittorrent"
+gluetun_version: "latest"
+gluetun_hostname: "gluetun"
+gluetun_docker_image: "qmcgaw/gluetun"

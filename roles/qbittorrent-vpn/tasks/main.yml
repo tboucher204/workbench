@@ -49,6 +49,13 @@
     state: directory
   tags: qbittorrent
 
+- name: Ensure Gluetun Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    name: "{{project_root_directory}}/gluetun"
+    state: directory
+  tags: gluetun
+  
 - name: Create qBittorrent Docker Compose File
   when: inventory_hostname == groups['managers'][0]
   template:
