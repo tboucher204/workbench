@@ -7,7 +7,7 @@ services:
     networks:
       - {{traefik_network}}
     volumes:
-      - transmission_config:/config
+      - /datavol/apps/transmission/config:/config
       - {{ project_download_directory }}:/media/downloads
       - {{ project_watch_directory }}/torrentfiles:/watch
     deploy:
@@ -57,10 +57,6 @@ services:
         protocol: tcp
         mode: host
     restart: unless-stopped
-
-volumes:
-  transmission_config:
-    name: transmission_config
 
 networks:
   {{traefik_network}}:
