@@ -14,11 +14,8 @@
     - "{{project_media_directory}}/Playlists"
     - "{{project_media_directory}}/Podcasts"
     - "{{project_media_directory}}/Videos"
-    - "{{project_media_directory}}/Videos/Anime Movies"
     - "{{project_media_directory}}/Videos/Anime TV"
     - "{{project_media_directory}}/Videos/Fitness"
-    - "{{project_media_directory}}/Videos/Kids Movies"
-    - "{{project_media_directory}}/Videos/Kids TV Series"
     - "{{project_media_directory}}/Videos/Miscellaneous"
     - "{{project_media_directory}}/Videos/Movies"
     - "{{project_media_directory}}/Videos/TV Series"
@@ -55,7 +52,7 @@
     name: "{{project_root_directory}}/gluetun"
     state: directory
   tags: gluetun
-  
+
 - name: Create qBittorrent Docker Compose File
   when: inventory_hostname == groups['managers'][0]
   template:

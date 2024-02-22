@@ -6,11 +6,8 @@
     state: directory
   loop:
     - /media/Videos/
-    - /media/Videos/Anime Movies/
     - /media/Videos/Anime TV/
     - /media/Videos/Fitness/
-    - /media/Videos/Kids Movies/
-    - /media/Videos/Kids TV Series/
     - /media/Videos/Miscellaneous/
     - /media/Videos/Movies/
     - /media/Videos/TV Series/
@@ -104,17 +101,8 @@
       - source: "{{project_media_directory}}/Videos/Movies/"
         target: /media/movies
         type: bind
-      - source: "{{project_media_directory}}/Videos/Kids Movies/"
-        target: /media/kidsmovies
-        type: bind
-      - source: "{{project_media_directory}}/Videos/Anime Movies/"
-        target: /media/animemovies
-        type: bind
       - source: "{{project_media_directory}}/Videos/TV Series/"
         target: /media/tvshows
-        type: bind
-      - source: "{{project_media_directory}}/Videos/Kids TV Series/"
-        target: /media/kidstvshows
         type: bind
       - source: "{{project_media_directory}}/Videos/Anime TV/"
         target: /media/animetvshows
