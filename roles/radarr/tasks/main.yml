@@ -20,11 +20,39 @@
     state: directory
   tags: radarr
 
+- name: Ensure Radarr Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/radarr"
+    - "{{project_root_directory}}/radarr/config"
+    - "{{project_root_directory}}/radarr/custom-services"
+    - "{{project_root_directory}}/radarr/custom-cont-init"
+  tags: radarr
+
 - name: Ensure Radarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
     src: config.xml.j2
-    dest: "{{project_root_directory}}/radarr/config.xml"
+    dest: "{{project_root_directory}}/radarr/config/config.xml"
+  tags: radarr
+  no_log: true
+
+- name: Ensure Radarr Extended Configuration Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: extended.conf.j2
+    dest: "{{project_root_directory}}/radarr/config/extended.conf"
+  tags: radarr
+  no_log: true
+
+- name: Ensure Radarr custom-services Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: scripts_init.bash.j2
+    dest: "{{project_root_directory}}/radarr/custom-cont-init/scripts_init.bash"
   tags: radarr
   no_log: true
 
@@ -51,8 +79,14 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/radarr/"
+      - source: "{{project_root_directory}}/radarr/config/"
         target: /config
+        type: bind
+      - source: "{{project_root_directory}}/radarr/custom-services/"
+        target: /custom-services.d
+        type: bind
+      - source: "{{project_root_directory}}/radarr/custom-cont-init/"
+        target: /custom-cont-init.d
         type: bind
       - source: "{{project_media_directory}}/Videos/"
         target: /media/movies
