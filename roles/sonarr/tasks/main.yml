@@ -16,15 +16,36 @@
 - name: Ensure Sonarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_root_directory}}/sonarr"
+    path: "{{item}}"
     state: directory
+  loop:
+    - "{{project_root_directory}}/sonarr"
+    - "{{project_root_directory}}/sonarr/config"
+    - "{{project_root_directory}}/sonarr/custom-services"
+    - "{{project_root_directory}}/sonarr/custom-cont-init"
   tags: sonarr
 
 - name: Ensure Sonarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
     src: config.xml.j2
-    dest: "{{project_root_directory}}/sonarr/config.xml"
+    dest: "{{project_root_directory}}/sonarr/config/config.xml"
+  tags: sonarr
+  no_log: true
+
+- name: Ensure Sonarr Extended Configuration Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: extended.conf.j2
+    dest: "{{project_root_directory}}/sonarr/config/extended.conf"
+  tags: sonarr
+  no_log: true
+
+- name: Ensure Sonarr custom-services Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: scripts_init.bash.j2
+    dest: "{{project_root_directory}}/sonarr/custom-cont-init/scripts_init.bash"
   tags: sonarr
   no_log: true
 
@@ -51,8 +72,14 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/datavol/apps/sonarr/"
+      - source: "/datavol/apps/sonarr/config/"
         target: /config/
+        type: bind
+      - source: "{{project_root_directory}}/radarr/custom-services/"
+        target: /custom-services.d
+        type: bind
+      - source: "{{project_root_directory}}/radarr/custom-cont-init/"
+        target: /custom-cont-init.d
         type: bind
       - source: "{{project_media_directory}}/Videos/"
         target: /media/tv/

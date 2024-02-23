@@ -16,13 +16,6 @@
 - name: Ensure Radarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_root_directory}}/radarr"
-    state: directory
-  tags: radarr
-
-- name: Ensure Radarr Dataset Exist
-  when: inventory_hostname == groups['media'][0]
-  file:
     path: "{{item}}"
     state: directory
   loop:
