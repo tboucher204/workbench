@@ -20,11 +20,39 @@
     state: directory
   tags: readarr
 
+- name: Ensure Readarr Audiobooks Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/readarr2"
+    - "{{project_root_directory}}/readarr2/config"
+    - "{{project_root_directory}}/readarr2/custom-services"
+    - "{{project_root_directory}}/readarr2/custom-cont-init"
+  tags: readarr
+
 - name: Ensure Readarr Audiobooks Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
     src: config-audiobooks.xml.j2
-    dest: "{{project_root_directory}}/readarr2/config.xml"
+    dest: "{{project_root_directory}}/readarr2/config/config.xml"
+  tags: readarr
+  no_log: true
+
+- name: Ensure Readarr Audiobooks Extended Configuration Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: extended.conf.j2
+    dest: "{{project_root_directory}}/readarr2/config/extended.conf"
+  tags: readarr
+  no_log: true
+
+- name: Ensure Readarr Audiobooks custom-services Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: scripts_init.bash.j2
+    dest: "{{project_root_directory}}/readarr2/custom-cont-init/scripts_init.bash"
   tags: readarr
   no_log: true
 
@@ -51,8 +79,14 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/readarr2/"
+      - source: "{{project_root_directory}}/readarr2/config/"
         target: /config
+        type: bind
+      - source: "{{project_root_directory}}/readarr2/custom-services/"
+        target: /custom-services.d
+        type: bind
+      - source: "{{project_root_directory}}/readarr2/custom-cont-init/"
+        target: /custom-cont-init.d
         type: bind
       - source: "{{project_media_directory}}/Audiobooks/"
         target: /media/audiobooks
