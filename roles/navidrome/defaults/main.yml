@@ -1,5 +1,5 @@
 ---
-navidrome_version: "0.49.0"
+navidrome_version: "0.51.1"
 navidrome_hostname: "navidrome"
 navidrome_port: "4533"
 navidrome_docker_image: "deluan/navidrome"
