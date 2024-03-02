@@ -34,7 +34,7 @@
       ND_LOGLEVEL: "info"
       ND_SESSIONTIMEOUT: "24h" 
       ND_REVERSEPROXYUSERHEADER: "Remote-User"
-      ND_REVERSEPROXYWHITELIST: "10.0.3.0/24" 
+      ND_REVERSEPROXYWHITELIST: "10.0.2.0/24" 
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
