@@ -44,7 +44,7 @@
         - node.id == {{docker_master1_node_id}}
     replicas: 1
     mounts:
-      - source: postgres
+      - source: postgres14
         target: /var/lib/postgresql/data/
         type: volume
     state: present
