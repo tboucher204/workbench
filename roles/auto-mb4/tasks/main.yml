@@ -1,11 +1,4 @@
 ---
-- name: Ensure Media Datasets Exist
-  when: inventory_hostname == groups['media'][0]
-  file:
-    path: /media/Audiobooks
-    state: directory
-  tags: automb4
-
 - name: Ensure Auto-mb4 Watch Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
@@ -28,11 +21,6 @@
     image: "{{automb4_docker_image}}:{{automb4_version}}"
     networks:
       - "{{traefik_network}}"
-    env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
-      SLEEPTIME: "5m"
     mode: replicated
     force_update: false
     restart_config:
@@ -43,9 +31,6 @@
     mounts:
       - source: "{{ project_root_directory }}/automb4/"
         target: /config
-        type: bind
-      - source: "{{ project_media_directory }}/Audiobooks/"
-        target: /media
         type: bind
       - source: "{{ project_media_directory }}/Watch/auto-mb4/"
         target: /temp
