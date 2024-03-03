@@ -12,7 +12,7 @@
 - name: Ensure Postgres Data Volume Exist
   when: inventory_hostname == groups['managers'][0]
   docker_volume:
-    name: postgres_data
+    name: postgres14
     state: present
   tags: postgres
 
