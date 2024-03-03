@@ -9,12 +9,12 @@
     - "{{ project_root_directory }}/postgres/data/"
   tags: postgres
 
-- name: Ensure Postgres Data Volume Exist
-  when: inventory_hostname == groups['managers'][0]
-  docker_volume:
+- name: Ensure Prometheus Data Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
     name: postgres14
     state: present
-  tags: postgres
+  tags: prometheus
 
 - name: Deploy postgres Service
   when: inventory_hostname == groups['managers'][0]
