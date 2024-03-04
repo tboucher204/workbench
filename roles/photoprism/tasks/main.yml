@@ -38,7 +38,7 @@
     restart_config:
       condition: on-failure
     env:
-      PHOTOPRISM_ADMIN_USER: "{{photoprism_admin}}"  # admin login username
+      PHOTOPRISM_ADMIN_USER: "{{photoprism_admin_user}}"  # admin login username
       PHOTOPRISM_ADMIN_PASSWORD: "{{photoprism_admin_password}}"    # initial admin password (8-72 characters)
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
       PHOTOPRISM_SITE_URL: "https://{{picture_tld}}"  # server URL in the format "http(s)://domain.name(:port)/(path)"
