@@ -20,7 +20,7 @@
     database_user: "{{piwigo_database_user}}"
     database_password: "{{piwigo_database_password}}"
   tags: piwigo
-  no_log: true
+  no_log: false
 
 - name: Deploy Piwigo Service
   when: inventory_hostname == groups['managers'][0]
