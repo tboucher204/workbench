@@ -2,7 +2,7 @@
 - name: Ensure Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_media_directory}}/Pictures"
+    name: "{{project_media_directory}}/PhotoGallery"
     state: directory
   tags: piwigo
 
@@ -46,7 +46,7 @@
       - source: "{{project_root_directory}}/piwigo/"
         target: /config
         type: bind
-      - source: "{{project_media_directory}}/Pictures/"
+      - source: "{{project_media_directory}}/PhotoGallery/"
         target: /gallery
         type: bind
     labels:
