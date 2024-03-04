@@ -21,7 +21,7 @@
     # - ombi
     - overseerr
     # - plex
-    # - photoprism
+    - photoprism
     # - immich
     - piwigo
     # - peertube
