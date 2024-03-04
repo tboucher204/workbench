@@ -23,6 +23,7 @@
     # - plex
     # - photoprism
     # - immich
+    - piwigo
     # - peertube
     - tautulli
     # - embystat

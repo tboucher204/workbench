@@ -1,0 +1,5 @@
+---
+piwigo_version: "latest"
+piwigo_hostname: "piwigo"
+piwigo_docker_image: "lscr.io/linuxserver/piwigo"
+piwigo_port: "80"

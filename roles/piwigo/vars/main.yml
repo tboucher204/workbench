@@ -1,0 +1,4 @@
+---
+piwigo_database_user: "{{vault_piwigo_database_user}}"
+piwigo_database_password: "{{vault_piwigo_database_password}}"
+piwigo_database: "{{vault_piwigo_database}}"
