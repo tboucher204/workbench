@@ -1,3 +1,0 @@
----
-mariadb_root_password: "{{vault_mariadb_root_password}}"
-mariadb_root_user: "{{vault_mariadb_root_user}}"
