@@ -6,11 +6,11 @@
     state: directory
   tags: piwigo
 
-- name: Ensure Piwigo Dataset Exist
+- name: Ensure Piwigo Config Volume Exist
   when: inventory_hostname == groups['media'][0]
-  file:
-    name: "{{project_root_directory}}/piwigo"
-    state: directory
+  community.docker.docker_volume:
+    name: piwigo_config
+    state: present
   tags: piwigo
 
 - import_tasks: roles/mysql/tasks/database_manager.yml
@@ -43,9 +43,9 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/piwigo/"
+      - source: grafana_config
         target: /config
-        type: bind
+        type: volume
       - source: "{{project_media_directory}}/PhotoGallery/"
         target: /gallery
         type: bind
