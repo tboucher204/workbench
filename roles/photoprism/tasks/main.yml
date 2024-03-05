@@ -17,7 +17,7 @@
   tags: photoprism
 
 - import_tasks: roles/mariadb/tasks/database_manager.yml
-  when: inventory_hostname == groups['managers'][0]
+  when: inventory_hostname == groups['workers'][0]
   vars:
     database_name: "{{photoprism_database}}"
     database_user: "{{photoprism_database_user}}"
