@@ -32,7 +32,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_master1_node_id}}
+        - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
       - source: "{{ project_root_directory }}/mariadb/data/"

@@ -12,7 +12,7 @@
     - homer
     - postgres
     - mariadb
-    - mysql
+    # - mysql
     - redis
     - mongodb
     # - elasticsearch

@@ -24,10 +24,12 @@
       PMA_USER: "{{ phpmyadmin_user }}"
       PMA_PASSWORD: "{{ phpmyadmin_password }}"
       PMA_ABSOLUTE_URI: "https://pma.{{project_tld}}"
-      # PMA_PMADB: "phpmyadmin"
-      # PMA_CONTROLUSER: "{{ phpmyadmin_controluser }}"
-      # PMA_CONTROLPASS: "{{ phpmyadmin_controlpass }}"
-      # PMA_QUERYHISTORYDB: "true"
+      PMA_PMADB: "phpmyadmin"
+      PMA_CONTROLHOST: "mariadb"
+      PMA_CONTROLPORT: "3306"
+      PMA_CONTROLUSER: "{{ phpmyadmin_controluser }}"
+      PMA_CONTROLPASS: "{{ phpmyadmin_controlpass }}"
+      PMA_QUERYHISTORYDB: "true"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}

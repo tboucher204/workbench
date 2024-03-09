@@ -20,7 +20,7 @@
 #     state: present
 #   tags: piwigo
 
-- import_tasks: roles/mysql/tasks/database_manager.yml
+- import_tasks: roles/mariadb/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
     database_name: "{{piwigo_database}}"
