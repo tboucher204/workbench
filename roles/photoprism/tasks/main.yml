@@ -41,7 +41,7 @@
       PHOTOPRISM_ADMIN_USER: "{{photoprism_admin_user}}"  # admin login username
       PHOTOPRISM_ADMIN_PASSWORD: "{{photoprism_admin_password}}"    # initial admin password (8-72 characters)
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
-      PHOTOPRISM_SITE_URL: "https://{{picture_tld}}"  # server URL in the format "http(s)://domain.name(:port)/(path)"
+      PHOTOPRISM_SITE_URL: "https://{{photo_tld}}"  # server URL in the format "http(s)://domain.name(:port)/(path)"
       PHOTOPRISM_DISABLE_TLS: "true"                # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
       PHOTOPRISM_DEFAULT_TLS: "true"                 # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
       PHOTOPRISM_ORIGINALS_LIMIT: "5000"               # file size limit for originals in MB (increase for high-res video)
@@ -96,7 +96,7 @@
         type: bind
     labels:
       traefik.http.routers.photoprism.entrypoints: "websecure"
-      traefik.http.routers.photoprism.rule: "Host(`{{picture_tld}}`)"
+      traefik.http.routers.photoprism.rule: "Host(`{{photo_tld}}`)"
       traefik.http.routers.photoprism.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.photoprism.tls: "true"
       traefik.http.routers.photoprism.service: "photoprism"

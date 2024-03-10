@@ -58,7 +58,7 @@
         type: bind
     labels:
       traefik.http.routers.piwigo.entrypoints: "websecure"
-      traefik.http.routers.piwigo.rule: "Host(`{{photo_tld}}`)"
+      traefik.http.routers.piwigo.rule: "Host(`{{picture_tld}}`)"
       traefik.http.routers.piwigo.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.piwigo.tls: "true"
       traefik.http.routers.piwigo.service: "piwigo"
