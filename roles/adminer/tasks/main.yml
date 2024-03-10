@@ -6,6 +6,15 @@
     state: present
   tags: adminer
 
+- name: Ensure Adminer Configuration Files Exist
+  when: inventory_hostname == groups['workers'][0]
+  template:
+    src: login-servers.php.j2
+    dest: "/var/lib/docker/volumes/adminer_data/_data/login-servers.php"
+    mode: 0777
+  tags: adminer
+  no_log: true
+
 - name: Deploy Adminer Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
