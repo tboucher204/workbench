@@ -16,14 +16,11 @@
 - name: Ensure Paperless Directories Exist
   when: inventory_hostname == groups['workers'][0]
   file:
-    path: "{{item}}"
-    owner: "paperless"
-    group: "paperless"
+    path: "{{ item }}"
     state: directory
   loop:
-    - /datavol/apps/paperless
-    - /datavol/apps/paperless/export
-    - /datavol/apps/paperless/consume
+    - "{{project_media_directory}}/Exports/"
+    - "{{project_media_directory}}/Watch/paperless-documents/"
   tags: paperless
 
 - import_tasks: roles/postgres/tasks/database_manager.yml
@@ -47,7 +44,7 @@
       PAPERLESS_REDIS: "redis://{{redis_hostname}}:{{redis_port}}"
       PAPERLESS_DBHOST: "{{postgres_hostname}}"
       PAPERLESS_DBPORT: "{{postgres_port}}"
-      PAPERLESS_NAME: "{{paperless_database}}"
+      PAPERLESS_DBNAME: "{{paperless_database}}"
       PAPERLESS_DBUSER: "{{paperless_database_user}}"
       PAPERLESS_DBPASS: "{{paperless_database_password}}"
       PAPERLESS_ADMIN_USER: "{{paperless_admin_username}}"
@@ -56,8 +53,8 @@
       PAPERLESS_URL: "https://docs.{{project_tld}}"
       PAPERLESS_SECRET_KEY: "{{paperless_secret_key}}"
       PAPERLESS_TIME_ZONE: "{{default_timezone}}"
-      USERMAP_UID: "{{paperless_user}}"
-      USERMAP_GID: "{{paperless_group}}"
+      USERMAP_UID: "{{media_user}}"
+      USERMAP_GID: "{{media_group}}"
     mode: replicated
     force_update: false
     restart_config:
@@ -69,10 +66,10 @@
       - source: paperless_media
         target: /usr/src/paperless/media/
         type: volume
-      - source: /datavol/apps/paperless/export/
+      - source: "{{project_media_directory}}/Exports/"
         target: /usr/src/paperless/export/
         type: bind
-      - source: /datavol/apps/paperless/consume/
+      - source: "{{project_media_directory}}/Watch/paperless-import/"
         target: /usr/src/paperless/consume/
         type: bind
     placement:

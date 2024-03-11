@@ -13,7 +13,7 @@
     state: directory
   loop:
     - "{{project_media_directory}}/Pictures"
-    - "{{project_media_directory}}/Watch/photos"
+    - "{{project_media_directory}}/Watch/photoprism-import"
   tags: photoprism
 
 - import_tasks: roles/mariadb/tasks/database_manager.yml
@@ -88,7 +88,7 @@
       - source: "{{project_media_directory}}/Pictures/"
         target: /photoprism/originals
         type: bind
-      - source: "{{project_media_directory}}/Watch/photos/"
+      - source: "{{project_media_directory}}/Watch/photoprism-import/"
         target: /photoprism/import
         type: bind
       - source: "{{project_root_directory}}/photoprism/"
