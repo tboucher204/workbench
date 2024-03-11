@@ -1,6 +1,6 @@
 ---
 # bazarr_api_key: "{{vault_bazarr_api_key}}"
-# bazarr_port: "6767"
+bazarr_port: "6767"
 chat_tld: "{{vault_chat_tld}}"
 comicvine_api_key: "{{vault_comicvine_api_key}}"
 default_certificate_resolver: "letsEncrypt"
