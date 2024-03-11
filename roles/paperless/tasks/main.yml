@@ -19,8 +19,9 @@
     path: "{{ item }}"
     state: directory
   loop:
+    - "{{project_media_directory}}/Documents/"
     - "{{project_media_directory}}/Exports/"
-    - "{{project_media_directory}}/Watch/paperless-documents/"
+    - "{{project_media_directory}}/Watch/paperless-import/"
   tags: paperless
 
 - import_tasks: roles/postgres/tasks/database_manager.yml
@@ -41,7 +42,7 @@
     networks:
       - "{{traefik_network}}"
     env:
-      PAPERLESS_REDIS: "redis://{{redis_hostname}}:{{redis_port}}"
+      PAPERLESS_REDIS: "redis://redis:{{redis_port}}"
       PAPERLESS_DBHOST: "{{postgres_hostname}}"
       PAPERLESS_DBPORT: "{{postgres_port}}"
       PAPERLESS_DBNAME: "{{paperless_database}}"
@@ -50,6 +51,14 @@
       PAPERLESS_ADMIN_USER: "{{paperless_admin_username}}"
       PAPERLESS_ADMIN_MAIL: "{{paperless_admin_email}}"
       PAPERLESS_ADMIN_PASSWORD: "{{paperless_admin_password}}"
+      PAPERLESS_CONSUMPTION_DIR: "/usr/src/paperless/consume/"
+      PAPERLESS_MEDIA_ROOT: "/usr/src/paperless/media/"
+      PAPERLESS_EMAIL_HOST: "{{email_host}}"
+      PAPERLESS_EMAIL_PORT: "{{email_port}}"
+      PAPERLESS_EMAIL_HOST_USER: "{{email_user}}"
+      PAPERLESS_EMAIL_HOST_PASSWORD: "{{email_password}}"
+      PAPERLESS_EMAIL_USE_TLS: "True"
+      PAPERLESS_EMAIL_USE_SSL: "True"
       PAPERLESS_URL: "https://docs.{{project_tld}}"
       PAPERLESS_SECRET_KEY: "{{paperless_secret_key}}"
       PAPERLESS_TIME_ZONE: "{{default_timezone}}"
@@ -63,9 +72,9 @@
       - source: paperless_data
         target: /usr/src/paperless/data/
         type: volume
-      - source: paperless_media
+      - source: "{{project_media_directory}}/Documents/"
         target: /usr/src/paperless/media/
-        type: volume
+        type: bind
       - source: "{{project_media_directory}}/Exports/"
         target: /usr/src/paperless/export/
         type: bind
