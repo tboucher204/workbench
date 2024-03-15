@@ -29,6 +29,10 @@
         target_port: "8125"
         protocol: "tcp"
         mode: "host"
+      - published_port: "2003"
+        target_port: "2003"
+        protocol: "tcp"
+        mode: "host"
     mode: replicated
     force_update: false
     restart_config:
