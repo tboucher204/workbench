@@ -26,11 +26,11 @@
     networks:
       - "{{traefik_network}}"
     publish:
-      - published_port: "{{graphite_exporter_port}}"
+      - published_port: "2003"
         target_port: "{{graphite_exporter_port}}"
         protocol: "tcp"
         mode: "host"
-      - published_port: "{{graphite_exporter_port}}"
+      - published_port: "2003"
         target_port: "{{graphite_exporter_port}}"
         protocol: "udp"
         mode: "host"

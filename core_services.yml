@@ -22,7 +22,7 @@
     - phpldapadmin
     - ldap-user-manager
     - unifi-controller
-    - graphite
+    # - graphite
     - graphite-exporter
     - prometheus
     - influxdb
