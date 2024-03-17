@@ -1,0 +1,59 @@
+---
+- name: Ensure Graphite Exporter Directories Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/graphite_exporter"
+  tags: graphite_exporter
+
+- name: Ensure Graphite Exporter Configuration Files Exist
+  when: inventory_hostname == groups['workers'][0]
+  template:
+    src: graphite_exporter.yml.j2
+    dest: "{{project_root_directory}}/graphite_exporter/graphite_mapping.yaml"
+  tags: graphite_exporter
+  no_log: true
+
+- name: Deploy Graphite Exporter Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: graphite_exporter
+    hostname: "{{graphite_exporter_hostname}}"
+    image: "{{graphite_exporter_docker_image}}:{{graphite_exporter_version}}"
+    args: "--graphite.mapping-config=/tmp/graphite_mapping.yaml"
+    networks:
+      - "{{traefik_network}}"
+    publish:
+      - published_port: "{{graphite_exporter_port}}"
+        target_port: "{{graphite_exporter_port}}"
+        protocol: "tcp"
+        mode: "host"
+      - published_port: "{{graphite_exporter_port}}"
+        target_port: "{{graphite_exporter_port}}"
+        protocol: "udp"
+        mode: "host"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/graphite_exporter/"
+        target: /tmp
+        type: bind
+    labels:
+      traefik.http.routers.graphite_exporter.entrypoints: "websecure"
+      traefik.http.routers.graphite_exporter.rule: "Host(`graphite-metrics.{{project_tld}}`)"
+      traefik.http.routers.graphite_exporter.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.graphite_exporter.tls: "true"
+      traefik.http.routers.graphite_exporter.service: "graphite_exporter"
+      # traefik.http.routers.graphite_exporter.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.graphite_exporter.loadbalancer.server.port: "{{graphite_exporter_metrics_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: graphite_exporter

@@ -23,6 +23,7 @@
     - ldap-user-manager
     - unifi-controller
     - graphite
+    - graphite-exporter
     - prometheus
     - influxdb
     - telegraf

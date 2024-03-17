@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Graphite Exporter"
+      include_role:
+        name: "graphite_exporter"

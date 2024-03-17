@@ -1,0 +1,6 @@
+---
+graphite_exporter_version: latest
+graphite_exporter_hostname: "truenas-graphite-exporter"
+graphite_exporter_port: "9109"
+graphite_exporter_metrics_port: "9108"
+graphite_exporter_docker_image: "prom/graphite-exporter"
