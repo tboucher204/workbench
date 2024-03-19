@@ -1,0 +1,5 @@
+---
+dozzle_version: "latest"
+dozzle_hostname: "dozzle"
+dozzle_docker_image: "amir20/dozzle"
+dozzle_port: "8080"

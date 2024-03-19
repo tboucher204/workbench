@@ -16,6 +16,7 @@
     # - listmonk
     - wiki.js
     # - mkdocs
+    - dozzle
     - graylog
     - adminer
     - phpmyadmin
@@ -26,7 +27,7 @@
     - graphite-exporter
     - prometheus
     - influxdb
-    - telegraf
+    # - telegraf
     - grafana
     - speedtest-exporter
     - exportarr

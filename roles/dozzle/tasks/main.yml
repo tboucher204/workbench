@@ -1,0 +1,35 @@
+---
+- name: Deploy Docker-GC Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: dozzle
+    hostname: "{{ dozzle_hostname }}"
+    image: "{{ dozzle_docker_image }}:{{ dozzle_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      DOZZLE_LEVEL: "info"
+      DOZZLE_TAILSIZE: "300"
+      DOZZLE_FILTER: "status=running"
+      # DOZZLE_FILTER: "label=log_me" # limits logs displayed to containers with this label
+      DOCKER_HOST: "tcp://socket-proxy:2375"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    labels:
+      traefik.http.routers.dozzle.entrypoints: "websecure"
+      traefik.http.routers.dozzle.rule: "Host(`dozzle.{{project_tld}}`)"
+      traefik.http.routers.dozzle.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.dozzle.tls: "true"
+      traefik.http.routers.dozzle.service: "dozzle"
+      # traefik.http.routers.dozzle.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.dozzle.loadbalancer.server.port: "{{dozzle_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: dozzle
+  
