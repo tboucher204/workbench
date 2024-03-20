@@ -1,52 +1,26 @@
 ---
-- name: Deploy Socket-proxy Service
+- name: Ensure Socket Proxy Dataset Exist
   when: inventory_hostname == groups['managers'][0]
-  community.docker.docker_swarm_service:
-    name: socketproxy
-    hostname: "{{socketproxy_hostname}}"
-    image: "{{socketproxy_docker_image}}:{{socketproxy_version}}"
-    networks:
-      - "{{traefik_network}}"
-    mode: global
-    force_update: false
-    restart_config:
-      condition: on-failure
-    env:
-      LOG_LEVEL: "info" # debug,info,notice,warning,err,crit,alert,emerg
-      EVENTS: "1"
-      PING: "1"
-      VERSION: "1"
-      AUTH: "0"
-      SECRETS: "0"
-      POST: "1"
-      BUILD: "0"
-      COMMIT: "0"
-      CONFIGS: "0"
-      CONTAINERS: "1" # Traefik, portainer, etc.
-      DISTRIBUTION: "0"
-      EXEC: "0"
-      IMAGES: "1" # Portainer
-      INFO: "1" # Portainer
-      NETWORKS: "1" # Portainer
-      NODES: "0"
-      PLUGINS: "0"
-      SERVICES: "1" # Portainer
-      SESSION: "0"
-      SWARM: "1"
-      SYSTEM: "0"
-      TASKS: "1" # Portainer
-      VOLUMES: "1" # Portainer
-    publish:
-      - published_port: "{{socketproxy_port}}"
-        target_port: "{{socketproxy_port}}"
-        protocol: "tcp"
-        mode: "host"
-    placement:
-      constraints:
-        - node.platform.os == linux
-    mounts:
-      - source: "/var/run/docker.sock"
-        target: /var/run/docker.sock
-        type: bind
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /datavol/apps/socket-proxy
+  tags: socket-proxy
+
+- name: Create Socket Proxy Docker Compose File
+  when: inventory_hostname == groups['managers'][0]
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{project_root_directory}}/socket-proxy/docker-compose.yml"
+    mode: 0775
+  tags: socket-proxy
+
+- name: Deploy Socket Proxy from Compose File
+  when: inventory_hostname == groups['managers'][0]
+  docker_stack:
     state: present
-  tags: socketproxy
+    name: socket-proxy
+    compose:
+      - "{{project_root_directory}}/socket-proxy/docker-compose.yml"
+  tags: socket-proxy

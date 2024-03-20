@@ -1,0 +1,45 @@
+version: '3.5'
+
+services:
+  socketproxy:
+    image: "{{socketproxy_docker_image}}:{{socketproxy_version}}"
+    hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
+    networks:
+      - {{traefik_network}}
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+    environment:
+      - LOG_LEVEL=info # debug,info,notice,warning,err,crit,alert,emerg
+      - EVENTS=1
+      - PING=1
+      - VERSION=1
+      - AUTH=0
+      - SECRETS=0
+      - POST=1
+      - BUILD=0
+      - COMMIT=0
+      - CONFIGS=0
+      - CONTAINERS=1 # Traefik, portainer, etc.
+      - DISTRIBUTION=0
+      - EXEC=0
+      - IMAGES=1 # Portainer
+      - INFO=1 # Portainer
+      - NETWORKS=1 # Portainer
+      - NODES=0
+      - PLUGINS=0
+      - SERVICES=1 # Portainer
+      - SESSION=0
+      - SWARM=1
+      - SYSTEM=0
+      - TASKS=1 # Portainer
+      - VOLUMES=1 # Portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+networks:
+  {{traefik_network}}:
+    external: true
+    name: {{traefik_network}}
