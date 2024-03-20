@@ -3,7 +3,7 @@ version: '3.5'
 services:
   socketproxy:
     image: "{{socketproxy_docker_image}}:{{socketproxy_version}}"
-    hostname: '{{.Node.Hostname}}-{{.Service.Name}}'
+    hostname: "'{{.Node.Hostname}}'-'{{.Service.Name}}'"
     networks:
       - {{traefik_network}}
     deploy:
