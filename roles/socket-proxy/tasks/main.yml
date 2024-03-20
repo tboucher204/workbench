@@ -3,7 +3,7 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: socketproxy
-    hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
+    hostname: "{{socketproxy_hostname}}"
     image: "{{socketproxy_docker_image}}:{{socketproxy_version}}"
     networks:
       - "{{traefik_network}}"

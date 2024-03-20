@@ -1,5 +1,5 @@
 ---
 socketproxy_version: "latest"
-# socketproxy_hostname: "{{.Node.Hostname}}-{{.Service.Name}}"
+socketproxy_hostname: "socket-proxy"
 socketproxy_port: "2375"
 socketproxy_docker_image: "tecnativa/docker-socket-proxy"
