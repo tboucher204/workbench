@@ -13,10 +13,9 @@
       condition: on-failure
     env:
       DOZZLE_LEVEL: "info"
-      DOZZLE_TAILSIZE: "300"
       DOZZLE_FILTER: "status=running"
       # DOZZLE_FILTER: "label=log_me" # limits logs displayed to containers with this label
-      DOCKER_HOST: "tcp://elrond-socketproxy:2375,tcp://elrohir-socketproxy:2375,tcp://elladan-socketproxy:2375"
+      DOZZLE_REMOTE_HOST: "tcp://elrond-socketproxy:2375,tcp://elrohir-socketproxy:2375,tcp://elladan-socketproxy:2375"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}
