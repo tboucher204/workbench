@@ -18,7 +18,7 @@
       GRACE_PERIOD_SECONDS: "604800"
       DRY_RUN: "0"
       TZ: "{{ default_timezone }}"
-      DOCKER_HOST: "tcp://socket-proxy:2375"
+      DOCKER_HOST: "tcp://elrond-socketproxy:2375,tcp://elrohir-socketproxy:2375,tcp://elladan-socketproxy:2375"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}
