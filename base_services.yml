@@ -18,6 +18,7 @@
     # - elasticsearch
     - opensearch
     # - keycloak
+    - geoipupdate
     - authelia
     - authentik
     - mailrise
