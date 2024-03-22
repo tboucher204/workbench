@@ -1,0 +1,28 @@
+---
+- name: Deploy Whoami Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: whoami
+    hostname: "{{ whoami_hostname }}"
+    image: "{{ whoami_docker_image }}:{{ whoami_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    labels:
+      traefik.http.routers.whoami.entrypoints: "websecure"
+      traefik.http.routers.whoami.rule: "Host(`whoami.{{project_tld}}`)"
+      traefik.http.routers.whoami.middlewares: "default-headers@file,authentik@file"
+      traefik.http.routers.whoami.tls: "true"
+      traefik.http.routers.whoami.service: "whoami"
+      # traefik.http.routers.whoami.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.whoami.loadbalancer.server.port: "{{whoami_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: whoami
