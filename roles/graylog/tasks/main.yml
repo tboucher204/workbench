@@ -6,6 +6,15 @@
     state: present
   tags: graylog
 
+- name: Ensure Geoip Directories Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/geoip"
+  tags: geoip
+
 - name: Create Graylog Docker Container
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
@@ -35,6 +44,9 @@
       - source: graylog_data
         target: /usr/share/graylog/data
         type: volume
+      - source: "{{project_root_directory}}/geoip/"
+        target: /etc/graylog/server
+        type: bind
     replicas: 1
     env:
       TZ: "{{ default_timezone }}"

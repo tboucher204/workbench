@@ -9,6 +9,15 @@
     - "{{ project_root_directory }}/authentik"
   tags: authentik
 
+- name: Ensure Geoip Directories Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/geoip"
+  tags: geoip
+
 - name: Ensure Authentik Database exist
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
@@ -43,8 +52,9 @@
         target_port: "{{authentik_port_http}}"
     env:
       AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_REDIS__HOST: "{{redis_hostname}}"
+      AUTHENTIK_REDIS__DB: "1"
+      AUTHENTIK_POSTGRESQL__HOST: "{{postgres_hostname}}"
       AUTHENTIK_POSTGRESQL__USER: "{{authentik_database_user}}"
       AUTHENTIK_POSTGRESQL__NAME: "{{authentik_database}}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{authentik_database_password}}"
@@ -61,6 +71,9 @@
         type: bind
       - source: "{{project_media_directory}}/"
         target: /media
+        type: bind
+      - source: "{{project_root_directory}}/geoip/"
+        target: /usr/share/GeoIP
         type: bind
     labels:
       traefik.http.routers.authentik.entrypoints: "websecure"
@@ -93,8 +106,9 @@
     replicas: 1
     env:
       AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_REDIS__HOST: "{{redis_hostname}}"
+      AUTHENTIK_REDIS__DB: "1"
+      AUTHENTIK_POSTGRESQL__HOST: "{{postgres_hostname}}"
       AUTHENTIK_POSTGRESQL__USER: "{{authentik_database_user}}"
       AUTHENTIK_POSTGRESQL__NAME: "{{authentik_database}}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{authentik_database_password}}"
@@ -117,6 +131,9 @@
         type: bind
       - source: "{{project_media_directory}}/Certificates/certs/"
         target: /certs
+        type: bind
+      - source: "{{project_root_directory}}/geoip/"
+        target: /usr/share/GeoIP
         type: bind
     state: present
   tags: authentik

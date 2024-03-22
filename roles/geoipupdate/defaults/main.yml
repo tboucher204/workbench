@@ -1,0 +1,4 @@
+---
+geoip_version: "latest"
+geoip_hostname: "geoip"
+geoip_docker_image: "maxmindinc/geoipupdate"
