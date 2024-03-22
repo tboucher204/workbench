@@ -52,9 +52,9 @@
         target_port: "{{authentik_port_http}}"
     env:
       AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
-      AUTHENTIK_REDIS__HOST: "{{redis_hostname}}"
+      AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_REDIS__DB: "1"
-      AUTHENTIK_POSTGRESQL__HOST: "{{postgres_hostname}}"
+      AUTHENTIK_POSTGRESQL__HOST: postgres
       AUTHENTIK_POSTGRESQL__USER: "{{authentik_database_user}}"
       AUTHENTIK_POSTGRESQL__NAME: "{{authentik_database}}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{authentik_database_password}}"
@@ -106,9 +106,9 @@
     replicas: 1
     env:
       AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
-      AUTHENTIK_REDIS__HOST: "{{redis_hostname}}"
+      AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_REDIS__DB: "1"
-      AUTHENTIK_POSTGRESQL__HOST: "{{postgres_hostname}}"
+      AUTHENTIK_POSTGRESQL__HOST: postgres
       AUTHENTIK_POSTGRESQL__USER: "{{authentik_database_user}}"
       AUTHENTIK_POSTGRESQL__NAME: "{{authentik_database}}"
       AUTHENTIK_POSTGRESQL__PASSWORD: "{{authentik_database_password}}"
