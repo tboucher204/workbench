@@ -1,4 +1,4 @@
 ---
 shepherd_version: "latest"
 shepherd_hostname: "shepherd"
-shepherd_docker_image: "mazzolino/shepherd"
+shepherd_docker_image: "containrrr/shepherd"

@@ -23,12 +23,13 @@
       - secret_name: shepherd_registry_password
     env:
       SLEEP_TIME: "1440m"
-      # IGNORELIST_SERVICES: "nextcloud"
+      IGNORELIST_SERVICES: "shepherd"
       WITH_REGISTRY_AUTH: "true"
       REGISTRY_USER: "{{ shepherd_registry_user }}"
       ROLLBACK_ON_FAILURE: "true"
       IMAGE_AUTOCLEAN_LIMIT: "1"
       APPRISE_SIDECAR_URL: "http://apprise-api:8000/notify/"
+      UPDATE_OPTIONS: "--update-delay=30s"
       TZ: "{{ default_timezone }}"
     placement:
       constraints:
