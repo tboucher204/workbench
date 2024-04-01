@@ -7,7 +7,7 @@
     # - gluetun
     - transmission
     - sabnzbd
-    - qbittorrent-vpn
+    # - qbittorrent-vpn
     - prowlarr
     - sonarr
     - radarr
@@ -30,7 +30,7 @@
     # - wizarr
     # - tdarr
     # - unpackerr
-    - calibre
+    # - calibre
     - calibre-web
     # - airsonic
     - navidrome
