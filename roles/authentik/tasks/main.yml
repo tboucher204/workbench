@@ -129,7 +129,7 @@
       - source: "/var/run/docker.sock"
         target: /var/run/docker.sock
         type: bind
-      - source: "{{project_media_directory}}/Certificates/certs/"
+      - source: "{{project_media_directory}}/Certificates/"
         target: /certs
         type: bind
       - source: "{{project_root_directory}}/geoip/"
