@@ -1,4 +1,4 @@
 ---
 traefik_certdumper_version: "latest"
 traefik_certdumper_hostname: "traefikcertdumper"
-traefik_certdumper_docker_image: "github/workbench/roles/traefik-certs-dumper"
+traefik_certdumper_docker_image: "ghcr.io/kereis/traefik-certs-dumper"

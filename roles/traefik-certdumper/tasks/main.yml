@@ -28,8 +28,6 @@
       OVERRIDE_UID: "1000"
       OVERRIDE_GID: "1000"
       CONVERT_KEYS_TO_RSA: "yes"
-      RSA_KEY_FILE_NAME: "myrsa"
-      RSA_KEY_FILE_EXT: ".ext"
     placement:
       constraints:
         - node.id == {{ docker_master1_node_id }}
