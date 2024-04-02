@@ -7,7 +7,7 @@
   loop:
     - "{{project_root_directory}}/traefik"
     - "{{project_root_directory}}/traefik/letsencrypt"
-    - "{{project_media_directory}}/Certs"
+    - "{{project_media_directory}}/Certificates"
   tags: traefik_certdumper
 
 - name: Deploy Traefik Certdumper Service
@@ -28,6 +28,7 @@
       OVERRIDE_UID: "1000"
       OVERRIDE_GID: "1000"
       CONVERT_KEYS_TO_RSA: "yes"
+      POST_HOOK_FILE_PATH: "{{project_media_directory}}/Certificates/hook.sh"
     placement:
       constraints:
         - node.id == {{ docker_master1_node_id }}
@@ -36,7 +37,7 @@
         target: /traefik
         type: bind
         readonly: true
-      - source: "{{project_media_directory}}/Certs/"
+      - source: "{{project_media_directory}}/Certificates/"
         target: /output
         type: bind
     healthcheck:
