@@ -32,7 +32,7 @@
       RSA_KEY_FILE_EXT: ".ext"
     placement:
       constraints:
-        - node.id == {{ docker_manager1_node_id }}
+        - node.id == {{ docker_master1_node_id }}
     mounts:
       - source: "{{project_root_directory}}/traefik/letsencrypt/"
         target: /traefik
