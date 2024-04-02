@@ -1,0 +1,3 @@
+---
+shepherd_registry_user: "{{ vault_shepherd_registry_user }}"
+shepherd_registry_password: "{{ vault_shepherd_registry_password }}"

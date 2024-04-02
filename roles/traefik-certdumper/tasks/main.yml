@@ -1,0 +1,52 @@
+---
+- name: Ensure Traefik-certdumper Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/traefik"
+    - "{{project_root_directory}}/letsencrypt"
+    - "{{project_media_directory}}/Certs"
+  tags: traefik-certdumper
+
+- name: Deploy Traefik-certdumper Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: traefik-certdumper
+    hostname: "{{ traefik-certdumper_hostname }}"
+    image: "{{ traefik-certdumper_docker_image }}:{{ traefik-certdumper_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PKCS12_PASSWORD_FILE: ""
+      COMBINE_PKCS12: "yes"
+      OVERRIDE_UID: "1000"
+      OVERRIDE_GID: "1000"
+      CONVERT_KEYS_TO_RSA: "yes"
+      RSA_KEY_FILE_NAME: "myrsa"
+      RSA_KEY_FILE_EXT: ".ext"
+    placement:
+      constraints:
+        - node.id == {{ docker_manager1_node_id }}
+    mounts:
+      - source: "{{project_root_directory}}/letsencrypt"
+        target: /traefik
+        type: bind
+        readonly: true
+      - source: "{{project_media_directory}}/Certs"
+        target: /output
+        type: bind
+    healthcheck:
+      test: ["CMD", "/usr/bin/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    replicas: 1
+    state: present
+  tags: traefik-certdumper
+  

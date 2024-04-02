@@ -1,0 +1,4 @@
+---
+traefik-certdumper_version: "latest"
+traefik-certdumper_hostname: "traefik-certdumper"
+traefik-certdumper_docker_image: "github/workbench/roles/traefik-certs-dumper"

@@ -5,6 +5,7 @@
   become: true
   roles:
     - traefik
+    - traefik-certdumper
     - socket-proxy
     - portainer
     - openldap
