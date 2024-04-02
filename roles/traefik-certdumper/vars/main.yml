@@ -1,3 +1,2 @@
 ---
-shepherd_registry_user: "{{ vault_shepherd_registry_user }}"
-shepherd_registry_password: "{{ vault_shepherd_registry_password }}"
+traefik_certdumper_password: "{{ vault_traefik_certdumper_password }}"

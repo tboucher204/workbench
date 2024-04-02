@@ -2,6 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include Traefik-certdumper"
+    - name: "Include Traefik Certdumper"
       include_role:
-        name: "traefik-certdumper"
+        name: "traefik_certdumper"

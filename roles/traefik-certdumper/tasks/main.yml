@@ -1,21 +1,21 @@
 ---
-- name: Ensure Traefik-certdumper Dataset Exist
-  when: inventory_hostname == groups['media'][0]
+- name: Ensure Traefik Certdumper Dataset Exist
+  when: inventory_hostname == groups['managers'][0]
   file:
     path: "{{item}}"
     state: directory
   loop:
     - "{{project_root_directory}}/traefik"
-    - "{{project_root_directory}}/letsencrypt"
+    - "{{project_root_directory}}/traefik/letsencrypt"
     - "{{project_media_directory}}/Certs"
-  tags: traefik-certdumper
+  tags: traefik_certdumper
 
-- name: Deploy Traefik-certdumper Service
+- name: Deploy Traefik Certdumper Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: traefik-certdumper
-    hostname: "{{ traefik-certdumper_hostname }}"
-    image: "{{ traefik-certdumper_docker_image }}:{{ traefik-certdumper_version }}"
+    name: traefik_certdumper
+    hostname: "{{ traefik_certdumper_hostname }}"
+    image: "{{ traefik_certdumper_docker_image }}:{{ traefik_certdumper_version }}"
     networks:
       - "{{ traefik_network }}"
     mode: replicated
@@ -23,7 +23,7 @@
     restart_config:
       condition: on-failure
     env:
-      PKCS12_PASSWORD_FILE: ""
+      PKCS12_PASSWORD: "{{ traefik_certdumper_password }}"
       COMBINE_PKCS12: "yes"
       OVERRIDE_UID: "1000"
       OVERRIDE_GID: "1000"
@@ -34,11 +34,11 @@
       constraints:
         - node.id == {{ docker_manager1_node_id }}
     mounts:
-      - source: "{{project_root_directory}}/letsencrypt"
+      - source: "{{project_root_directory}}/traefik/letsencrypt/"
         target: /traefik
         type: bind
         readonly: true
-      - source: "{{project_media_directory}}/Certs"
+      - source: "{{project_media_directory}}/Certs/"
         target: /output
         type: bind
     healthcheck:
@@ -48,5 +48,5 @@
       retries: 5
     replicas: 1
     state: present
-  tags: traefik-certdumper
+  tags: traefik_certdumper
   
