@@ -25,6 +25,7 @@
     env:
       TZ: "{{default_timezone}}"
       WEBPASSWORD: "{{pihole_web_password}}"
+      DNSMASQ_LISTENING: "all"
     publish:
       - published_port: "53"
         target_port: "53"
