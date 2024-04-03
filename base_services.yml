@@ -10,6 +10,7 @@
     - portainer
     - openldap
     - vault
+    - pihole
     - homer
     - postgres
     - mariadb

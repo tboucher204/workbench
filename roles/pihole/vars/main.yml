@@ -1,0 +1,2 @@
+---
+pihole_web_password: "{{vault_pihole_web_password}}"

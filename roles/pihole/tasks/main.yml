@@ -1,0 +1,59 @@
+---
+- name: Ensure Pihole Dataset Exist
+  when: inventory_hostname == groups['managers'][0]
+  file:
+    path: "{{item}}"
+    state: directory
+  loop:
+    - "{{project_root_directory}}/pihole"
+    - "{{project_root_directory}}/pihole/config"
+    - "{{project_root_directory}}/pihole/dnsmasq"
+  tags: pihole
+
+- name: Deploy Pihole Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: pihole
+    hostname: "{{ pihole_hostname }}"
+    image: "{{ pihole_docker_image }}:{{ pihole_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      TZ: "{{default_timezone}}"
+      WEBPASSWORD: "{{pihole_web_password}}"
+    publish:
+      - published_port: "53"
+        target_port: "53"
+        protocol: "udp"
+        mode: "host"
+      - published_port: "53"
+        target_port: "53"
+        protocol: "tcp"
+        mode: "host"
+    placement:
+      constraints:
+        - node.id == {{ docker_master1_node_id }}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/pihole/config/"
+        target: /etc/pihole
+        type: bind
+      - source: "{{project_root_directory}}/pihole/dnsmasq/"
+        target: /etc/dnsmasq.d
+        type: bind
+    labels:
+      traefik.http.routers.pihole.entrypoints: "websecure"
+      traefik.http.routers.pihole.rule: "Host(`pihole.{{project_tld}}`)"
+      traefik.http.routers.pihole.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.pihole.tls: "true"
+      traefik.http.routers.pihole.service: "pihole"
+      # traefik.http.routers.pihole.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.pihole.loadbalancer.server.port: "{{pihole_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: pihole
+  

@@ -1,5 +1,5 @@
 ---
-- name: Deploy Docker-GC Service
+- name: Deploy Dozzle Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: dozzle
@@ -15,7 +15,7 @@
       DOZZLE_LEVEL: "info"
       DOZZLE_FILTER: "status=running"
       # DOZZLE_FILTER: "label=log_me" # limits logs displayed to containers with this label
-      DOZZLE_REMOTE_HOST: "tcp://elrond-socketproxy:2375,tcp://elrohir-socketproxy:2375,tcp://elladan-socketproxy:2375"
+      DOZZLE_REMOTE_HOST: "tcp://elrond-socketproxy:2375|elrond,tcp://elrohir-socketproxy:2375|elrohir,tcp://elladan-socketproxy:2375|elladan"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}

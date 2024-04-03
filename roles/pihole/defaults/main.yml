@@ -1,0 +1,5 @@
+---
+pihole_version: "latest"
+pihole_hostname: "pihole"
+pihole_docker_image: "pihole/pihole"
+pihole_port: "80"
