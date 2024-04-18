@@ -1,5 +1,5 @@
 ---
-vault_docker_image: "vault"
+vault_docker_image: "hashicorp/vault"
 vault_version: "latest"
-vault_hostname: "hashicorp/vault"
+vault_hostname: "vault"
 vault_port: "8200"
