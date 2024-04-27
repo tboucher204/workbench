@@ -28,8 +28,10 @@ services:
       - PGID={{ media_group }}
       - TZ={{ default_timezone }}
       - CREATE_TUN_DEVICE=true
-      - OPENVPN_PROVIDER=EXPRESSVPN
-      - OPENVPN_CONFIG={{ transmission_openvpn_countries }}
+      - OPENVPN_PROVIDER=NORDVPN
+      - NORDVPN_COUNTRY={{ transmission_openvpn_countries }}
+      - NORDVPN_CATEGORY=P2P
+      - NORDVPN_PROTOCOL=tcp
       - OPENVPN_USERNAME={{ transmission_openvpn_username }}
       - OPENVPN_PASSWORD={{ transmission_openvpn_password }}
       - OPENVPN_OPTS=--inactive 3600 --ping 10 --ping-exit 60
