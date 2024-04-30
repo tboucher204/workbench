@@ -1,0 +1,5 @@
+---
+filebrowser_version: "s6"
+filebrowser_hostname: "filebrowser"
+filebrowser_docker_image: "filebrowser/filebrowser"
+filebrowser_port: "80"
