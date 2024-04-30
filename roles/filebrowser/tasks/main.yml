@@ -2,8 +2,12 @@
 - name: Ensure Filebrowser Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   file:
-    name: "{{project_root_directory}}/filebrowser"
+    path: "{{item}}"
     state: directory
+  loop:
+    - "{{project_root_directory}}/filebrowser"
+    - "{{project_root_directory}}/filebrowser/config"
+    - "{{project_root_directory}}/filebrowser/database"
   tags: filebrowser
 
 - name: Deploy Filebrowser Service
@@ -27,8 +31,11 @@
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/filebrowser/"
+      - source: "{{project_root_directory}}/filebrowser/config/"
         target: /config
+        type: bind
+      - source: "{{project_root_directory}}/filebrowser/database/"
+        target: /database
         type: bind
       - source: "{{project_media_directory}}/"
         target: /data/media
