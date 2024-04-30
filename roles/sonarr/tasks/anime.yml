@@ -44,7 +44,7 @@
       PUID: "{{media_user}}"
       PGID: "{{media_group}}"
       TZ: "{{default_timezone}}"
-      DOCKER_MODS: "gilbn/theme.park:{{sonarr_hostname}}"
+      DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{sonarr_hostname}}"
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:

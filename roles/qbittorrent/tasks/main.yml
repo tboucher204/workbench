@@ -70,7 +70,7 @@
       PUID: "{{media_user}}"
       PGID: "{{media_group}}"
       TZ: "{{default_timezone}}"
-      DOCKER_MODS: "gilbn/theme.park:{{qbittorrent_hostname}}"
+      DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{qbittorrent_hostname}}"
       TP_THEME: "{{theme_park_default}}"
       UMASK: "022"
       WEBUI_PORT: "{{qbittorrent_port}}"

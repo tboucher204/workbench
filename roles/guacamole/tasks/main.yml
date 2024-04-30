@@ -46,7 +46,7 @@
     mode: replicated
     force_update: false
     env:
-      DOCKER_MODS: "gilbn/theme.park:guacamole"
+      DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:guacamole"
       TP_THEME: "{{ theme_park_default }}"
       JAVA_OPTS: "-Dserver.use-forward-headers=true"
       GUACD_HOSTNAME: "{{ guacd_hostname }}"
