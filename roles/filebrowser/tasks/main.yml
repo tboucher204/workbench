@@ -6,8 +6,6 @@
     state: directory
   loop:
     - "{{project_root_directory}}/filebrowser"
-    - "{{project_root_directory}}/filebrowser/config"
-    - "{{project_root_directory}}/filebrowser/database"
   tags: filebrowser
 
 - name: Deploy Filebrowser Service
@@ -31,14 +29,14 @@
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/filebrowser/config/"
-        target: /config
+      - source: "{{project_root_directory}}/filebrowser/settings.json"
+        target: /config/settings.json
         type: bind
-      - source: "{{project_root_directory}}/filebrowser/database/"
-        target: /database
+      - source: "{{project_root_directory}}/filebrowser/filebrowser.db"
+        target: /database/filebrowser.db
         type: bind
       - source: "{{project_media_directory}}/"
-        target: /data/media
+        target: /srv
         type: bind
     labels:
       traefik.http.routers.filebrowser.entrypoints: "websecure"
