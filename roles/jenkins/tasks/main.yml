@@ -38,4 +38,3 @@
       traefik.enable: "true"
     state: present
   tags: jenkins
-  
