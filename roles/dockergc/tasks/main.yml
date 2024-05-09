@@ -7,21 +7,21 @@
     image: "{{ dockergc_docker_image }}:{{ dockergc_version }}"
     networks:
       - "{{ traefik_network }}"
-    mode: replicated
+    mode: global
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      CRON: "0 0 1 * * 0" # Every Sunday at 1am
+      CRON: "0 0 * * 7" # Every Sunday at 1am
       FORCE_IMAGE_REMOVAL: "1"
       FORCE_CONTAINER_REMOVAL: "0"
       GRACE_PERIOD_SECONDS: "604800"
       DRY_RUN: "0"
       TZ: "{{ default_timezone }}"
-      DOCKER_HOST: "tcp://elrond-socketproxy:2375,tcp://elrohir-socketproxy:2375,tcp://elladan-socketproxy:2375"
+      DOCKER_HOST: "tcp://{{ '{{' }} .Node.Hostname {{ '}}' }}-socketproxy:2375"
     placement:
       constraints:
-        - node.id == {{ docker_worker1_node_id }}
+        - node.platform.os == linux
     replicas: 1
     state: present
   tags: dockergc

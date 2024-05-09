@@ -2,8 +2,10 @@
 - name: Ensure Filebrowser Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   file:
-    name: "{{project_root_directory}}/filebrowser"
+    path: "{{item}}"
     state: directory
+  loop:
+    - "{{project_root_directory}}/filebrowser"
   tags: filebrowser
 
 - name: Deploy Filebrowser Service
@@ -27,13 +29,19 @@
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/filebrowser/"
-        target: /config
+      - source: "{{project_root_directory}}/filebrowser/settings.json"
+        target: /config/settings.json
+        type: bind
+      - source: "{{project_root_directory}}/filebrowser/filebrowser.db"
+        target: /database/filebrowser.db
+        type: bind
+      - source: "{{project_media_directory}}/"
+        target: /srv
         type: bind
     labels:
       traefik.http.routers.filebrowser.entrypoints: "websecure"
       traefik.http.routers.filebrowser.rule: "Host(`filebrowser.{{project_tld}}`)"
-      traefik.http.routers.filebrowser.middlewares: "default-headers@file"
+      traefik.http.routers.filebrowser.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.filebrowser.tls: "true"
       traefik.http.routers.filebrowser.service: "filebrowser"
       # traefik.http.routers.filebrowser.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

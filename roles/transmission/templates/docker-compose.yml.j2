@@ -10,6 +10,7 @@ services:
       - /datavol/apps/transmission/config:/config
       - {{ project_download_directory }}:/media/downloads
       - {{ project_watch_directory }}/torrentfiles:/watch
+      - /datavol/apps/transmission/config.json:/opt/transmission-ui/flood-for-transmission/config.json
     deploy:
       mode: global
       placement:

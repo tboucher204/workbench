@@ -56,6 +56,13 @@
     - /datavol/apps/transmission/config
   tags: transmission
 
+- name: Create Flood UI Config File
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: config.json.j2
+    dest: "{{project_root_directory}}/transmission/config.json"
+  tags: transmission
+
 - name: Create Transmission Docker Compose File
   when: inventory_hostname == groups['managers'][0]
   template:
