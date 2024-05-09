@@ -1,14 +1,13 @@
 server:
-  host: 0.0.0.0
-  port: {{authelia_port}}
-  path: ""
+  address: tcp://0.0.0.0:{{authelia_port}}/
   buffers:
     read: 4096
     write: 4096
-  enable_pprof: false
-  enable_expvars: false
   disable_healthcheck: false
   asset_path: /config/assets/
+  endpoints:
+    enable_pprof: false
+    enable_expvars: false
 
 log:
   level: debug
@@ -221,34 +220,43 @@ authentication_backend:
   ldap:
     url: {{authelia_ldap_url}}
     base_dn: {{authelia_ldap_base_dn}}
-    username_attribute: uid
     additional_users_dn: ou=users
     users_filter: (&({username_attribute}={input})(objectClass=person))
     additional_groups_dn: ou=groups
     groups_filter: (&(member={dn})(objectclass=groupofNames))
-    group_name_attribute: cn
-    mail_attribute: mail
-    display_name_attribute: cn
     user: {{authelia_ldap_user}}
     password: {{authelia_ldap_password}}
+    attributes:
+      username: uid
+      group_name: cn
+      mail: mail
+      display_name: cn
 
 storage:
   encryption_key: {{authelia_encryption_key}}
   postgres:
-    host: {{postgres_hostname}}
-    port: {{postgres_port}}
+    address: tcp://{{postgres_hostname}}:{{postgres_port}}
     database: {{authelia_database}}
     schema: public
     username: {{authelia_database_user}}
     password: {{authelia_database_password}}
 
 session:
-  name: h2oauth
+  name: authelia_session
   domain: {{project_tld}}
   secret: {{authelia_session_secret}}
   expiration: 4h
   inactivity: 1h
   remember_me_duration: 1M
+  cookies:
+    - domain: {{project_tld}}
+      authelia_url: https://login.{{project_tld}}/
+      default_redirection_url: https://www.{{project_tld}}/
+      name: authelia_session
+      same_site: lax
+      inactivity: 1h
+      expiration: 4h
+      remember_me: 1d
   redis:
     host: {{redis_hostname}}
     port: {{redis_port}}
@@ -274,8 +282,7 @@ session:
 notifier:
   disable_startup_check: false
   smtp:
-    host: {{email_host}}
-    port: {{email_port}}
+    address: smtp://{{email_host}}:{{email_port}}
     timeout: 5s
     username: {{email_user}}
     password: {{email_password}}
@@ -291,7 +298,7 @@ regulation:
   ban_time: 5m
 
 ntp:
-  address: "time.cloudflare.com:123"
+  address: 'udp://time.cloudflare.com:123'
   version: 3
   max_desync: 3s
   disable_startup_check: false
@@ -309,6 +316,10 @@ duo_api:
   integration_key: {{authelia_duo_integration_key}}
   secret_key: {{authelia_duo_secret_key}}
 
+identity_validation:
+  reset_password:
+    jwt_lifespan: '5 minutes'
+    jwt_algorithm: HS256
+    jwt_secret: {{authelia_jwt_secret}}
+
 theme: dark
-jwt_secret: {{authelia_jwt_secret}}
-default_redirection_url: https://www.{{project_tld}}/
