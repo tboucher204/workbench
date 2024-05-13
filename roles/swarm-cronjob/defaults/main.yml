@@ -1,0 +1,4 @@
+---
+swarm_cronjob_version: "latest"
+swarm_cronjob_hostname: "swarm-cronjob"
+swarm_cronjob_docker_image: "containrrr/swarm-cronjob"

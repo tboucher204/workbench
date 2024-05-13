@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Swarm_cronjob"
+      include_role:
+        name: "swarm_cronjob"

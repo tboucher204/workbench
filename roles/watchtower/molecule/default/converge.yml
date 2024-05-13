@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include Watchtower"
+      include_role:
+        name: "watchtower"

@@ -1,36 +1,35 @@
 ---
-- name: Create secret for Shepherd Registry Password
+- name: Create secret for Watchtower Registry Password
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_secret:
-    name: shepherd_registry_password
-    data: "{{ shepherd_registry_password }}"
+    name: watchtower_registry_password
+    data: "{{ watchtower_registry_password }}"
     state: present
-  tags: shepherd
+  tags: watchtower
 
-- name: Deploy Shepherd Service
+- name: Deploy Watchtower Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: shepherd
-    hostname: "{{ shepherd_hostname }}"
-    image: "{{ shepherd_docker_image }}:{{ shepherd_version }}"
+    name: watchtower
+    hostname: "{{ watchtower_hostname }}"
+    image: "{{ watchtower_docker_image }}:{{ watchtower_version }}"
     networks:
       - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
-      condition: none
+      condition: on-failure
     secrets:
-      - secret_name: shepherd_registry_password
+      - secret_name: watchtower_registry_password
     env:
       SLEEP_TIME: "1440m"
-      IGNORELIST_SERVICES: "shepherd"
+      IGNORELIST_SERVICES: "watchtower"
       WITH_REGISTRY_AUTH: "true"
-      REGISTRY_USER: "{{ shepherd_registry_user }}"
+      REGISTRY_USER: "{{ watchtower_registry_user }}"
       ROLLBACK_ON_FAILURE: "true"
       IMAGE_AUTOCLEAN_LIMIT: "1"
       APPRISE_SIDECAR_URL: "http://apprise-api:8000/notify/"
       UPDATE_OPTIONS: "--update-delay=30s"
-      RUN_ONCE_AND_EXIT: "true"
       TZ: "{{ default_timezone }}"
     placement:
       constraints:
@@ -39,12 +38,7 @@
       - source: "/var/run/docker.sock"
         target: /var/run/docker.sock
         type: bind
-    labels:
-      swarm.cronjob.enable: "true"
-      # Start service every Sunday at 1am
-      swarm.cronjob.schedule: "0 0 1 * * 7"
-      swarm.cronjob.skip-running: "true"
-    replicas: 0
+    replicas: 1
     state: present
-  tags: shepherd
+  tags: watchtower
   

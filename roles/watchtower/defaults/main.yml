@@ -1,0 +1,4 @@
+---
+watchtower_version: "latest"
+watchtower_hostname: "watchtower"
+watchtower_docker_image: "containrrr/watchtower"

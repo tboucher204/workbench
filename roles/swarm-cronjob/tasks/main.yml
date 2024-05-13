@@ -1,0 +1,28 @@
+---
+- name: Deploy Swarm_cronjob Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: swarm-cronjob
+    hostname: "{{ swarm_cronjob_hostname }}"
+    image: "{{ swarm_cronjob_docker_image }}:{{ swarm_cronjob_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      TZ: "{{ default_timezone }}"
+      LOG_LEVEL: "info"
+      LOG_JSON: "false"
+    placement:
+      constraints:
+        - node.id == {{ docker_master1_node_id }}
+    mounts:
+      - source: "/var/run/docker.sock"
+        target: /var/run/docker.sock
+        type: bind
+    replicas: 1
+    state: present
+  tags: swarm_cronjob
+  
