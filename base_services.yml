@@ -31,7 +31,7 @@
     - code-server
     # - n8n
     # - minio
-    - swarm-crontab
+    - swarm-cronjob
     - apprise-api
     - shepherd
     - dockergc
