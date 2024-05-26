@@ -218,7 +218,7 @@ authentication_backend:
   password_reset:
     disable: false
   ldap:
-    url: {{authelia_ldap_url}}
+    address: {{authelia_ldap_url}}
     base_dn: {{authelia_ldap_base_dn}}
     additional_users_dn: ou=users
     users_filter: (&({username_attribute}={input})(objectClass=person))
@@ -243,11 +243,11 @@ storage:
 
 session:
   name: authelia_session
-  domain: {{project_tld}}
+  # domain: {{project_tld}}
   secret: {{authelia_session_secret}}
   expiration: 4h
   inactivity: 1h
-  remember_me_duration: 1M
+  remember_me: 1M
   cookies:
     - domain: {{project_tld}}
       authelia_url: https://login.{{project_tld}}/
