@@ -21,7 +21,7 @@
     mode: replicated
     force_update: false
     restart_config:
-      condition: on-failure
+      condition: any
     env:
       TZ: "{{default_timezone}}"
       WEBPASSWORD: "{{pihole_web_password}}"
