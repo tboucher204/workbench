@@ -42,7 +42,7 @@
     labels:
       swarm.cronjob.enable: "true"
       # Start service every Sunday at 1am
-      swarm.cronjob.schedule: "0 0 1 * * 7"
+      swarm.cronjob.schedule: "0 0 1 * * 0"
       swarm.cronjob.skip-running: "true"
     replicas: 0
     state: present
