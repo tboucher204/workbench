@@ -1,0 +1,23 @@
+---
+- name: Deploy Pgloader Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: pgloader
+    hostname: "pgloader"
+    image: "{{pgloader_docker_image}}:{{pgloader_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mounts:
+      - source: "{{project_newroot_directory}}/"
+        target: /data
+        type: bind
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    state: present
+  tags: pgloader
