@@ -13,4 +13,11 @@
   <Branch>nightly</Branch>
   <SslCertPassword></SslCertPassword>
   <AuthenticationRequired>Enabled</AuthenticationRequired>
+  <PostgresUser>{{ readarr_database_user }}</PostgresUser>
+  <PostgresPassword>{{ readarr_database_password }}</PostgresPassword>
+  <PostgresPort>{{postgres_port}}</PostgresPort>
+  <PostgresHost>{{postgres_hostname}}</PostgresHost>
+  <PostgresMainDb>{{ readarr_maindb_database }}</PostgresMainDb>
+  <PostgresLogDb>{{ readarr_logdb_database }}</PostgresLogDb>
+  <PostgresCacheDb>{{ readarr_cachedb_database }}</PostgresCacheDb>
 </Config>

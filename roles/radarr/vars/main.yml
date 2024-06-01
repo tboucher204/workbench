@@ -1,0 +1,5 @@
+---
+radarr_maindb_database: "{{vault_radarr_maindb_database}}"
+radarr_logdb_database: "{{vault_radarr_logdb_database}}"
+radarr_database_user: "{{vault_radarr_database_user}}"
+radarr_database_password: "{{vault_radarr_database_password}}"

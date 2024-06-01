@@ -13,4 +13,11 @@
   <Branch>nightly</Branch>
   <SslCertPassword></SslCertPassword>
   <AuthenticationRequired>Enabled</AuthenticationRequired>
+  <PostgresUser>{{ readarr_audiobooks_database_user }}</PostgresUser>
+  <PostgresPassword>{{ readarr_audiobooks_database_password }}</PostgresPassword>
+  <PostgresPort>{{postgres_port}}</PostgresPort>
+  <PostgresHost>{{postgres_hostname}}</PostgresHost>
+  <PostgresMainDb>{{ readarr_audiobooks_maindb_database }}</PostgresMainDb>
+  <PostgresLogDb>{{ readarr_audiobooks_logdb_database }}</PostgresLogDb>
+  <PostgresCacheDb>{{ readarr_audiobooks_cachedb_database }}</PostgresCacheDb>
 </Config>

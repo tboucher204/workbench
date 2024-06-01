@@ -1,0 +1,11 @@
+---
+readarr_maindb_database: "{{vault_readarr_audiobooks_maindb_database}}"
+readarr_logdb_database: "{{vault_readarr_audiobooks_logdb_database}}"
+readarr_cachedb_database: "{{vault_readarr_audiobooks_cachedb_database}}"
+readarr_database_user: "{{vault_readarr_audiobooks_database_user}}"
+readarr_database_password: "{{vault_readarr_audiobooks_database_password}}"
+readarr_audiobooks_maindb_database: "{{vault_readarr_audiobooks_maindb_database}}"
+readarr_audiobooks_logdb_database: "{{vault_readarr_audiobooks_logdb_database}}"
+readarr_audiobooks_cachedb_database: "{{vault_readarr_audiobooks_cachedb_database}}"
+readarr_audiobooks_database_user: "{{vault_readarr_audiobooks_database_user}}"
+readarr_audiobooks_database_password: "{{vault_readarr_audiobooks_database_password}}"
