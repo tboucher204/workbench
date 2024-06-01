@@ -41,6 +41,26 @@
   tags: radarr
   no_log: true
 
+- name: Ensure Radarr Main Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ radarr_maindb_database }}"
+    database_user: "{{ radarr_database_user }}"
+    database_password: "{{ radarr_database_password }}"
+  tags: radarr
+  no_log: true
+
+- name: Ensure Radarr Log Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ radarr_logdb_database }}"
+    database_user: "{{ radarr_database_user }}"
+    database_password: "{{ radarr_database_password }}"
+  tags: radarr
+  no_log: true
+
 - name: Ensure Radarr custom-services Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
