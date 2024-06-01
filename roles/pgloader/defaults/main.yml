@@ -1,3 +1,0 @@
----
-pgloader_version: "latest"
-pgloader_docker_image: "ghcr.io/roxedus/pgloader"
