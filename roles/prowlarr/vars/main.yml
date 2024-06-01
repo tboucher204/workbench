@@ -1,0 +1,5 @@
+---
+prowlarr_maindb_database: "{{vault_prowlarr_maindb_database}}"
+prowlarr_logdb_database: "{{vault_prowlarr_logdb_database}}"
+prowlarr_database_user: "{{vault_prowlarr_database_user}}"
+prowlarr_database_password: "{{vault_prowlarr_database_password}}"

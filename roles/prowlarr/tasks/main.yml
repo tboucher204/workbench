@@ -6,6 +6,26 @@
     state: directory
   tags: prowlarr
 
+- name: Ensure Prowlarr Main Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ prowlarr_maindb_database }}"
+    database_user: "{{ prowlarr_database_user }}"
+    database_password: "{{ prowlarr_database_password }}"
+  tags: prowlarr
+  no_log: true
+
+- name: Ensure Prowlarr Log Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ prowlarr_logdb_database }}"
+    database_user: "{{ prowlarr_database_user }}"
+    database_password: "{{ prowlarr_database_password }}"
+  tags: prowlarr
+  no_log: true
+
 - name: Ensure Prowlarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
