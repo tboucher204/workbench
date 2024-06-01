@@ -14,4 +14,10 @@
   <SslCertPassword></SslCertPassword>
   <InstanceName>Prowlarr</InstanceName>
   <AuthenticationRequired>Enabled</AuthenticationRequired>
+  <PostgresUser>{{ prowlarr_database_user }}</PostgresUser>
+  <PostgresPassword>{{ prowlarr_database_password }}</PostgresPassword>
+  <PostgresPort>{{postgres_port}}</PostgresPort>
+  <PostgresHost>{{postgres_hostname}}</PostgresHost>
+  <PostgresMainDb>{{ prowlarr_maindb_database }}</PostgresMainDb>
+  <PostgresLogDb>{{ prowlarr_logdb_database }}</PostgresLogDb>
 </Config>
