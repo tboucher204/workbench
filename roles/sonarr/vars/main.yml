@@ -1,0 +1,5 @@
+---
+sonarr_maindb_database: "{{vault_sonarr_maindb_database}}"
+sonarr_logdb_database: "{{vault_sonarr_logdb_database}}"
+sonarr_database_user: "{{vault_sonarr_database_user}}"
+sonarr_database_password: "{{vault_sonarr_database_password}}"

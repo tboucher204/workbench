@@ -14,4 +14,10 @@
   <InstanceName>Sonarr</InstanceName>
   <SslCertPath></SslCertPath>
   <SslCertPassword></SslCertPassword>
+  <PostgresUser>{{ sonarr_anime_database_user }}</PostgresUser>
+  <PostgresPassword>{{ sonarr_anime_database_password }}</PostgresPassword>
+  <PostgresPort>{{postgres_port}}</PostgresPort>
+  <PostgresHost>{{postgres_hostname}}</PostgresHost>
+  <PostgresMainDb>{{ sonarr_anime_maindb_database }}</PostgresMainDb>
+  <PostgresLogDb>{{ sonarr_anime_logdb_database }}</PostgresLogDb>
 </Config>

@@ -14,4 +14,10 @@
   <SslCertPath></SslCertPath>
   <SslCertPassword></SslCertPassword>
   <InstanceName>Lidarr</InstanceName>
+  <PostgresUser>{{ lidarr_database_user }}</PostgresUser>
+  <PostgresPassword>{{ lidarr_database_password }}</PostgresPassword>
+  <PostgresPort>{{postgres_port}}</PostgresPort>
+  <PostgresHost>{{postgres_hostname}}</PostgresHost>
+  <PostgresMainDb>{{ lidarr_maindb_database }}</PostgresMainDb>
+  <PostgresLogDb>{{ lidarr_logdb_database }}</PostgresLogDb>
 </Config>

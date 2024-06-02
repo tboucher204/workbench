@@ -15,4 +15,10 @@
   <AuthenticationRequired>Enabled</AuthenticationRequired>
   <SslCertPath></SslCertPath>
   <SslCertPassword></SslCertPassword>
+  <PostgresUser>{{ sonarr_database_user }}</PostgresUser>
+  <PostgresPassword>{{ sonarr_database_password }}</PostgresPassword>
+  <PostgresPort>{{postgres_port}}</PostgresPort>
+  <PostgresHost>{{postgres_hostname}}</PostgresHost>
+  <PostgresMainDb>{{ sonarr_maindb_database }}</PostgresMainDb>
+  <PostgresLogDb>{{ sonarr_logdb_database }}</PostgresLogDb>
 </Config>

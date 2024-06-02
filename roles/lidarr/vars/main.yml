@@ -1,2 +1,6 @@
 ---
 lidarr_arl_token: "{{vault_lidarr_arl_token}}"
+lidarr_maindb_database: "{{vault_lidarr_maindb_database}}"
+lidarr_logdb_database: "{{vault_lidarr_logdb_database}}"
+lidarr_database_user: "{{vault_lidarr_database_user}}"
+lidarr_database_password: "{{vault_lidarr_database_password}}"

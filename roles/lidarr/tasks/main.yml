@@ -31,6 +31,26 @@
     - "{{project_newroot_directory}}/lidarr/custom-cont-init"
   tags: lidarr
 
+- name: Ensure Lidarr Main Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ lidarr_maindb_database }}"
+    database_user: "{{ lidarr_database_user }}"
+    database_password: "{{ lidarr_database_password }}"
+  tags: lidarr
+  no_log: true
+
+- name: Ensure Lidarr Log Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ lidarr_logdb_database }}"
+    database_user: "{{ lidarr_database_user }}"
+    database_password: "{{ lidarr_database_password }}"
+  tags: lidarr
+  no_log: true
+  
 - name: Ensure Lidarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:

@@ -25,6 +25,26 @@
     - "{{project_newroot_directory}}/sonarr/custom-cont-init"
   tags: sonarr
 
+- name: Ensure Sonarr Main Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ sonarr_maindb_database }}"
+    database_user: "{{ sonarr_database_user }}"
+    database_password: "{{ sonarr_database_password }}"
+  tags: sonarr
+  no_log: true
+
+- name: Ensure Sonarr Log Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ sonarr_logdb_database }}"
+    database_user: "{{ sonarr_database_user }}"
+    database_password: "{{ sonarr_database_password }}"
+  tags: sonarr
+  no_log: true
+  
 - name: Ensure Sonarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
