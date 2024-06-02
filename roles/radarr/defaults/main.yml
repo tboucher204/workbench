@@ -1,4 +1,4 @@
 ---
-radarr_version: "latest"
+radarr_version: "5.6.0.8846-ls220"
 radarr_hostname: "radarr"
 radarr_docker_image: "ghcr.io/linuxserver/radarr"
