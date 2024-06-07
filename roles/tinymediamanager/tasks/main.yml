@@ -10,6 +10,7 @@
     - /media/Videos/Fitness/
     - /media/Videos/Miscellaneous/
     - /media/Videos/Movies/
+    - /media/Videos/Movies-4K/
     - /media/Videos/TV Series/
   tags: tinymediamanager
 
@@ -100,6 +101,9 @@
         type: bind
       - source: "{{project_media_directory}}/Videos/Movies/"
         target: /media/movies
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Movies-4K/"
+        target: /media/movies-4k
         type: bind
       - source: "{{project_media_directory}}/Videos/TV Series/"
         target: /media/tvshows
