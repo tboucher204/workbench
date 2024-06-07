@@ -1,30 +1,30 @@
 ---
-- name: Ensure Plexmm Dataset Exist
+- name: Ensure Kometa Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
     path: "{{ item }}"
     state: directory
     mode: 0755
   loop:
-    - "{{ project_root_directory }}/plexmm"
-    - "{{ project_root_directory }}/plexmm/assets"
-  tags: plexmm
+    - "{{ project_newroot_directory }}/kometa"
+    - "{{ project_newroot_directory }}/kometa/assets"
+  tags: kometa
 
-- name: Ensure Plexmm Configuration Files Exist
+- name: Ensure Kometa Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
     src: config.yml.j2
-    dest: "{{ project_root_directory }}/plexmm/config.yml"
+    dest: "{{ project_newroot_directory }}/kometa/config.yml"
     mode: 0755
-  tags: plexmm
+  tags: kometa
   no_log: false
 
-- name: Deploy Plexmm Service
+- name: Deploy Kometa Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: plexmm
-    hostname: "{{plexmm_hostname}}"
-    image: "{{plexmm_docker_image}}:{{plexmm_version}}"
+    name: kometa
+    hostname: "{{kometa_hostname}}"
+    image: "{{kometa_docker_image}}:{{kometa_version}}"
     networks:
       - "{{traefik_network}}"
     mode: replicated
@@ -35,16 +35,15 @@
       PUID: "{{media_user}}"
       PGID: "{{media_group}}"
       TZ: "{{default_timezone}}"
-      PMM_CONFIG: "/config/config.yml"
-      PMM_NO_MISSING: "False"
+      KOMETA_CONFIG: "/config/config.yml"
     placement:
       constraints:
         - node.id == {{docker_worker1_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/plexmm/"
+      - source: "{{project_newroot_directory}}/kometa/"
         target: /config
         type: bind
     state: present
-  tags: plexmm
+  tags: kometa
   

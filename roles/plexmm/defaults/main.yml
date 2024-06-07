@@ -1,4 +1,0 @@
----
-plexmm_version: "latest"
-plexmm_hostname: "plexmm"
-plexmm_docker_image: "meisnate12/plex-meta-manager"

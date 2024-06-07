@@ -2,6 +2,6 @@
 - name: Converge
   hosts: all
   tasks:
-    - name: "Include plexmm"
+    - name: "Include Kometa"
       include_role:
-        name: "plexmm"
+        name: "kometa"

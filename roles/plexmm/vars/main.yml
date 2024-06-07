@@ -1,3 +1,0 @@
----
-plexmm_plex_url: "{{vault_plex_url}}"
-plexmm_plex_token: "{{vault_plex_token}}"

@@ -1,0 +1,4 @@
+---
+kometa_version: "latest"
+kometa_hostname: "kometa"
+kometa_docker_image: "kometateam/kometa"
