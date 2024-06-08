@@ -19,17 +19,17 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_newroot_directory}}/radarr"
-    - "{{project_newroot_directory}}/radarr/config"
-    - "{{project_newroot_directory}}/radarr/custom-services"
-    - "{{project_newroot_directory}}/radarr/custom-cont-init"
+    - "{{project_newroot_directory}}/radarr4k"
+    - "{{project_newroot_directory}}/radarr4k/config"
+    - "{{project_newroot_directory}}/radarr4k/custom-services"
+    - "{{project_newroot_directory}}/radarr4k/custom-cont-init"
   tags: radarr
 
 - name: Ensure Radarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
-    src: config.xml.j2
-    dest: "{{project_newroot_directory}}/radarr/config/config.xml"
+    src: config4k.xml.j2
+    dest: "{{project_newroot_directory}}/radarr4k/config/config.xml"
   tags: radarr
   no_log: true
 
@@ -37,7 +37,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: extended.conf.j2
-    dest: "{{project_newroot_directory}}/radarr/config/extended.conf"
+    dest: "{{project_newroot_directory}}/radarr4k/config/extended.conf"
   tags: radarr
   no_log: true
 
@@ -45,7 +45,7 @@
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
-    database_name: "{{ radarr_maindb_database }}"
+    database_name: "{{ radarr_maindb_database }}4k"
     database_user: "{{ radarr_database_user }}"
     database_password: "{{ radarr_database_password }}"
   tags: radarr
@@ -55,7 +55,7 @@
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
-    database_name: "{{ radarr_logdb_database }}"
+    database_name: "{{ radarr_logdb_database }}4k"
     database_user: "{{ radarr_database_user }}"
     database_password: "{{ radarr_database_password }}"
   tags: radarr
@@ -65,15 +65,15 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: scripts_init.bash.j2
-    dest: "{{project_newroot_directory}}/radarr/custom-cont-init/scripts_init.bash"
+    dest: "{{project_newroot_directory}}/radarr4k/custom-cont-init/scripts_init.bash"
   tags: radarr
   no_log: true
 
 - name: Deploy Radarr Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: radarr
-    hostname: "{{radarr_hostname}}"
+    name: radarr4k
+    hostname: "{{radarr_hostname}}4k"
     image: "{{radarr_docker_image}}:{{radarr_version}}"
     networks:
       - "{{traefik_network}}"
@@ -92,13 +92,13 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_newroot_directory}}/radarr/config/"
+      - source: "{{project_newroot_directory}}/radarr4k/config/"
         target: /config
         type: bind
-      - source: "{{project_newroot_directory}}/radarr/custom-services/"
+      - source: "{{project_newroot_directory}}/radarr4k/custom-services/"
         target: /custom-services.d
         type: bind
-      - source: "{{project_newroot_directory}}/radarr/custom-cont-init/"
+      - source: "{{project_newroot_directory}}/radarr4k/custom-cont-init/"
         target: /custom-cont-init.d
         type: bind
       - source: "{{project_media_directory}}/Videos/"
@@ -108,19 +108,14 @@
         target: /media/downloads
         type: bind
     labels:
-      traefik.http.routers.radarr.entrypoints: "websecure"
-      traefik.http.routers.radarr.rule: "Host(`radarr.{{project_tld}}`)"
-      traefik.http.routers.radarr.middlewares: "default-headers@file,authelia@file"
-      traefik.http.routers.radarr.tls: "true"
-      traefik.http.routers.radarr.service: "radarr"
-      # traefik.http.routers.radarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.radarr.loadbalancer.server.port: "{{radarr_port}}"
+      traefik.http.routers.radarr4k.entrypoints: "websecure"
+      traefik.http.routers.radarr4k.rule: "Host(`radarr4k.{{project_tld}}`)"
+      traefik.http.routers.radarr4k.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.radarr4k.tls: "true"
+      traefik.http.routers.radarr4k.service: "radarr4k"
+      # traefik.http.routers.radarr4k.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.radarr4k.loadbalancer.server.port: "{{radarr_port}}"
       traefik.enable: "true"
     state: present
   tags: radarr
-
-  # Uncomment below to deploy 2nd system for 4K
-- import_tasks: "{{role_path}}/tasks/4k.yml"
-  tags:
-    - radarr
   
