@@ -1,0 +1,24 @@
+<Config>
+  <LogLevel>info</LogLevel>
+  <Port>{{sonarr_port}}</Port>
+  <UrlBase></UrlBase>
+  <BindAddress>*</BindAddress>
+  <SslPort>{{sonarr_port}}</SslPort>
+  <EnableSsl>False</EnableSsl>
+  <ApiKey>{{sonarr_api_key}}</ApiKey>
+  <AuthenticationMethod>Forms</AuthenticationMethod>
+  <Branch>{{sonarr_version}}</Branch>
+  <LaunchBrowser>True</LaunchBrowser>
+  <UpdateMechanism>Docker</UpdateMechanism>
+  <UpdateAutomatically>False</UpdateAutomatically>
+  <InstanceName>Sonarr</InstanceName>
+  <AuthenticationRequired>Enabled</AuthenticationRequired>
+  <SslCertPath></SslCertPath>
+  <SslCertPassword></SslCertPassword>
+  <PostgresUser>{{ sonarr_database_user }}</PostgresUser>
+  <PostgresPassword>{{ sonarr_database_password }}</PostgresPassword>
+  <PostgresPort>{{postgres_port}}</PostgresPort>
+  <PostgresHost>{{postgres_hostname}}</PostgresHost>
+  <PostgresMainDb>{{ sonarr_maindb_database }}4k</PostgresMainDb>
+  <PostgresLogDb>{{ sonarr_logdb_database }}4k</PostgresLogDb>
+</Config>

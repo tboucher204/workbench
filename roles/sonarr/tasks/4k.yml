@@ -19,17 +19,17 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_newroot_directory}}/sonarr"
-    - "{{project_newroot_directory}}/sonarr/config"
-    - "{{project_newroot_directory}}/sonarr/custom-services"
-    - "{{project_newroot_directory}}/sonarr/custom-cont-init"
+    - "{{project_newroot_directory}}/sonarr4k"
+    - "{{project_newroot_directory}}/sonarr4k/config"
+    - "{{project_newroot_directory}}/sonarr4k/custom-services"
+    - "{{project_newroot_directory}}/sonarr4k/custom-cont-init"
   tags: sonarr
 
 - name: Ensure Sonarr Main Database exist
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
-    database_name: "{{ sonarr_maindb_database }}"
+    database_name: "{{ sonarr_maindb_database }}4k"
     database_user: "{{ sonarr_database_user }}"
     database_password: "{{ sonarr_database_password }}"
   tags: sonarr
@@ -39,7 +39,7 @@
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
-    database_name: "{{ sonarr_logdb_database }}"
+    database_name: "{{ sonarr_logdb_database }}4k"
     database_user: "{{ sonarr_database_user }}"
     database_password: "{{ sonarr_database_password }}"
   tags: sonarr
@@ -48,8 +48,8 @@
 - name: Ensure Sonarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
-    src: config.xml.j2
-    dest: "{{project_newroot_directory}}/sonarr/config/config.xml"
+    src: config4k.xml.j2
+    dest: "{{project_newroot_directory}}/sonarr4k/config/config.xml"
   tags: sonarr
   no_log: true
 
@@ -57,7 +57,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: extended.conf.j2
-    dest: "{{project_newroot_directory}}/sonarr/config/extended.conf"
+    dest: "{{project_newroot_directory}}/sonarr4k/config/extended.conf"
   tags: sonarr
   no_log: true
 
@@ -65,15 +65,15 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: scripts_init.bash.j2
-    dest: "{{project_newroot_directory}}/sonarr/custom-cont-init/scripts_init.bash"
+    dest: "{{project_newroot_directory}}/sonarr4k/custom-cont-init/scripts_init.bash"
   tags: sonarr
   no_log: true
 
 - name: Deploy Sonarr Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: sonarr
-    hostname: "{{sonarr_hostname}}"
+    name: sonarr4k
+    hostname: "{{sonarr_hostname}}4k"
     image: "{{sonarr_docker_image}}:{{sonarr_version}}"
     networks:
       - "{{traefik_network}}"
@@ -92,13 +92,13 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_newroot_directory}}/sonarr/config/"
+      - source: "{{project_newroot_directory}}/sonarr4k/config/"
         target: /config/
         type: bind
-      - source: "{{project_newroot_directory}}/sonarr/custom-services/"
+      - source: "{{project_newroot_directory}}/sonarr4k/custom-services/"
         target: /custom-services.d
         type: bind
-      - source: "{{project_newroot_directory}}/sonarr/custom-cont-init/"
+      - source: "{{project_newroot_directory}}/sonarr4k/custom-cont-init/"
         target: /custom-cont-init.d
         type: bind
       - source: "{{project_media_directory}}/Videos/"
@@ -108,23 +108,13 @@
         target: /media/downloads/
         type: bind
     labels:
-      traefik.http.routers.sonarr.entrypoints: "websecure"
-      traefik.http.routers.sonarr.rule: "Host(`sonarr.{{project_tld}}`)"
-      traefik.http.routers.sonarr.middlewares: "default-headers@file,authelia@file"
-      traefik.http.routers.sonarr.tls: "true"
-      traefik.http.routers.sonarr.service: "sonarr"
-      # traefik.http.routers.sonarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.sonarr.loadbalancer.server.port: "{{sonarr_port}}"
+      traefik.http.routers.sonarr4k.entrypoints: "websecure"
+      traefik.http.routers.sonarr4k.rule: "Host(`sonarr4k.{{project_tld}}`)"
+      traefik.http.routers.sonarr4k.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.sonarr4k.tls: "true"
+      traefik.http.routers.sonarr4k.service: "sonarr4k"
+      # traefik.http.routers.sonarr4k.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.sonarr4k.loadbalancer.server.port: "{{sonarr_port}}"
       traefik.enable: "true"
     state: present
   tags: sonarr
-
-# Uncomment below to deploy 2nd system for Anime
-# - import_tasks: "{{role_path}}/tasks/anime.yml"
-#   tags:
-#     - sonarr
-
-# Uncomment below to deploy 2nd system for 4K
-- import_tasks: "{{role_path}}/tasks/4k.yml"
-  tags:
-    - sonarr
