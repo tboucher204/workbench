@@ -12,6 +12,7 @@
     - /media/Videos/Movies/
     - /media/Videos/Movies-4K/
     - /media/Videos/TV Series/
+    - /media/Videos/TV-4K/
   tags: tinymediamanager
 
 - name: Ensure Tinymediamanager Dataset Exist
@@ -107,6 +108,9 @@
         type: bind
       - source: "{{project_media_directory}}/Videos/TV Series/"
         target: /media/tvshows
+        type: bind
+      - source: "{{project_media_directory}}/Videos/TV-4K/"
+        target: /media/tvshows-4k
         type: bind
       - source: "{{project_media_directory}}/Videos/Anime TV/"
         target: /media/animetvshows
