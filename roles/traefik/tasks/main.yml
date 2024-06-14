@@ -87,6 +87,7 @@
       traefik.http.routers.traefiksecure.middlewares: "authelia@file"
       traefik.http.routers.traefiksecure.service: "api@internal"
       # traefik.http.routers.wildcard.tls.certresolver: "{{default_certificate_resolver}}" # Comment out this line after first run of traefik to force the use of wildcard certs
+      traefik.http.routers.wildcard.tls.certresolver: "letsEncrypt"
       traefik.http.routers.wildcard.tls.domains[0].main: "{{project_tld}}"
       traefik.http.routers.wildcard.tls.domains[0].sans: "*.{{project_tld}}"
       traefik.http.services.dummy-svc.loadbalancer.server.port: "9999"
