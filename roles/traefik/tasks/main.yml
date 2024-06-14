@@ -49,8 +49,9 @@
     networks:
       - "{{traefik_network}}"
     env:
-      GODADDY_API_KEY: "{{godaddy_key}}"
-      GODADDY_API_SECRET: "{{godaddy_secret}}"
+      # GODADDY_API_KEY: "{{godaddy_key}}"
+      # GODADDY_API_SECRET: "{{godaddy_secret}}"
+      CF_DNS_API_TOKEN: "{{cloudflare_token}}"
     publish:
       - published_port: "{{traefik_http_port}}"
         target_port: "{{traefik_http_port}}"
