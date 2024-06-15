@@ -22,10 +22,6 @@
         target_port: "{{openldap_port}}"
         protocol: "tcp"
         mode: "host"
-      - published_port: "636"
-        target_port: "636"
-        protocol: "tcp"
-        mode: "host"
     mode: replicated
     force_update: false
     restart_config:

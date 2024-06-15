@@ -50,6 +50,10 @@
         target_port: "{{authentik_port}}"
       - published_port: "9001"
         target_port: "{{authentik_port_http}}"
+      - published_port: "636"
+        target_port: "6636"
+        protocol: "tcp"
+        mode: "host"
     env:
       AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
       AUTHENTIK_REDIS__HOST: redis
@@ -65,6 +69,7 @@
       AUTHENTIK_EMAIL__PASSWORD: "{{email_password}}"
       AUTHENTIK_EMAIL__USE_TLS: "true"
       AUTHENTIK_EMAIL__FROM: "{{authentik_email}}"
+      AUTHENTIK_LISTEN__LDAPS: "6636"
     mounts:
       - source: "{{ project_root_directory }}/authentik/"
         target: /templates
