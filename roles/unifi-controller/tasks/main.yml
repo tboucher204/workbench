@@ -69,7 +69,7 @@
     labels:
       traefik.http.routers.unifi.entrypoints: "websecure"
       traefik.http.routers.unifi.rule: "Host(`unifi.{{project_tld}}`)"
-      traefik.http.routers.unifi.middlewares: "authelia@file"
+      traefik.http.routers.unifi.middlewares: "authentik@file"
       traefik.http.routers.unifi.tls: "true"
       traefik.http.routers.unifi.service: "unifi"
       # traefik.http.routers.unifi.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

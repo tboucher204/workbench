@@ -41,7 +41,7 @@
     labels:
       traefik.http.routers.filebrowser.entrypoints: "websecure"
       traefik.http.routers.filebrowser.rule: "Host(`filebrowser.{{project_tld}}`)"
-      traefik.http.routers.filebrowser.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.filebrowser.middlewares: "default-headers@file,authentik@file"
       traefik.http.routers.filebrowser.tls: "true"
       traefik.http.routers.filebrowser.service: "filebrowser"
       # traefik.http.routers.filebrowser.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

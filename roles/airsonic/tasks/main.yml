@@ -53,7 +53,7 @@
     labels:
       traefik.http.routers.airsonic.entrypoints: "websecure"
       traefik.http.routers.airsonic.rule: "Host(`music.{{project_tld}}`)"
-      traefik.http.routers.airsonic.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.airsonic.middlewares: "default-headers@file,authentik@file"
       traefik.http.routers.airsonic.tls: "true"
       traefik.http.routers.airsonic.service: "airsonic"
       # traefik.http.routers.airsonic.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

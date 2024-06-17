@@ -58,7 +58,7 @@
     labels:
       traefik.http.routers.graylog.entrypoints: "websecure"
       traefik.http.routers.graylog.rule: "Host(`logs.{{ project_tld }}`)"
-      traefik.http.routers.graylog.middlewares: "authelia@file"
+      traefik.http.routers.graylog.middlewares: "authentik@file"
       traefik.http.routers.graylog.tls: "true"
       traefik.http.routers.graylog.service: "graylog"
       # traefik.http.routers.graylog.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert

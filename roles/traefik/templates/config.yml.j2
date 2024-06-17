@@ -45,7 +45,7 @@ http:
       tls: {}
       middlewares:
         - default-headers@file
-        - authelia@file
+        - authentik@file
       service: "amp"
     emby:
       entryPoints:
@@ -62,7 +62,7 @@ http:
       tls: {}
       middlewares:
         - default-headers@file
-        - authelia@file
+        - authentik@file
       service: "nas"
     plex:
       entryPoints:
@@ -79,7 +79,7 @@ http:
       tls: {}
       middlewares:
         - default-headers@file
-        - authelia@file
+        - authentik@file
       service: "pve"
     zoneminder:
       entryPoints:
@@ -88,7 +88,7 @@ http:
       tls: {}
       middlewares:
         - default-headers@file
-        - authelia@file
+        - authentik@file
       service: "zoneminder"
   services:
     amp:

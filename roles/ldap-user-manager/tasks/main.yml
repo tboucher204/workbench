@@ -32,7 +32,7 @@
       traefik.http.routers.ldapusermanager.entrypoints: "websecure"
       traefik.http.routers.ldapusermanager.rule: "Host(`ldapmanager.{{project_tld}}`)"
       # traefik.http.middlewares.ldapusermanager-prefix.addPrefix.prefix: "/"
-      traefik.http.routers.ldapusermanager.middlewares: "authelia@file"
+      traefik.http.routers.ldapusermanager.middlewares: "authentik@file"
       traefik.http.routers.ldapusermanager.tls: "true"
       traefik.http.routers.ldapusermanager.service: "ldapusermanager"
       # traefik.http.routers.ldapusermanager.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

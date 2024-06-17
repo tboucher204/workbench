@@ -85,7 +85,7 @@
       traefik.http.routers.traefiksecure.entrypoints: "websecure"
       traefik.http.routers.traefiksecure.rule: "Host(`api.{{project_tld}}`)"
       traefik.http.routers.traefiksecure.tls: "true"
-      traefik.http.routers.traefiksecure.middlewares: "authelia@file"
+      traefik.http.routers.traefiksecure.middlewares: "authentik@file"
       traefik.http.routers.traefiksecure.service: "api@internal"
       # traefik.http.routers.wildcard.tls.certresolver: "{{default_certificate_resolver}}" # Comment out this line after first run of traefik to force the use of wildcard certs
       traefik.http.routers.wildcard.tls.certresolver: "letsEncrypt"

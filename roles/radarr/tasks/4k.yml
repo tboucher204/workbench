@@ -110,7 +110,7 @@
     labels:
       traefik.http.routers.radarr4k.entrypoints: "websecure"
       traefik.http.routers.radarr4k.rule: "Host(`radarr4k.{{project_tld}}`)"
-      traefik.http.routers.radarr4k.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.radarr4k.middlewares: "default-headers@file,authentik@file"
       traefik.http.routers.radarr4k.tls: "true"
       traefik.http.routers.radarr4k.service: "radarr4k"
       # traefik.http.routers.radarr4k.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

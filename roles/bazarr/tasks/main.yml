@@ -69,7 +69,7 @@
       traefik.http.routers.bazarr.rule: "Host(`bazarr.{{ project_tld }}`)"
       # traefik.http.middlewares.bazarr_plausible.plugin.rewritebody.rewrites.regex: "</head>"
       # traefik.http.middlewares.bazarr_plausible.plugin.rewritebody.rewrites.replacement: "<script defer data-domain='bazarr.{{ project_tld }}' src='https://plausible.{{ project_tld }}/js/plausible.js'></script></head>"
-      traefik.http.routers.bazarr.middlewares: "default-headers@file,authelia@file"  #Removed bazarr_plausible
+      traefik.http.routers.bazarr.middlewares: "default-headers@file,authentik@file"  #Removed bazarr_plausible
       traefik.http.routers.bazarr.tls: "true"
       traefik.http.routers.bazarr.service: "bazarr"
       # traefik.http.routers.bazarr.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based certs

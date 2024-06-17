@@ -54,7 +54,7 @@
     labels:
       traefik.http.routers.influxdb.entrypoints: "websecure"
       traefik.http.routers.influxdb.rule: "Host(`influxdb.{{project_tld}}`)"
-      traefik.http.routers.influxdb.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.influxdb.middlewares: "default-headers@file,authentik@file"
       traefik.http.routers.influxdb.tls: "true"
       traefik.http.routers.influxdb.service: "influxdb"
       # traefik.http.routers.influxdb.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

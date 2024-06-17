@@ -54,7 +54,7 @@
       traefik.http.routers.firefox.entrypoints: "websecure"
       traefik.http.routers.firefox.rule: "Host(`firefox.{{project_tld}}`)"
       # traefik.http.middlewares.firefox-prefix.addPrefix.prefix: "/"
-      traefik.http.routers.firefox.middlewares: "authelia@file"
+      traefik.http.routers.firefox.middlewares: "authentik@file"
       traefik.http.routers.firefox.tls: "true"
       traefik.http.routers.firefox.service: "firefox"
       # traefik.http.routers.firefox.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

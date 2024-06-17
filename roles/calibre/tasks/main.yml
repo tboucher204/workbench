@@ -33,14 +33,14 @@
     labels:
       traefik.http.routers.calibre.entrypoints: "websecure"
       traefik.http.routers.calibre.rule: "Host(`calibregui.{{project_tld}}`)"
-      traefik.http.routers.calibre.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.calibre.middlewares: "default-headers@file,authentik@file"
       traefik.http.routers.calibre.tls: "true"
       traefik.http.routers.calibre.service: "calibre"
       # traefik.http.routers.calibre.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.calibre.loadbalancer.server.port: "{{calibre_port}}"
       traefik.http.routers.calibre-srv.entrypoints: "websecure"
       traefik.http.routers.calibre-srv.rule: "Host(`calibreweb.{{project_tld}}`)"
-      traefik.http.routers.calibre-srv.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.calibre-srv.middlewares: "default-headers@file,authentik@file"
       traefik.http.routers.calibre-srv.tls: "true"
       traefik.http.routers.calibre-srv.service: "calibre-srv"
       # traefik.http.routers.calibre-srv.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

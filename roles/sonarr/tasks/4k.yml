@@ -110,7 +110,7 @@
     labels:
       traefik.http.routers.sonarr4k.entrypoints: "websecure"
       traefik.http.routers.sonarr4k.rule: "Host(`sonarr4k.{{project_tld}}`)"
-      traefik.http.routers.sonarr4k.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.sonarr4k.middlewares: "default-headers@file,authentik@file"
       traefik.http.routers.sonarr4k.tls: "true"
       traefik.http.routers.sonarr4k.service: "sonarr4k"
       # traefik.http.routers.sonarr4k.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

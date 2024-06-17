@@ -33,7 +33,7 @@
     labels:
       traefik.http.routers.embystat.entrypoints: "websecure"
       traefik.http.routers.embystat.rule: "Host(`embystat.{{project_tld}}`)"
-      traefik.http.routers.embystat.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.embystat.middlewares: "default-headers@file,authentik@file"
       traefik.http.routers.embystat.tls: "true"
       traefik.http.routers.embystat.service: "embystat"
       # traefik.http.routers.embystat.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
