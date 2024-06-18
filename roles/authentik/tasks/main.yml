@@ -50,10 +50,6 @@
         target_port: "{{authentik_port}}"
       - published_port: "9001"
         target_port: "{{authentik_port_http}}"
-      - published_port: "636"
-        target_port: "6636"
-        protocol: "tcp"
-        mode: "host"
     env:
       AUTHENTIK_SECRET_KEY: "{{authentik_secret_key}}"
       AUTHENTIK_REDIS__HOST: redis
@@ -69,7 +65,6 @@
       AUTHENTIK_EMAIL__PASSWORD: "{{email_password}}"
       AUTHENTIK_EMAIL__USE_TLS: "true"
       AUTHENTIK_EMAIL__FROM: "{{authentik_email}}"
-      AUTHENTIK_LISTEN__LDAPS: "6636"
     mounts:
       - source: "{{ project_root_directory }}/authentik/"
         target: /templates
@@ -140,5 +135,37 @@
       - source: "{{project_root_directory}}/geoip/"
         target: /usr/share/GeoIP
         type: bind
+    state: present
+  tags: authentik
+
+- name: Deploy Authentik LDAP Outpost
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: authentik-ldap
+    hostname: "authentik-ldap"
+    image: "{{ authentik_ldap_docker_image }}:{{ authentik_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: any
+    placement:
+      constraints:
+        - node.id == {{ docker_master1_node_id }}
+    replicas: 1
+    publish:
+      - published_port: "389"
+        target_port: "3389"
+        protocol: "tcp"
+        mode: "host"
+      - published_port: "636"
+        target_port: "6636"
+        protocol: "tcp"
+        mode: "host"
+    env:
+      AUTHENTIK_HOST: "https://authentik.{{project_tld}}"
+      AUTHENTIK_INSECURE: "false"
+      AUTHENTIK_TOKEN: "1"
     state: present
   tags: authentik

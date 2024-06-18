@@ -1,6 +1,7 @@
 ---
 authentik_version: "latest"
 authentik_docker_image: "ghcr.io/goauthentik/server"
+authentik_ldap_docker_image: "ghcr.io/goauthentik/ldap"
 authentik_port_http: "9000"
 authentik_port: "9443"
 authentik_hostname: "authentik"
