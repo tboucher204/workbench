@@ -165,7 +165,7 @@
         mode: "host"
     env:
       AUTHENTIK_HOST: "https://authentik.{{project_tld}}"
-      AUTHENTIK_INSECURE: "false"
+      AUTHENTIK_INSECURE: "true"
       AUTHENTIK_TOKEN: "{{ authentik_ldap_token }}"
     state: present
   tags: authentik
