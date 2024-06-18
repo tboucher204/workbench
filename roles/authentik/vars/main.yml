@@ -1,7 +1,7 @@
 ---
 authentik_email: "{{ vault_authentik_email }}"
 authentik_secret_key: "{{ vault_authentik_secret_key }}"
-authentik_ldap_token: "{{ vault_authentik_secret_key }}"
+authentik_ldap_token: "{{ vault_authentik_ldap_token }}"
 authentik_database: "{{ vault_authentik_database }}"
 authentik_database_user: "{{ vault_authentik_database_user }}"
 authentik_database_password: "{{ vault_authentik_database_password }}"
