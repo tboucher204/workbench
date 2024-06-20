@@ -46,7 +46,7 @@
 - name: Ensure Readarr Audiobooks Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_newroot_directory}}/readarr2"
+    name: "{{project_root_directory}}/readarr2"
     state: directory
   tags: readarr
 
@@ -56,17 +56,17 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_newroot_directory}}/readarr2"
-    - "{{project_newroot_directory}}/readarr2/config"
-    - "{{project_newroot_directory}}/readarr2/custom-services"
-    - "{{project_newroot_directory}}/readarr2/custom-cont-init"
+    - "{{project_root_directory}}/readarr2"
+    - "{{project_root_directory}}/readarr2/config"
+    - "{{project_root_directory}}/readarr2/custom-services"
+    - "{{project_root_directory}}/readarr2/custom-cont-init"
   tags: readarr
 
 - name: Ensure Readarr Audiobooks Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   template:
     src: config-audiobooks.xml.j2
-    dest: "{{project_newroot_directory}}/readarr2/config/config.xml"
+    dest: "{{project_root_directory}}/readarr2/config/config.xml"
   tags: readarr
   no_log: true
 
@@ -74,7 +74,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: extended.conf.j2
-    dest: "{{project_newroot_directory}}/readarr2/config/extended.conf"
+    dest: "{{project_root_directory}}/readarr2/config/extended.conf"
   tags: readarr
   no_log: true
 
@@ -82,7 +82,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: scripts_init.bash.j2
-    dest: "{{project_newroot_directory}}/readarr2/custom-cont-init/scripts_init.bash"
+    dest: "{{project_root_directory}}/readarr2/custom-cont-init/scripts_init.bash"
   tags: readarr
   no_log: true
 
@@ -109,13 +109,13 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_newroot_directory}}/readarr2/config/"
+      - source: "{{project_root_directory}}/readarr2/config/"
         target: /config
         type: bind
-      - source: "{{project_newroot_directory}}/readarr2/custom-services/"
+      - source: "{{project_root_directory}}/readarr2/custom-services/"
         target: /custom-services.d
         type: bind
-      - source: "{{project_newroot_directory}}/readarr2/custom-cont-init/"
+      - source: "{{project_root_directory}}/readarr2/custom-cont-init/"
         target: /custom-cont-init.d
         type: bind
       - source: "{{project_media_directory}}/Audiobooks/"

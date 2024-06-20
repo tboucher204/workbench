@@ -16,7 +16,7 @@
 - name: Ensure Sonarr Anime Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_newroot_directory}}/sonarr2"
+    name: "{{project_root_directory}}/sonarr2"
     state: directory
   tags: sonarr
 
@@ -24,7 +24,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: config-anime.xml.j2
-    dest: "{{project_newroot_directory}}/sonarr2/config.xml"
+    dest: "{{project_root_directory}}/sonarr2/config.xml"
   tags: sonarr
   no_log: true
 
@@ -51,7 +51,7 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_newroot_directory}}/sonarr2/"
+      - source: "{{project_root_directory}}/sonarr2/"
         target: /config/
         type: bind
       - source: "{{project_media_directory}}/Videos/"

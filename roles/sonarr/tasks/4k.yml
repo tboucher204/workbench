@@ -19,10 +19,10 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_newroot_directory}}/sonarr4k"
-    - "{{project_newroot_directory}}/sonarr4k/config"
-    - "{{project_newroot_directory}}/sonarr4k/custom-services"
-    - "{{project_newroot_directory}}/sonarr4k/custom-cont-init"
+    - "{{project_root_directory}}/sonarr4k"
+    - "{{project_root_directory}}/sonarr4k/config"
+    - "{{project_root_directory}}/sonarr4k/custom-services"
+    - "{{project_root_directory}}/sonarr4k/custom-cont-init"
   tags: sonarr
 
 - name: Ensure Sonarr Main Database exist
@@ -49,7 +49,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: config4k.xml.j2
-    dest: "{{project_newroot_directory}}/sonarr4k/config/config.xml"
+    dest: "{{project_root_directory}}/sonarr4k/config/config.xml"
   tags: sonarr
   no_log: true
 
@@ -57,7 +57,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: extended.conf.j2
-    dest: "{{project_newroot_directory}}/sonarr4k/config/extended.conf"
+    dest: "{{project_root_directory}}/sonarr4k/config/extended.conf"
   tags: sonarr
   no_log: true
 
@@ -65,7 +65,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: scripts_init.bash.j2
-    dest: "{{project_newroot_directory}}/sonarr4k/custom-cont-init/scripts_init.bash"
+    dest: "{{project_root_directory}}/sonarr4k/custom-cont-init/scripts_init.bash"
   tags: sonarr
   no_log: true
 
@@ -92,13 +92,13 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_newroot_directory}}/sonarr4k/config/"
+      - source: "{{project_root_directory}}/sonarr4k/config/"
         target: /config/
         type: bind
-      - source: "{{project_newroot_directory}}/sonarr4k/custom-services/"
+      - source: "{{project_root_directory}}/sonarr4k/custom-services/"
         target: /custom-services.d
         type: bind
-      - source: "{{project_newroot_directory}}/sonarr4k/custom-cont-init/"
+      - source: "{{project_root_directory}}/sonarr4k/custom-cont-init/"
         target: /custom-cont-init.d
         type: bind
       - source: "{{project_media_directory}}/Videos/"

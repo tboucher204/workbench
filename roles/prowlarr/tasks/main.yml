@@ -2,7 +2,7 @@
 - name: Ensure Prowlarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_newroot_directory}}/prowlarr"
+    name: "{{project_root_directory}}/prowlarr"
     state: directory
   tags: prowlarr
 
@@ -30,7 +30,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: config.xml.j2
-    dest: "{{project_newroot_directory}}/prowlarr/config.xml"
+    dest: "{{project_root_directory}}/prowlarr/config.xml"
   tags: prowlarr
   no_log: true
 
@@ -57,7 +57,7 @@
       DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:prowlarr"
       TP_THEME: "{{theme_park_default}}"
     mounts:
-      - source: "{{project_newroot_directory}}/prowlarr/"
+      - source: "{{project_root_directory}}/prowlarr/"
         target: /config
         type: bind
     labels:

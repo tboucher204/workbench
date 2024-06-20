@@ -46,7 +46,7 @@
 - name: Ensure Readarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: "{{project_newroot_directory}}/readarr"
+    name: "{{project_root_directory}}/readarr"
     state: directory
   tags: readarr
 
@@ -54,7 +54,7 @@
   when: inventory_hostname == groups['media'][0]
   template:
     src: config.xml.j2
-    dest: "{{project_newroot_directory}}/readarr/config.xml"
+    dest: "{{project_root_directory}}/readarr/config.xml"
   tags: readarr
   no_log: true
 
@@ -81,7 +81,7 @@
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "{{project_newroot_directory}}/readarr/"
+      - source: "{{project_root_directory}}/readarr/"
         target: /config
         type: bind
       - source: "{{project_media_directory}}/Books/"
