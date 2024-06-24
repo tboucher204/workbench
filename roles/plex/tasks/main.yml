@@ -6,13 +6,9 @@
     state: directory
   loop:
     - /media/Audiobooks/
-    - /media/Books/
-    - /media/Comics/
     - /media/Music/
     - /media/Music Videos/
-    - /media/Photos/
-    - /media/Playlists/
-    - /media/Podcasts/
+    - /media/Pictures/
     - /media/Videos/
     - /media/Videos/Anime TV/
     - /media/Videos/Fitness/
@@ -68,13 +64,13 @@
       - source: "{{project_media_directory}}Videos/Anime TV/"
         target: /anime/
         type: bind
-      - source: "{{project_media_directory}}/Videos/Music/"
+      - source: "{{project_media_directory}}/Music/"
         target: /music/
         type: bind
-      - source: "{{project_media_directory}}/Videos/Audiobooks/"
+      - source: "{{project_media_directory}}/Audiobooks/"
         target: /audiobooks/
         type: bind
-      - source: "{{project_media_directory}}/Videos/Pictures/"
+      - source: "{{project_media_directory}}/Pictures/"
         target: /picture/
         type: bind
       - source: "{{project_media_directory}}/Videos/Fitness/"
