@@ -58,7 +58,7 @@
       - source: "{{project_media_directory}}/Videos/TV-4K/"
         target: /tv-4k/
         type: bind
-      - source: "{{project_media_directory}}/Videos/TV Series /"
+      - source: "{{project_media_directory}}/Videos/TV Series/"
         target: /tv/
         type: bind
       - source: "{{project_media_directory}}/Videos/Anime TV/"
