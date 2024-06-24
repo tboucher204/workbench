@@ -52,16 +52,16 @@
       - source: "{{project_media_directory}}/Videos/Movies-4K/"
         target: /movies-4k/
         type: bind
-      - source: "{{project_media_directory}}Videos/Movies/"
+      - source: "{{project_media_directory}}/Videos/Movies/"
         target: /movies/
         type: bind
-      - source: "{{project_media_directory}}Videos/TV-4K/"
+      - source: "{{project_media_directory}}/Videos/TV-4K/"
         target: /tv-4k/
         type: bind
-      - source: "{{project_media_directory}}Videos/TV Series /"
+      - source: "{{project_media_directory}}/Videos/TV Series /"
         target: /tv/
         type: bind
-      - source: "{{project_media_directory}}Videos/Anime TV/"
+      - source: "{{project_media_directory}}/Videos/Anime TV/"
         target: /anime/
         type: bind
       - source: "{{project_media_directory}}/Music/"
