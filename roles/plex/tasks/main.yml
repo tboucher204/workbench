@@ -81,7 +81,7 @@
         type: bind
     labels:
       traefik.http.routers.plex.entrypoints: "websecure"
-      traefik.http.routers.plex.rule: "Host(`newplex.{{project_tld}}`)"
+      traefik.http.routers.plex.rule: "Host(`plex.{{project_tld}}`)"
       traefik.http.routers.plex.middlewares: "default-headers@file"
       traefik.http.routers.plex.tls: "true"
       traefik.http.routers.plex.service: "plex"
