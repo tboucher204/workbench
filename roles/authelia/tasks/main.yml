@@ -42,7 +42,7 @@
     - { src: configuration.yml.j2, dest: "{{ project_root_directory }}/authelia/configuration.yml" }
     - { src: users.yml.j2, dest: "{{ project_root_directory }}/authelia/users.yml" }
   tags: authelia
-  no_log: true
+  no_log: false
 
 # Generate new user password hash docker run authelia/authelia:latest authelia hash-password -- 'password'
 
