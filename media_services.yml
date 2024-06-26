@@ -20,7 +20,7 @@
     - picard
     # - ombi
     - overseerr
-    - plex
+    # - plex
     - photoprism
     # - immich
     - piwigo
