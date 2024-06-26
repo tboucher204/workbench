@@ -5,18 +5,22 @@
     path: "{{item}}"
     state: directory
   loop:
-    - docker_worker2/media/anime
-    - docker_worker2/media/audiobooks
-    - docker_worker2/media/kids
-    - docker_worker2/media/movies
-    - docker_worker2/media/music
-    - docker_worker2/media/tv
+    - /media/Audiobooks/
+    - /media/Music/
+    - /media/Music Videos/
+    - /media/Pictures/
+    - /media/Videos/
+    - /media/Videos/Anime TV/
+    - /media/Videos/Fitness/
+    - /media/Videos/Miscellaneous/
+    - /media/Videos/Movies/
+    - /media/Videos/TV Series/
   tags: plex
 
 - name: Ensure Plex Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
-    name: docker_worker2/apps/plex
+    name: "{{project_root_directory}}/plex"
     state: directory
   tags: plex
 
@@ -36,36 +40,48 @@
       PUID: "{{media_user}}"
       PGID: "{{media_group}}"
       VERSION: "docker"
-      PLEX_CLAIM: "{{plex_claim_token}}"
+      # PLEX_CLAIM: "{{plex_claim_token}}"
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
     replicas: 1
     mounts:
-      - source: "/datavol/apps/plex/"
+      - source: "{{project_root_directory}}/plex/"
         target: /config/
         type: bind
-      - source: "{{project_media_directory}}/movies/"
+      - source: "{{project_media_directory}}/Videos/Movies-4K/"
+        target: /movies-4k/
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Movies/"
         target: /movies/
         type: bind
-      - source: "{{project_media_directory}}/tv/"
+      - source: "{{project_media_directory}}/Videos/TV-4K/"
+        target: /tv-4k/
+        type: bind
+      - source: "{{project_media_directory}}/Videos/TV Series/"
         target: /tv/
         type: bind
-      - source: "{{project_media_directory}}/kids/"
-        target: /kids/
-        type: bind
-      - source: "{{project_media_directory}}/anime/"
+      - source: "{{project_media_directory}}/Videos/Anime TV/"
         target: /anime/
         type: bind
-      - source: "{{project_media_directory}}/music/"
+      - source: "{{project_media_directory}}/Music/"
         target: /music/
         type: bind
-      - source: "{{project_media_directory}}/audiobooks/"
+      - source: "{{project_media_directory}}/Audiobooks/"
         target: /audiobooks/
+        type: bind
+      - source: "{{project_media_directory}}/Pictures/"
+        target: /picture/
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Fitness/"
+        target: /fitness/
+        type: bind
+      - source: "{{project_media_directory}}/Videos/Miscellaneous/"
+        target: /miscellaneous/
         type: bind
     labels:
       traefik.http.routers.plex.entrypoints: "websecure"
-      traefik.http.routers.plex.rule: "Host(`{{project_tld}}`)"
+      traefik.http.routers.plex.rule: "Host(`plex.{{project_tld}}`)"
       traefik.http.routers.plex.middlewares: "default-headers@file"
       traefik.http.routers.plex.tls: "true"
       traefik.http.routers.plex.service: "plex"
