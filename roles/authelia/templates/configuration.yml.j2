@@ -237,9 +237,9 @@ identity_providers:
     ## The other portions of the mandatory OpenID Connect 1.0 configuration go here.
     ## See: https://www.authelia.com/c/oidc
     clients:
-      - client_id: '{{ authelia_oath_portainer_clientid }}'
+      - client_id: {{ authelia_oath_portainer_clientid }}
         client_name: 'Portainer'
-        client_secret: '{{ authelia_oath_portainer_secret }}'  # The digest of 'insecure_secret'.
+        client_secret: {{ authelia_oath_portainer_secret }}
         public: false
         authorization_policy: 'two_factor'
         redirect_uris:
