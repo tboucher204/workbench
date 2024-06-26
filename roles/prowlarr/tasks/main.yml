@@ -63,7 +63,7 @@
     labels:
       traefik.http.routers.prowlarr.entrypoints: "websecure"
       traefik.http.routers.prowlarr.rule: "Host(`prowlarr.{{project_tld}}`)"
-      traefik.http.routers.prowlarr.middlewares: "default-headers@file,authentik@file"
+      traefik.http.routers.prowlarr.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.prowlarr.tls: "true"
       traefik.http.routers.prowlarr.service: "prowlarr"
       # traefik.http.routers.prowlarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

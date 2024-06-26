@@ -38,7 +38,7 @@
     labels:
       traefik.http.routers.adminer.entrypoints: "websecure"
       traefik.http.routers.adminer.rule: "Host(`adminer.{{project_tld}}`)"
-      traefik.http.routers.adminer.middlewares: "authentik@file"
+      traefik.http.routers.adminer.middlewares: "authelia@file"
       traefik.http.routers.adminer.tls: "true"
       traefik.http.routers.adminer.service: "adminer"
       # traefik.http.routers.adminer.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

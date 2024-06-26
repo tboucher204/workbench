@@ -18,7 +18,7 @@ services:
         - "traefik.http.routers.vault.entrypoints=websecure"
         - "traefik.http.routers.vault.rule=Host(`pki.{{project_tld}}`)"
         - "traefik.http.routers.vault.tls=true"
-        - "traefik.http.routers.vault.middlewares=authentik@file"
+        - "traefik.http.routers.vault.middlewares=authelia@file"
         - "traefik.http.routers.vault.service=vault"
         # - "traefik.http.routers.vault.tls.certresolver={{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
         - "traefik.http.services.vault.loadbalancer.server.port={{vault_port}}"

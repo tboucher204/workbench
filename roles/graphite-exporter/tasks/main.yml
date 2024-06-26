@@ -49,7 +49,7 @@
     labels:
       traefik.http.routers.graphite_exporter.entrypoints: "websecure"
       traefik.http.routers.graphite_exporter.rule: "Host(`graphite-metrics.{{project_tld}}`)"
-      traefik.http.routers.graphite_exporter.middlewares: "default-headers@file,authentik@file"
+      traefik.http.routers.graphite_exporter.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.graphite_exporter.tls: "true"
       traefik.http.routers.graphite_exporter.service: "graphite_exporter"
       # traefik.http.routers.graphite_exporter.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

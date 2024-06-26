@@ -30,7 +30,7 @@
     labels:
       traefik.http.routers.jenkins.entrypoints: "websecure"
       traefik.http.routers.jenkins.rule: "Host(`ci.{{project_tld}}`)"
-      traefik.http.routers.jenkins.middlewares: "default-headers@file,authentik@file"
+      traefik.http.routers.jenkins.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.jenkins.tls: "true"
       traefik.http.routers.jenkins.service: "jenkins"
       # traefik.http.routers.jenkins.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

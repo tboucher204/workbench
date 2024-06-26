@@ -73,7 +73,7 @@
       traefik.http.middlewares.guacamole-prefix.addPrefix.prefix: "/guacamole"
       traefik.http.middlewares.guacamole_themepark.plugin.traefik-themepark.app: "guacamole"
       traefik.http.middlewares.guacamole_themepark.plugin.traefik-themepark.theme: "{{ theme_park_default }}"
-      traefik.http.routers.guacamole.middlewares: "default-headers@file,authentik@file,guacamole-prefix,guacamole_themepark"
+      traefik.http.routers.guacamole.middlewares: "default-headers@file,authelia@file,guacamole-prefix,guacamole_themepark"
       traefik.http.routers.guacamole.tls: "true"
       traefik.http.routers.guacamole.service: "guacamole"
       # traefik.http.routers.guacamole.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert

@@ -46,7 +46,7 @@
     labels:
       traefik.http.routers.phpmyadmin.entrypoints: "websecure"
       traefik.http.routers.phpmyadmin.rule: "Host(`pma.{{project_tld}}`)"
-      traefik.http.routers.phpmyadmin.middlewares: "default-headers@file,authentik@file"
+      traefik.http.routers.phpmyadmin.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.phpmyadmin.tls: "true"
       traefik.http.routers.phpmyadmin.service: "phpmyadmin"
       # traefik.http.routers.phpmyadmin.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
