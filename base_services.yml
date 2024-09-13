@@ -22,7 +22,7 @@
     # - keycloak
     - geoipupdate
     - authelia
-    - authentik
+    # - authentik
     - mailrise
     # - gitea
     # - gitlab
