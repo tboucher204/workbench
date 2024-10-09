@@ -30,6 +30,9 @@
       - source: "{{project_root_directory}}/homeassistant/"
         target: /config
         type: bind
+    publish:
+      - published_port: "{{homeassistant_port}}"
+        target_port: "{{homeassistant_port}}"
     labels:
       traefik.http.routers.homeassistant.entrypoints: "websecure"
       traefik.http.routers.homeassistant.rule: "Host(`homeassistant.{{project_tld}}`)"
