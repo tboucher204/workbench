@@ -1,0 +1,5 @@
+---
+overseerr_version: "latest"
+overseerr_hostname: "homeassistant"
+overseerr_docker_image: "lscr.io/linuxserver/homeassistant"
+overseerr_port: "8123"

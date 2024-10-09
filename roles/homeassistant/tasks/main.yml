@@ -1,0 +1,43 @@
+---
+- name: Ensure Homeassistant Dataset Exist
+  when: inventory_hostname == groups['workers'][0]
+  file:
+    name: "{{project_root_directory}}/homeassistant"
+    state: directory
+  tags: homeassistant
+
+- name: Deploy Homeassistant Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: homeassistant
+    hostname: "{{homeassistant_hostname}}"
+    image: "{{homeassistant_docker_image}}:{{homeassistant_version}}"
+    networks:
+      - "{{traefik_network}}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{media_user}}"
+      PGID: "{{media_group}}"
+      TZ: "{{default_timezone}}"
+    placement:
+      constraints:
+        - node.id == {{docker_worker1_node_id}}
+    replicas: 1
+    mounts:
+      - source: "{{project_root_directory}}/homeassistant/"
+        target: /config
+        type: bind
+    labels:
+      traefik.http.routers.homeassistant.entrypoints: "websecure"
+      traefik.http.routers.homeassistant.rule: "Host(`homeassistant.{{project_tld}}`)"
+      traefik.http.routers.homeassistant.middlewares: "default-headers@file"
+      traefik.http.routers.homeassistant.tls: "true"
+      traefik.http.routers.homeassistant.service: "homeassistant"
+      # traefik.http.routers.homeassistant.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.homeassistant.loadbalancer.server.port: "{{homeassistant_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: homeassistant
