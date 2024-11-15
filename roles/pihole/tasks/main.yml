@@ -49,10 +49,9 @@
     labels:
       traefik.http.routers.pihole.entrypoints: "websecure"
       traefik.http.routers.pihole.rule: "Host(`pihole.{{project_tld}}`)"
-      traefik.http.routers.pihole.middlewares: "default-headers@file,authelia@file,add-admin"
+      traefik.http.routers.pihole.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.pihole.tls: "true"
       traefik.http.routers.pihole.service: "pihole"
-      traefik.http.middlewares.add-admin.addprefix.prefix: "/admin"
       # traefik.http.routers.pihole.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.pihole.loadbalancer.server.port: "{{pihole_port}}"
       traefik.enable: "true"
