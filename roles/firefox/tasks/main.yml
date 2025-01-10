@@ -39,6 +39,8 @@
       PUID: "{{ default_puid }}"
       PGID: "{{ default_pgid }}"
       FF_PREF_DOWNLOAD_DIR: "browser.download.dir=/media/downloads/firefox"
+      FF_PREF_HTTP_PROXY: "network.proxy.http=transmission"
+      FF_PREF_HTTP_PROXY_PORT: "network.proxy.http_port=8080"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}
