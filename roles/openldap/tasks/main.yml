@@ -37,5 +37,14 @@
       - source: /datavol/apps/openldap/config/
         target: /etc/ldap/slapd.d
         type: bind
+    publish:
+      - published_port: "389"
+        target_port: "389"
+        protocol: "tcp"
+        mode: "host"
+      - published_port: "636"
+        target_port: "636"
+        protocol: "tcp"
+        mode: "host"
     state: present
   tags: openldap
