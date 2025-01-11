@@ -14,23 +14,49 @@
     path: "{{ item }}"
     state: directory
   loop:
-    - /datavol/apps/firefox2
-    - /datavol/apps/firefox2/config
+    - /datavol/apps/firefox
   tags: firefox
 
-- name: Create Firefox Docker Compose File
+- name: Deploy Firefox
   when: inventory_hostname == groups['managers'][0]
-  template:
-    src: docker-compose.yml.j2
-    dest: "{{project_root_directory}}/firefox2/docker-compose.yml"
-    mode: 0775
-  tags: firefox
-
-- name: Deploy Firefox from Compose File
-  when: inventory_hostname == groups['managers'][0]
-  docker_stack:
-    state: present
+  community.docker.docker_swarm_service:
     name: firefox
-    compose:
-      - "{{project_root_directory}}/firefox2/docker-compose.yml"
+    hostname: "{{ firefox_hostname }}.{{ project_tld }}"
+    image: "{{ firefox_docker_image }}:{{ firefox_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      TZ: "{{ default_timezone }}"
+      USER_ID: "{{ default_puid }}"
+      GROUP_ID: "{{ default_pgid }}"
+      FF_OPEN_URL: "https://ipinfo.io"
+      FF_PREF_DOWNLOAD_DIR: "browser.download.dir=/media/downloads/firefox"
+      FF_PREF_HTTP_PROXY: "network.proxy.http=transmission"
+      FF_PREF_HTTP_PROXY_PORT: "network.proxy.http_port=8118"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    mounts:
+      - source: firefox
+        target: /config
+        type: volume
+      - source: "{{project_download_directory}}"
+        target: /media/downloads
+        type: bind
+    labels:
+      traefik.http.routers.firefox.entrypoints: "websecure"
+      traefik.http.routers.firefox.rule: "Host(`firefox.{{project_tld}}`)"
+      # traefik.http.middlewares.firefox-prefix.addPrefix.prefix: "/"
+      traefik.http.routers.firefox.middlewares: "authelia@file"
+      traefik.http.routers.firefox.tls: "true"
+      traefik.http.routers.firefox.service: "firefox"
+      # traefik.http.routers.firefox.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.firefox.loadbalancer.server.port: "{{firefox_port}}"
+      traefik.enable: "true"
+    state: present
   tags: firefox

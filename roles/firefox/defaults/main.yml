@@ -1,5 +1,5 @@
 ---
 firefox_version: "latest"
 firefox_hostname: "firefox"
-firefox_docker_image: "lscr.io/linuxserver/firefox"
-firefox_port: "3000"
+firefox_docker_image: "jlesage/firefox"
+firefox_port: "5800"
