@@ -1,0 +1,41 @@
+version: '3.5'
+
+services:
+  firefox:
+    image: "{{firefox_docker_image}}:{{firefox_version}}"
+    hostname: "{{firefox_hostname}}"
+    networks:
+      - {{traefik_network}}
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - /datavol/apps/firefox2/config:/config
+      - {{ project_download_directory }}:/media/downloads
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.id == {{ docker_worker1_node_id }}]
+      labels:
+        - "traefik.http.routers.firefox.entrypoints=websecure"
+        - "traefik.http.routers.firefox.rule=Host(`firefox.{{ project_tld }}`)"
+        - "traefik.http.routers.firefox.middlewares=default-headers@file,authelia@file"
+        - "traefik.http.routers.firefox.tls=true"
+        - "traefik.http.routers.firefox.service=firefox"
+        # - "traefik.http.routers.firefox.tls.certresolver={{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
+        - "traefik.http.services.firefox.loadbalancer.server.port={{ firefox_port }}"
+        - "traefik.enable=true"
+    environment:
+      - PUID={{ media_user }}
+      - PGID={{ media_group }}
+      - TZ={{ default_timezone }}
+      - FIREFOX_CLI=https://ipinfo.io/
+      - FF_PREF_DOWNLOAD_DIR=browser.download.dir=/media/downloads/firefox
+      - FF_PREF_HTTP_PROXY=network.proxy.http=transmission
+      - FF_PREF_HTTP_PROXY_PORT=network.proxy.http_port=8118
+    shm_size: "1gb"
+    restart: unless-stopped
+
+networks:
+  {{traefik_network}}:
+    external: true
+    name: {{traefik_network}}
