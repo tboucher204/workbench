@@ -33,10 +33,13 @@
       TZ: "{{ default_timezone }}"
       USER_ID: "{{ default_puid }}"
       GROUP_ID: "{{ default_pgid }}"
-      FF_OPEN_URL: "https://ipinfo.io"
+      FF_OPEN_URL: "https://ipinfo.io/what-is-my-ip"
       FF_PREF_DOWNLOAD_DIR: "browser.download.dir=/media/downloads/firefox"
       FF_PREF_HTTP_PROXY: "network.proxy.http=transmission"
       FF_PREF_HTTP_PROXY_PORT: "network.proxy.http_port=8118"
+      FF_PREF_SSL_PROXY: "network.proxy.http=transmission"
+      FF_PREF_SSL_PROXY_PORT: "network.proxy.http_port=8118"
+      FF_PREF_PROXY_TYPE: "network.proxy.type=1"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}
