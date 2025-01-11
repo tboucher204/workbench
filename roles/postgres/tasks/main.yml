@@ -1,20 +1,10 @@
 ---
-- name: Ensure Postgres Directory Exist
-  when: inventory_hostname == groups['workers'][0]
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0755
-  loop:
-    - "{{ project_root_directory }}/postgres/data/"
-  tags: postgres
-
 - name: Ensure Prometheus Data Volume Exist
   when: inventory_hostname == groups['workers'][0]
   community.docker.docker_volume:
     name: postgres14
     state: present
-  tags: prometheus
+  tags: postgres
 
 - name: Deploy postgres Service
   when: inventory_hostname == groups['managers'][0]
