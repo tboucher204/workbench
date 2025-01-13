@@ -1,5 +1,0 @@
----
-transmissiontest_version: "latest"
-transmissiontest_hostname: "transmissiontest"
-transmissiontest_port: "9091"
-transmissiontest_docker_image: "haugene/transmission-openvpn"

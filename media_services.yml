@@ -6,7 +6,6 @@
   roles:
     # - gluetun
     - transmission
-    - transmissiontest
     - sabnzbd
     # - qbittorrent-vpn
     - prowlarr
