@@ -1,0 +1,133 @@
+---
+- name: Ensure Media Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /media/Audiobooks/
+    - /media/Books/
+    - /media/Comics/
+    - /media/Music/
+    - /media/Music Videos/
+    - /media/Photos/
+    - /media/Playlists/
+    - /media/Podcasts/
+    - /media/Videos/
+    - /media/Videos/Anime TV/
+    - /media/Videos/Fitness/
+    - /media/Videos/Miscellaneous/
+    - /media/Videos/Movies/
+    - /media/Videos/TV Series/
+  tags: transmissiontest
+
+- name: Ensure Media Download Datasets Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /media/Downloads
+    - /media/Downloads/incomplete
+    - /media/Downloads/anime
+    - /media/Downloads/audiobooks
+    - /media/Downloads/books
+    - /media/Downloads/comics
+    - /media/Downloads/kids
+    - /media/Downloads/movies
+    - /media/Downloads/music
+    - /media/Downloads/tv
+  tags: transmissiontest
+
+- name: Ensure transmissiontest Watch Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: /media/Watch/torrentfiles
+    state: directory
+  tags: transmissiontest
+
+- name: Ensure transmissiontest Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /datavol/apps/transmissiontest
+  tags: transmissiontest
+
+- name: Create Flood UI Config File
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: config.json.j2
+    dest: "{{project_root_directory}}/transmissiontest/config.json"
+  tags: transmissiontest
+
+- name: Deploy transmissiontest Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: transmissiontest
+    hostname: "{{transmissiontest_hostname}}"
+    image: "{{transmissiontest_docker_image}}:{{transmissiontest_version}}"
+    networks:
+      - "{{traefik_network}}"
+    cap_add:
+      - NET_ADMIN
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+    env:
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
+      CREATE_TUN_DEVICE: "true"
+      OPENVPN_PROVIDER: "NORDVPN"
+      NORDVPN_COUNTRY: "{{ transmission_openvpn_countries }}"
+      NORDVPN_CATEGORY: "P2P"
+      NORDVPN_PROTOCOL: "tcp"
+      OPENVPN_USERNAME: "{{ transmission_openvpn_username }}"
+      OPENVPN_PASSWORD: "{{ transmission_openvpn_password }}"
+      OPENVPN_OPTS: "--inactive 3600 --ping 10 --ping-exit 60"
+      TRANSMISSION_SCRAPE_PAUSED_TORRENTS_ENABLED: "false"
+      TRANSMISSION_WEB_UI: "flood-for-transmission"
+      TRANSMISSION_WATCH_DIR_FORCE_GENERIC: "true"
+      TRANSMISSION_DOWNLOAD_DIR: "/media/downloads"
+      TRANSMISSION_INCOMPLETE_DIR: "/media/downloads/incomplete"
+      TRANSMISSION_WATCH_DIR: "/watch"
+      WEBPROXY_ENABLED: "true"
+      WEBPROXY_PORT: "8118"
+      LOCAL_NETWORK: "192.168.1.0/24"
+      DROP_DEFAULT_ROUTE: "true"
+      LOG_TO_STDOUT: "true"
+      GLOBAL_APPLY_PERMISSIONS: "false"
+    publish:
+      - published_port: "{{ transmission_port }}"
+        target_port: "{{ transmission_port }}"
+        protocol: "tcp"
+        mode: "host"
+    mode: global
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_worker2_node_id}}
+    mounts:
+      - source: /datavol/apps/transmissiontest
+        target: /config
+        type: volume
+      - source: /datavol/apps/transmissiontest/config.json
+        target: /opt/transmission-ui/flood-for-transmission/config.json
+        type: bind
+    labels:
+      traefik.http.routers.transmissiontest.entrypoints: "websecure"
+      traefik.http.routers.transmissiontest.rule: "Host(`transmissiontest.{{project_tld}}`) && PathPrefix(`/transmission`)"
+      traefik.http.routers.transmissiontest.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.transmissiontest.tls: "true"
+      traefik.http.routers.transmissiontest.service: "transmissiontest"
+      # traefik.http.routers.transmissiontest.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.transmissiontest.loadbalancer.server.port: "{{ transmission_port }}"
+      traefik.enable: "true"
+    state: present
+  tags: transmissiontest
+  

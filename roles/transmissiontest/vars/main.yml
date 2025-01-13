@@ -1,0 +1,4 @@
+---
+transmission_openvpn_countries: "{{ vault_nordvpn_country }}"
+transmission_openvpn_password: "{{ vault_nordvpn_password }}"
+transmission_openvpn_username: "{{ vault_nordvpn_username }}"
