@@ -101,7 +101,7 @@
       LOG_TO_STDOUT: "true"
       GLOBAL_APPLY_PERMISSIONS: "false"
     publish:
-      - published_port: "{{ transmission_port }}"
+      - published_port: "9092"
         target_port: "{{ transmission_port }}"
         protocol: "tcp"
         mode: "host"
@@ -130,4 +130,3 @@
       traefik.enable: "true"
     state: present
   tags: transmissiontest
-  
