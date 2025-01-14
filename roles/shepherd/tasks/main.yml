@@ -46,4 +46,3 @@
     replicas: 0
     state: present
   tags: shepherd
-  

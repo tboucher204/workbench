@@ -18,19 +18,47 @@
   tags: vault
   no_log: true
 
-- name: Create Vault Docker Compose File
+- name: Deploy Vault Service
   when: inventory_hostname == groups['managers'][0]
-  template:
-    src: docker-compose.yml.j2
-    dest: "{{project_root_directory}}/vault/docker-compose.yml"
-    mode: 0775
-  tags: vault
-
-- name: Deploy Vault from Compose File
-  when: inventory_hostname == groups['managers'][0]
-  docker_stack:
-    state: present
+  community.docker.docker_swarm_service:
     name: vault
-    compose:
-      - "{{project_root_directory}}/vault/docker-compose.yml"
+    hostname: "{{vault_hostname}}"
+    image: "{{vault_docker_image}}:{{vault_version}}"
+    command: "server"
+    networks:
+      - "{{traefik_network}}"
+    cap_add:
+      - IPC_LOCK
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{docker_master1_node_id}}
+    replicas: 1
+    env:
+      VAULT_LOCAL_CONFIG: "/vault/config/local.json"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
+    mounts:
+      - source: "/datavol/apps/vault/config/"
+        target: /vault/config
+        type: bind
+      - source: "/datavol/apps/vault/logs/"
+        target: /vault/logs
+        type: bind
+      - source: "/datavol/apps/vault/file/"
+        target: /vault/file
+        type: bind
+    labels:
+      traefik.http.routers.vault.entrypoints: "websecure"
+      traefik.http.routers.vault.rule: "Host(`pki.{{project_tld}}`)"
+      traefik.http.routers.vault.middlewares: "authelia@file"
+      traefik.http.routers.vault.tls: "true"
+      traefik.http.routers.vault.service: "vault"
+      # traefik.http.routers.vault.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.vault.loadbalancer.server.port: "{{vault_port}}"
+      traefik.enable: "true"
+    state: present
   tags: vault

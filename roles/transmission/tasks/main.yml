@@ -109,7 +109,7 @@
     mode: global
     force_update: false
     restart_config:
-      condition: on-failure
+      condition: always
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
@@ -137,4 +137,3 @@
       traefik.enable: "true"
     state: present
   tags: transmission
-  
