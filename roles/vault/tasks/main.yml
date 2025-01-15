@@ -39,8 +39,6 @@
     replicas: 1
     env:
       VAULT_LOCAL_CONFIG: "/vault/config/local.json"
-      PGID: "{{ media_group }}"
-      TZ: "{{ default_timezone }}"
     mounts:
       - source: "/datavol/apps/vault/config/"
         target: /vault/config
