@@ -109,7 +109,7 @@
     mode: global
     force_update: false
     restart_config:
-      condition: always
+      condition: any
     placement:
       constraints:
         - node.id == {{docker_worker2_node_id}}
