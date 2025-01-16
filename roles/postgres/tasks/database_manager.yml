@@ -1,4 +1,9 @@
 ---
+- name: Install Python3-Psycopg2
+  ansible.builtin.apt:
+    name: python3-psycopg2
+    state: present
+
 - name: Ensure PostgreSQL Databases are Present.
   community.general.postgresql_db:
     login_host: "{{ postgres_localhost }}"

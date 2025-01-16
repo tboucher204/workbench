@@ -1,4 +1,9 @@
 ---
+- name: Install Python3-PyMySql
+  ansible.builtin.apt:
+    name: python3-pymysql
+    state: present
+
 - name: Ensure MariaDB Databases are Present.
   mysql_db:
     login_host: "{{mariadb_localhost}}"

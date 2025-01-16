@@ -1,4 +1,9 @@
 ---
+- name: Install Python3-Influxdb
+  ansible.builtin.apt:
+    name: python3-influxdb
+    state: present
+
 - name: Ensure Influxdb Databases are Present.
   community.general.influxdb_database:
     hostname: "{{influxdb_hostname}}"

@@ -1,12 +1,8 @@
 ---
-- name: Upgrade pip to be able to install pymysql
-  pip:
-     name: pip
-     extra_args: --upgrade
-
-- name: Install pip PyMySQL package
-  pip:
-     name: PyMySQL
+- name: Install Python3-PyMySql
+  ansible.builtin.apt:
+    name: python3-pymysql
+    state: present
 
 - name: Ensure MySQL Databases are Present.
   mysql_db:
