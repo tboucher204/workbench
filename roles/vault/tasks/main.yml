@@ -10,14 +10,6 @@
     - /datavol/apps/vault/file
   tags: vault
 
-- name: Ensure Vault Configuration Files Exist
-  when: inventory_hostname == groups['managers'][0]
-  template:
-    src: vaultconfig.json.j2
-    dest: /datavol/apps/vault/config/local.json
-  tags: vault
-  no_log: true
-
 - name: Deploy Vault Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
