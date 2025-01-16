@@ -1,13 +1,4 @@
 ---
-- name: Upgrade pip to be able to install Influxdb
-  pip:
-     name: pip
-     extra_args: --upgrade
-
-- name: Install pip Influxdb package
-  pip:
-     name: influxdb
-
 - name: Ensure Influxdb Databases are Present.
   community.general.influxdb_database:
     hostname: "{{influxdb_hostname}}"

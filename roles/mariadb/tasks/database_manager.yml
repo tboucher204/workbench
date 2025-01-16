@@ -1,13 +1,4 @@
 ---
-- name: Upgrade pip to be able to install pymysql
-  pip:
-     name: pip
-     extra_args: --upgrade
-
-- name: Install pip PyMySQL package
-  pip:
-     name: PyMySQL
-
 - name: Ensure MariaDB Databases are Present.
   mysql_db:
     login_host: "{{mariadb_localhost}}"
