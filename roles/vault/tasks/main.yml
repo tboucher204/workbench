@@ -24,7 +24,6 @@
     name: vault
     hostname: "{{vault_hostname}}"
     image: "{{vault_docker_image}}:{{vault_version}}"
-    command: "server"
     networks:
       - "{{traefik_network}}"
     cap_add:

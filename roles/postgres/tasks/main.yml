@@ -1,5 +1,5 @@
 ---
-- name: Ensure Prometheus Data Volume Exist
+- name: Ensure Postgres Data Volume Exist
   when: inventory_hostname == groups['workers'][0]
   community.docker.docker_volume:
     name: postgres14
