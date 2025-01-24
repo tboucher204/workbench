@@ -9,7 +9,7 @@
     - socket-proxy
     - portainer
     - openldap
-    - vault
+    # - vault
     - pihole
     - homer
     - postgres
