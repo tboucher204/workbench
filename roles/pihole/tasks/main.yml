@@ -54,7 +54,7 @@
       traefik.http.routers.pihole.service: "pihole"
       # traefik.http.routers.pihole.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.middlewares.add-context1.redirectregex.regex: "^https:\\/\\/([^\\/]+)\\/?$$"
-      traefik.http.middlewares.add-context1.redirectregex.replacement: "$${1}/admin"
+      traefik.http.middlewares.add-context1.redirectregex.replacement: "/admin"
       traefik.http.services.pihole.loadbalancer.server.port: "{{pihole_port}}"
       traefik.enable: "true"
     state: present
