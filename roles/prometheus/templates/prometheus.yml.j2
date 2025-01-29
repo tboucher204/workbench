@@ -46,8 +46,8 @@ scrape_configs:
 
   - job_name: 'jenkins'
 
+    scrape_interval: 1m
     metrics_path: '/prometheus'
-    
     static_configs:
     - targets: ['jenkins:8080']
       labels:
@@ -62,55 +62,63 @@ scrape_configs:
       labels:
         server_name: 'Speedtest-Exporter'
 
-  - job_name: 'Prowlarr-exporter'
+  - job_name: 'prowlarr'
 
+    scrape_interval: 5m
+    scrape_timeout: 1m
     static_configs:
     - targets: ['prowlarr-exporter:9710']
       labels:
-        server_name: 'Jenkins'
+        server_name: 'Prowlarr-exporter'
 
-  - job_name: 'Radarr-exporter'
+  - job_name: 'radarr'
 
+    scrape_interval: 5m
+    scrape_timeout: 1m
     static_configs:
     - targets: ['radarr-exporter:9707']
       labels:
         server_name: 'Radarr-exporter'
 
-  - job_name: 'Sonarr-exporter'
+  - job_name: 'sonarr'
 
+    scrape_interval: 5m
+    scrape_timeout: 1m
     static_configs:
     - targets: ['sonarr-exporter:9708']
       labels:
         server_name: 'Sonarr-exporter'
 
-  - job_name: 'Lidarr-exporter'
+  - job_name: 'lidarr'
 
-    scrape_interval: 10m
+    scrape_interval: 5m
     scrape_timeout: 1m
     static_configs:
     - targets: ['lidarr-exporter:9709']
       labels:
         server_name: 'Lidarr-exporter'
 
-  - job_name: 'Sabnzbd-exporter'
+  - job_name: 'sabnzbd'
 
     static_configs:
     - targets: ['sabnzbd-exporter:9712']
       labels:
         server_name: 'Sabnzbd-exporter'
 
-  - job_name: 'Readarr-exporter'
+  - job_name: 'readarr'
 
+    scrape_interval: 5m
+    scrape_timeout: 1m
     static_configs:
     - targets: ['readarr-exporter:9711']
       labels:
         server_name: 'Readarr-exporter'
 
-  - job_name: 'Truenas'
+  - job_name: 'truenas'
 
     scrape_interval: 1m
     metrics_path: /metrics
     static_configs:
-    - targets: ['graphite-exporter:9108']
+    - targets: ['truenas-graphite-exporter:9108']
       labels:
-        server_name: 'Truenas'
+        server_name: 'Gandalf'
