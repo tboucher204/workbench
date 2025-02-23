@@ -1,0 +1,3 @@
+---
+komga_oauth_clientid: "{{ vault_komga_oauth_clientid }}"
+komga_oauth_secret: "{{ vault_komga_oauth_secret }}"

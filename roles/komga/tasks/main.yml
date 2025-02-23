@@ -6,14 +6,23 @@
     state: directory
   tags: komga
 
-- name: Ensure komga Dataset Exist
+- name: Ensure Komga Dataset Exist
   when: inventory_hostname == groups['media'][0]
   file:
     name: "{{project_root_directory}}/komga"
     state: directory
   tags: komga
 
-- name: Deploy komga Service
+- name: Ensure Komga Configuration Files Exist
+  when: inventory_hostname == groups['media'][0]
+  template:
+    src: application.yml.j2
+    dest: "{{ project_root_directory }}/kometa/application.yml"
+    mode: 0755
+  tags: komga
+  no_log: false
+
+- name: Deploy Komga Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: komga

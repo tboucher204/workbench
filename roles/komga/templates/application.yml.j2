@@ -1,0 +1,19 @@
+komga:
+  ## Comment if you don't want automatic account creation.
+  oauth2-account-creation: true
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          authelia:
+            client-id: '{{ komga_oauth_clientid }}'
+            client-secret: '{{ komga_oauth_secret }}'
+            client-name: 'Authelia'
+            scope: 'openid,profile,email'
+            authorization-grant-type: 'authorization_code'
+            redirect-uri: "https://comics.{{project_tld}}/login/oauth2/code/authelia"
+        provider:
+          authelia:
+            issuer-uri: 'https://login.{{project_tld}}'
+            user-name-attribute: 'preferred_username'
