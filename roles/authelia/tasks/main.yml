@@ -61,6 +61,9 @@
     placement:
       constraints:
         - node.id == {{ docker_master1_node_id }}
+    env:
+      TZ: "{{default_timezone}}"
+      X_AUTHELIA_CONFIG_FILTERS: "template"
     mounts:
       - source: "{{ project_root_directory }}/authelia/"
         target: /config
