@@ -241,9 +241,9 @@ identity_providers:
 
     clients:
       - client_id: {{ authelia_oauth_komga_clientid }}
-        client_secret: {{ authelia_oauth_komga_secret }}  # The digest of 'insecure_secret'.
+        client_secret: {{ authelia_oauth_komga_secret }}
         public: false
-        authorization_policy: 'two_factor'
+        authorization_policy: two_factor
         redirect_uris:
           - https://comics.{{project_tld}}/login/oauth2/code/authelia
         scopes:
