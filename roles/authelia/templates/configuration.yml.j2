@@ -237,36 +237,21 @@ identity_providers:
     ## The other portions of the mandatory OpenID Connect 1.0 configuration go here.
     ## See: https://www.authelia.com/c/oidc
     jwks:
-      -   key: {{ secret "/config/private.pem" | mindent 10 "|" | msquote }}
-
+      -   key: '{{ secret "/config/private.pem" | mindent 10 "|" | msquote }}'
     clients:
       - client_id: {{ authelia_oauth_komga_clientid }}
         client_secret: {{ authelia_oauth_komga_secret }}
         public: false
         authorization_policy: two_factor
         redirect_uris:
-          - https://comics.{{project_tld}}/login/oauth2/code/authelia
+          - 'https://comics.{{project_tld}}/login/oauth2/code/authelia'
         scopes:
-          - openid
-          - profile
-          - email
+          - 'openid'
+          - 'profile'
+          - 'email'
         grant_types:
-          - authorization_code
+          - 'authorization_code'
         userinfo_signed_response_alg: none
-
-#      - client_id: '{{ authelia_oauth_portainer_clientid }}'
-#        client_name: 'Portainer'
-#       client_secret: '{{ authelia_oauth_portainer_secret }}'
-#       public: false
-#       authorization_policy: 'two_factor'
-#       redirect_uris:
-#          - 'https://portainer.theboucher6.com'
-#        scopes:
-#          - 'openid'
-#          - 'profile'
-#         - 'groups'
-#         - 'email'
-#       userinfo_signed_response_alg: 'none'
 
 storage:
   encryption_key: {{authelia_encryption_key}}
