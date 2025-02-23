@@ -238,20 +238,20 @@ identity_providers:
     ## See: https://www.authelia.com/c/oidc
     jwks:
       -   key: '{{ secret "/config/private.pem" | mindent 10 "|" | msquote }}'
-    clients:
-      - client_id: {{ authelia_oauth_komga_clientid }}
-        client_secret: {{ authelia_oauth_komga_secret }}
-        public: false
-        authorization_policy: two_factor
-        redirect_uris:
-          - 'https://comics.{{project_tld}}/login/oauth2/code/authelia'
-        scopes:
-          - 'openid'
-          - 'profile'
-          - 'email'
-        grant_types:
-          - 'authorization_code'
-        userinfo_signed_response_alg: none
+#    clients:
+#      - client_id: {{ authelia_oauth_komga_clientid }}
+#        client_secret: {{ authelia_oauth_komga_secret }}
+#        public: false
+#        authorization_policy: two_factor
+#        redirect_uris:
+#          - 'https://comics.{{project_tld}}/login/oauth2/code/authelia'
+#        scopes:
+#          - 'openid'
+#          - 'profile'
+#          - 'email'
+#        grant_types:
+#          - 'authorization_code'
+#        userinfo_signed_response_alg: none
 
 storage:
   encryption_key: {{authelia_encryption_key}}
