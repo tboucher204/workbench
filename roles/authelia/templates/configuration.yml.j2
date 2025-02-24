@@ -252,19 +252,19 @@ identity_providers:
         grant_types:
           - authorization_code
         userinfo_signed_response_alg: none
-      - client_id: {{ authelia_oauth_portainer_clientid }}
-        client_secret: {{ authelia_oauth_portainer_secret }}
-        public: false
-        authorization_policy: two_factor
-        redirect_uris:
-          - https://portainer.{{project_tld}}
-        scopes:
-          - openid
-          - profile
-          - groups
-          - email
-        userinfo_signed_response_alg: none
-        token_endpoint_auth_method: client_secret_post
+#      - client_id: {{ authelia_oauth_portainer_clientid }}
+#        client_secret: {{ authelia_oauth_portainer_secret }}
+#        public: false
+#        authorization_policy: two_factor
+#        redirect_uris:
+#          - https://portainer.{{project_tld}}
+#        scopes:
+#          - openid
+#          - profile
+#          - groups
+#          - email
+#        userinfo_signed_response_alg: none
+#        token_endpoint_auth_method: client_secret_post
 
 storage:
   encryption_key: {{authelia_encryption_key}}
