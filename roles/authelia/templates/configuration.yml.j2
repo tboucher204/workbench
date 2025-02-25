@@ -273,7 +273,8 @@ identity_providers:
         public: false
         authorization_policy: two_factor
         redirect_uris:
-          - https://ci.{{project_tld}}/accounts/authelia/login/callback
+          - https://ci.{{project_tld}}/securityRealm/finishLogin
+          - https://ci.{{project_tld}}/OicLogout
         scopes:
           - openid
           - profile
