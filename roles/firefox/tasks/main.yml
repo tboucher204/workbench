@@ -1,18 +1,20 @@
 ---
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  file:
-    path: "{{item}}"
+  ansible.builtin.file:
+    path: "{{ item }}"
     state: directory
+    mode: '0755'
   loop:
-    - "{{project_download_directory}}/firefox"
+    - "{{ project_download_directory }}/firefox"
   tags: firefox
 
 - name: Ensure Firefox Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    mode: '0755'
   loop:
     - /datavol/apps/firefox
   tags: firefox
@@ -31,8 +33,8 @@
       condition: on-failure
     env:
       TZ: "{{ default_timezone }}"
-      USER_ID: "{{ default_puid }}"
-      GROUP_ID: "{{ default_pgid }}"
+      PUID: "{{ default_puid }}"
+      GUID: "{{ default_pgid }}"
       FF_OPEN_URL: "https://ipinfo.io/what-is-my-ip"
       FF_PREF_DOWNLOAD_DIR: "browser.download.dir='/media/downloads/firefox'"
       FF_PREF_PROXY_TYPE: "network.proxy.type=1"
@@ -47,18 +49,21 @@
       - source: firefox
         target: /config
         type: volume
-      - source: "{{project_download_directory}}"
+      - source: "{{ project_download_directory }}"
         target: /media/downloads
         type: bind
+      - type: tmpfs
+        target: /dev/shm
+        tmpfs_size: 1G
     labels:
       traefik.http.routers.firefox.entrypoints: "websecure"
-      traefik.http.routers.firefox.rule: "Host(`firefox.{{project_tld}}`)"
+      traefik.http.routers.firefox.rule: "Host(`firefox.{{ project_tld }}`)"
       # traefik.http.middlewares.firefox-prefix.addPrefix.prefix: "/"
       traefik.http.routers.firefox.middlewares: "authelia@file"
       traefik.http.routers.firefox.tls: "true"
       traefik.http.routers.firefox.service: "firefox"
       # traefik.http.routers.firefox.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.firefox.loadbalancer.server.port: "{{firefox_port}}"
+      traefik.http.services.firefox.loadbalancer.server.port: "{{ firefox_port }}"
       traefik.enable: "true"
     state: present
   tags: firefox
