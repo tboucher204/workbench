@@ -12,7 +12,7 @@
     restart_config:
       condition: on-failure
     env:
-      CRON: "0 4 * * 0" # Every Sunday at 4am
+      CRON: "0 4 * * *" # Every Day at 4am
       FORCE_IMAGE_REMOVAL: "1"
       FORCE_CONTAINER_REMOVAL: "0"
       GRACE_PERIOD_SECONDS: "604800"
