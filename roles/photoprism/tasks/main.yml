@@ -84,6 +84,7 @@
       PHOTOPRISM_OIDC_CLIENT: "{{ photoprism_oauth_clientid }}"
       PHOTOPRISM_OIDC_SECRET: "{{ photoprism_oauth_secret }}"
       PHOTOPRISM_OIDC_PROVIDER: "authelia"
+      PHOTOPRISM_OIDC_SCOPES: "openid profile groups email"
       PHOTOPRISM_OIDC_REGISTER: "true"
     placement:
       constraints:
