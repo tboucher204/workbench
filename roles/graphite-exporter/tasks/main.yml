@@ -10,7 +10,7 @@
 
 - name: Ensure Graphite Exporter Configuration Files Exist
   when: inventory_hostname == groups['workers'][0]
-  template:
+  ansible.builtin.template:
     src: graphite_mapping.yaml.j2
     dest: "{{project_root_directory}}/graphite_exporter/graphite_mapping.yaml"
   tags: graphite_exporter

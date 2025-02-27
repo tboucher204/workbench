@@ -8,7 +8,7 @@
 
 - name: Ensure xBrowserSync Configuration Files Exist
   when: inventory_hostname == groups['managers'][0]
-  template:
+  ansible.builtin.template:
     src: settings.json.j2
     dest: "{{project_root_directory}}/xbrowsersync/settings.json"
   tags: xbrowsersync

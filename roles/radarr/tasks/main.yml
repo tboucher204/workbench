@@ -27,7 +27,7 @@
 
 - name: Ensure Radarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: config.xml.j2
     dest: "{{project_root_directory}}/radarr/config/config.xml"
   tags: radarr
@@ -35,7 +35,7 @@
 
 - name: Ensure Radarr Extended Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: extended.conf.j2
     dest: "{{project_root_directory}}/radarr/config/extended.conf"
   tags: radarr
@@ -63,7 +63,7 @@
 
 - name: Ensure Radarr custom-services Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: scripts_init.bash.j2
     dest: "{{project_root_directory}}/radarr/custom-cont-init/scripts_init.bash"
   tags: radarr

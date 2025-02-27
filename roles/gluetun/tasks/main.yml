@@ -8,7 +8,7 @@
 
 - name: Create Gluetun Docker Compose File
   when: inventory_hostname == groups['managers'][0]
-  template:
+  ansible.builtin.template:
     src: docker-compose.yml.j2
     dest: "{{project_root_directory}}/gluetun/docker-compose.yml"
     mode: 0775

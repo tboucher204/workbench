@@ -25,7 +25,7 @@
 
 - name: Ensure PeerTube Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: production.yaml.j2
     dest: "{{project_root_directory}}/peertube/config/production.yaml"
   tags: peertube

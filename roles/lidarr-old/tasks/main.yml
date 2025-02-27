@@ -28,7 +28,7 @@
 
 - name: Ensure Lidarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: config.xml.j2
     dest: "{{project_root_directory}}/lidarr/config.xml"
   tags: lidarr

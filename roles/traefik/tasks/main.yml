@@ -22,7 +22,7 @@
 
 - name: Ensure Traefik Configuration Files Exist
   when: inventory_hostname == groups['managers'][0]
-  template:
+  ansible.builtin.template:
     src: "{{item.src}}"
     dest: "{{item.dest}}"
   with_items:

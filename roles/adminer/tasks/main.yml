@@ -8,7 +8,7 @@
 
 - name: Ensure Adminer Configuration Files Exist
   when: inventory_hostname == groups['workers'][0]
-  template:
+  ansible.builtin.template:
     src: login-servers.php.j2
     dest: "/var/lib/docker/volumes/adminer_data/_data/login-servers.php"
     mode: 0777

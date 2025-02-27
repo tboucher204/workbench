@@ -12,6 +12,31 @@ libraries:                           # This is called out once within the config
       delete_collections:
         configured: false
         managed: false
+  Movies-4K:                            # These are names of libraries in your Plex
+    remove_overlays: false           # Set this to true to remove all overlays
+    collection_files:
+      - default: basic               # This is a file within Kometa's defaults folder
+      - default: imdb                # This is a file within Kometa's defaults folder
+      # see the wiki for how to use local files, folders, URLs, or files from git
+    overlay_files:
+      - default: ribbon              # This is a file within Kometa's defaults folder
+      # see the wiki for how to use local files, folders, URLs, or files from git
+    operations:
+      delete_collections:
+        configured: false
+        managed: false
+    radarr:                     # Can be individually specified per library as well
+      url: http://radarr4k:7878
+      token: {{radarr4k_api_key}}
+      add_missing: false
+      add_existing: false
+      upgrade_existing: false
+      monitor_existing: false
+      root_folder_path: /media/movies/Movies-4K
+      monitor: true
+      availability: announced
+      quality_profile: Ultra-HD
+      search: false
   TV Shows:
     remove_overlays: false           # Set this to true to remove all overlays
     collection_files:
@@ -25,14 +50,57 @@ libraries:                           # This is called out once within the config
       delete_collections:
         configured: false
         managed: false
+  TV-4K:
+    remove_overlays: false           # Set this to true to remove all overlays
+    collection_files:
+      - default: basic               # This is a file within Kometa's defaults folder
+      - default: imdb                # This is a file within Kometa's defaults folder
+      # see the wiki for how to use local files, folders, URLs, or files from git
+    overlay_files:
+      - default: ribbon              # This is a file within Kometa's defaults folder
+      # see the wiki for how to use local files, folders, URLs, or files from git
+    operations:
+      delete_collections:
+        configured: false
+        managed: false
+    sonarr:                      # Can be individually specified per library as well
+      url: http://sonarr4k:8989
+      token: {{sonarr4k_api_key}}
+      add_missing: false
+      add_existing: false
+      upgrade_existing: false
+      monitor_existing: false
+      root_folder_path: /media/Videos/TV-4K
+      monitor: all
+      quality_profile: Ultra-HD
+      language_profile: English
+      series_type: standard
+      season_folder: true
+      search: false
+      cutoff_search: false
   Anime:
     collection_files:
       - default: basic               # This is a file within Kometa's defaults folder
       - default: anilist             # This is a file within Kometa's defaults folder
       # see the wiki for how to use local files, folders, URLs, or files from git
+    sonarr:                      # Can be individually specified per library as well
+      url: http://sonarr:8989
+      token: {{sonarr_api_key}}
+      add_missing: false
+      add_existing: false
+      upgrade_existing: false
+      monitor_existing: false
+      root_folder_path: /media/Videos/Anime TV
+      monitor: all
+      quality_profile: Any
+      language_profile: English
+      series_type: standard
+      season_folder: true
+      search: false
+      cutoff_search: false
   Music:
     collection_files:
-      - file: config/Music.yml       # This is a local file THAT YOU MIGHT CREATE
+      - file: config/music.yml       # This is a local file THAT YOU MIGHT CREATE
 playlist_files:
   - default: playlist                # This is a file within Kometa's defaults folder
     template_variables:
@@ -49,7 +117,7 @@ settings:
   asset_directory: config/assets
   asset_folders: true
   asset_depth: 0
-  create_asset_folders: false
+  create_asset_folders: true
   prioritize_assets: false
   dimensional_asset_rename: false
   download_url_assets: false
@@ -94,6 +162,8 @@ plex:                       # Can be individually specified per library as well
 tmdb:
   apikey: {{tmdb_api_key}}
   language: en
+  region: US
+  cache_expiration: 60
 tautulli:                   # Can be individually specified per library as well
   url: http://tautulli:8181
   apikey: {{tautulli_api_key}}
@@ -107,7 +177,7 @@ radarr:                     # Can be individually specified per library as well
   root_folder_path: /media/movies/Movies
   monitor: true
   availability: announced
-  quality_profile: HD - 720p/1080p
+  quality_profile: All non-4K
   tag:
   search: false
   radarr_path:
@@ -119,7 +189,7 @@ sonarr:                      # Can be individually specified per library as well
   add_existing: false
   upgrade_existing: false
   monitor_existing: false
-  root_folder_path: /media/tv/'TV Series'
+  root_folder_path: /media/Videos/TV Series
   monitor: all
   quality_profile: Any
   language_profile: English

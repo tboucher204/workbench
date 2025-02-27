@@ -64,7 +64,7 @@
 
 - name: Ensure Readarr Audiobooks Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: config-audiobooks.xml.j2
     dest: "{{project_root_directory}}/readarr2/config/config.xml"
   tags: readarr
@@ -72,7 +72,7 @@
 
 - name: Ensure Readarr Audiobooks Extended Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: extended.conf.j2
     dest: "{{project_root_directory}}/readarr2/config/extended.conf"
   tags: readarr
@@ -80,7 +80,7 @@
 
 - name: Ensure Readarr Audiobooks custom-services Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: scripts_init.bash.j2
     dest: "{{project_root_directory}}/readarr2/custom-cont-init/scripts_init.bash"
   tags: readarr

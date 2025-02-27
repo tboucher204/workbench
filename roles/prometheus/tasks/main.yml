@@ -17,7 +17,7 @@
 
 - name: Ensure Prometheus Configuration Files Exist
   when: inventory_hostname == groups['workers'][0]
-  template:
+  ansible.builtin.template:
     src: prometheus.yml.j2
     dest: "{{project_root_directory}}/prometheus/prometheus.yml"
     owner: root

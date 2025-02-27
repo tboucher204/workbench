@@ -1,0 +1,12 @@
+templates:
+  mood collection:
+    smart_filter:
+      limit: 20
+      sort_by: plays.desc
+      all:
+        album_mood: <<value>>
+dynamic_collections:
+  Moods:         # mapping name does not matter just needs to be unique
+    type: album_mood
+    title_format: Top 20 <<key_name>> Albums
+    template: mood collection

@@ -8,7 +8,7 @@
 
 - name: Ensure Mailrise Configuration Files Exist
   when: inventory_hostname == groups['managers'][0]
-  template:
+  ansible.builtin.template:
     src: mailrise.conf.j2
     dest: "{{project_root_directory}}/mailrise/mailrise.conf"
   tags: mailrise

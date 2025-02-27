@@ -17,7 +17,7 @@
 
 - name: Ensure Meshcentral Configuration File Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: config.json.j2
     dest: "{{project_root_directory}}/meshcentral/data/config.json"
   tags: meshcentral

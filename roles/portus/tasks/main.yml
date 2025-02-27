@@ -12,7 +12,7 @@
 
 - name: Ensure Portus Configuration Files Exist
   when: inventory_hostname == groups['workers'][0]
-  template:
+  ansible.builtin.template:
     src: clair-config.yml.j2
     dest: "{{project_root_directory}}/portus/clair/clair-config.yml"
   tags: portus

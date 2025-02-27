@@ -47,7 +47,7 @@
   
 - name: Ensure Sonarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: config.xml.j2
     dest: "{{project_root_directory}}/sonarr/config/config.xml"
   tags: sonarr
@@ -55,7 +55,7 @@
 
 - name: Ensure Sonarr Extended Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: extended.conf.j2
     dest: "{{project_root_directory}}/sonarr/config/extended.conf"
   tags: sonarr
@@ -63,7 +63,7 @@
 
 - name: Ensure Sonarr custom-services Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: scripts_init.bash.j2
     dest: "{{project_root_directory}}/sonarr/custom-cont-init/scripts_init.bash"
   tags: sonarr

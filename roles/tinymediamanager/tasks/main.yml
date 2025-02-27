@@ -30,7 +30,7 @@
 
 - name: Ensure Tinymediamanager Movies Configuration File Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: movies.json.j2
     dest: "{{project_root_directory}}/tinymediamanager/data/movies.json"
   tags: tinymediamanager
@@ -38,7 +38,7 @@
 
 - name: Ensure Tinymediamanager Tvdb Scraper Configuration File Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: scraper_tvdb_tvshow.conf.j2
     dest: "{{project_root_directory}}/tinymediamanager/data/scraper_tvdb_tvshow.conf"
   tags: tinymediamanager
@@ -46,7 +46,7 @@
 
 - name: Ensure Tinymediamanager TMM Configuration File Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: tmm.json.j2
     dest: "{{project_root_directory}}/tinymediamanager/data/tmm.json"
   tags: tinymediamanager
@@ -54,7 +54,7 @@
 
 - name: Ensure Tinymediamanager TMM License Configuration File Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: tmm.lic.j2
     dest: "{{project_root_directory}}/tinymediamanager/data/tmm.lic"
   tags: tinymediamanager
@@ -62,7 +62,7 @@
 
 - name: Ensure Tinymediamanager TMM Properties Configuration File Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: tmm.prop.j2
     dest: "{{project_root_directory}}/tinymediamanager/data/tmm.prop"
   tags: tinymediamanager
@@ -70,7 +70,7 @@
 
 - name: Ensure Tinymediamanager tvShows Configuration File Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: tvShows.json.j2
     dest: "{{project_root_directory}}/tinymediamanager/data/tvShows.json"
   tags: tinymediamanager

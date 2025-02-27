@@ -53,7 +53,7 @@
   
 - name: Ensure Lidarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: config.xml.j2
     dest: "{{project_root_directory}}/lidarr/config/config.xml"
   tags: lidarr
@@ -61,7 +61,7 @@
 
 - name: Ensure Lidarr Extended Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: extended.conf.j2
     dest: "{{project_root_directory}}/lidarr/config/extended.conf"
   tags: lidarr
@@ -69,7 +69,7 @@
 
 - name: Ensure Lidarr custom-services Files Exist
   when: inventory_hostname == groups['media'][0]
-  template:
+  ansible.builtin.template:
     src: scripts_init.bash.j2
     dest: "{{project_root_directory}}/lidarr/custom-cont-init/scripts_init.bash"
   tags: lidarr
