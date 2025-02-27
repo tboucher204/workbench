@@ -2,8 +2,9 @@
 - name: Ensure Traefik Directories Exist
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.file:
-    path: "{{item}}"
+    path: "{{ item }}"
     state: directory
+    mode: '0644'
   loop:
     - /datavol/apps/traefik
     - /datavol/apps/traefik/letsencrypt
@@ -14,20 +15,21 @@
   ansible.builtin.copy:
     content: ""
     dest: /datavol/apps/traefik/letsencrypt/acme.json
-    force: no
+    force: "false"
     owner: root
-    mode: 0644
+    mode: '0644'
   no_log: true
   tags: traefik
 
 - name: Ensure Traefik Configuration Files Exist
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.template:
-    src: "{{item.src}}"
-    dest: "{{item.dest}}"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0644'
   with_items:
-    - {src: config.yml.j2,dest: /datavol/apps/traefik/config.yml}
-    - {src: traefik-conf.yml.j2,dest: /datavol/apps/traefik/traefik-conf.yml}
+    - {src: config.yml.j2, dest: /datavol/apps/traefik/config.yml}
+    - {src: traefik-conf.yml.j2, dest: /datavol/apps/traefik/traefik-conf.yml}
   tags: traefik
   no_log: true
 
@@ -44,21 +46,21 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: traefik
-    hostname: "{{traefik_hostname}}"
-    image: "{{traefik_docker_image}}:{{traefik_version}}"
+    hostname: "{{ traefik_hostname }}"
+    image: "{{ traefik_docker_image }}:{{ traefik_version }}"
     networks:
       - "{{ traefik_network }}"
     env:
-      # GODADDY_API_KEY: "{{godaddy_key}}"
-      # GODADDY_API_SECRET: "{{godaddy_secret}}"
-      CF_DNS_API_TOKEN: "{{cloudflare_token}}"
+      # GODADDY_API_KEY: "{{ godaddy_key }}"
+      # GODADDY_API_SECRET: "{{ godaddy_secret }}"
+      CF_DNS_API_TOKEN: "{{ cloudflare_token }}"
     publish:
-      - published_port: "{{traefik_http_port}}"
-        target_port: "{{traefik_http_port}}"
+      - published_port: "{{ traefik_http_port }}"
+        target_port: "{{ traefik_http_port }}"
         protocol: "tcp"
         mode: "host"
-      - published_port: "{{traefik_https_port}}"
-        target_port: "{{traefik_https_port}}"
+      - published_port: "{{ traefik_https_port }}"
+        target_port: "{{ traefik_https_port }}"
         protocol: "tcp"
         mode: "host"
     mode: global
@@ -67,7 +69,7 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_master1_node_id}}
+        - node.id == {{ docker_master1_node_id }}
     mounts:
       - source: /datavol/apps/traefik/traefik-conf.yml
         target: /traefik.yml
@@ -87,7 +89,7 @@
       traefik.http.routers.traefiksecure.tls: "true"
       traefik.http.routers.traefiksecure.middlewares: "authelia@file"
       traefik.http.routers.traefiksecure.service: "api@internal"
-      # traefik.http.routers.wildcard.tls.certresolver: "{{default_certificate_resolver}}" # Comment out this line after first run of traefik to force the use of wildcard certs
+      # traefik.http.routers.wildcard.tls.certresolver: "{{default_certificate_resolver}}" # Comment line after first run to force the use of wildcard certs
       traefik.http.routers.wildcard.tls.certresolver: "letsEncrypt"
       traefik.http.routers.wildcard.tls.domains[0].main: "{{ project_tld }}"
       traefik.http.routers.wildcard.tls.domains[0].sans: "*.{{ project_tld }}"
