@@ -21,18 +21,18 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/tinymediamanager"
-    - "{{project_root_directory}}/tinymediamanager/backup"
-    - "{{project_root_directory}}/tinymediamanager/cache"
-    - "{{project_root_directory}}/tinymediamanager/data"
-    - "{{project_root_directory}}/tinymediamanager/logs"
+    - "{{ project_root_directory }}/tinymediamanager"
+    - "{{ project_root_directory }}/tinymediamanager/backup"
+    - "{{ project_root_directory }}/tinymediamanager/cache"
+    - "{{ project_root_directory }}/tinymediamanager/data"
+    - "{{ project_root_directory }}/tinymediamanager/logs"
   tags: tinymediamanager
 
 - name: Ensure Tinymediamanager Movies Configuration File Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: movies.json.j2
-    dest: "{{project_root_directory}}/tinymediamanager/data/movies.json"
+    dest: "{{ project_root_directory }}/tinymediamanager/data/movies.json"
   tags: tinymediamanager
   no_log: true
 
@@ -40,7 +40,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: scraper_tvdb_tvshow.conf.j2
-    dest: "{{project_root_directory}}/tinymediamanager/data/scraper_tvdb_tvshow.conf"
+    dest: "{{ project_root_directory }}/tinymediamanager/data/scraper_tvdb_tvshow.conf"
   tags: tinymediamanager
   no_log: true
 
@@ -48,7 +48,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: tmm.json.j2
-    dest: "{{project_root_directory}}/tinymediamanager/data/tmm.json"
+    dest: "{{ project_root_directory }}/tinymediamanager/data/tmm.json"
   tags: tinymediamanager
   no_log: true
 
@@ -56,7 +56,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: tmm.lic.j2
-    dest: "{{project_root_directory}}/tinymediamanager/data/tmm.lic"
+    dest: "{{ project_root_directory }}/tinymediamanager/data/tmm.lic"
   tags: tinymediamanager
   no_log: true
 
@@ -64,7 +64,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: tmm.prop.j2
-    dest: "{{project_root_directory}}/tinymediamanager/data/tmm.prop"
+    dest: "{{ project_root_directory }}/tinymediamanager/data/tmm.prop"
   tags: tinymediamanager
   no_log: true
 
@@ -72,7 +72,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: tvShows.json.j2
-    dest: "{{project_root_directory}}/tinymediamanager/data/tvShows.json"
+    dest: "{{ project_root_directory }}/tinymediamanager/data/tvShows.json"
   tags: tinymediamanager
   no_log: true
 
@@ -83,41 +83,41 @@
     hostname: "{{tinymediamanager_hostname}}"
     image: "{{tinymediamanager_docker_image}}:{{tinymediamanager_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      USER_ID: "{{media_user}}"
-      GROUP_ID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      USER_ID: "{{ media_user }}"
+      GROUP_ID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/tinymediamanager/"
+      - source: "{{ project_root_directory }}/tinymediamanager/"
         target: /data
         type: bind
-      - source: "{{project_media_directory}}/Videos/Movies/"
+      - source: "{{ project_media_directory }}/Videos/Movies/"
         target: /media/movies
         type: bind
-      - source: "{{project_media_directory}}/Videos/Movies-4K/"
+      - source: "{{ project_media_directory }}/Videos/Movies-4K/"
         target: /media/movies-4k
         type: bind
-      - source: "{{project_media_directory}}/Videos/TV Series/"
+      - source: "{{ project_media_directory }}/Videos/TV Series/"
         target: /media/tvshows
         type: bind
-      - source: "{{project_media_directory}}/Videos/TV-4K/"
+      - source: "{{ project_media_directory }}/Videos/TV-4K/"
         target: /media/tvshows-4k
         type: bind
-      - source: "{{project_media_directory}}/Videos/Anime TV/"
+      - source: "{{ project_media_directory }}/Videos/Anime TV/"
         target: /media/animetvshows
         type: bind
     labels:
       traefik.http.routers.tinymediamanager.entrypoints: "websecure"
-      traefik.http.routers.tinymediamanager.rule: "Host(`tmm.{{project_tld}}`)"
+      traefik.http.routers.tinymediamanager.rule: "Host(`tmm.{{ project_tld }}`)"
       traefik.http.routers.tinymediamanager.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.tinymediamanager.tls: "true"
       traefik.http.routers.tinymediamanager.service: "tinymediamanager"

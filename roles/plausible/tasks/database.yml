@@ -2,7 +2,7 @@
 - name: Ensure Plausible Database Directory Exist
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.file:
-    path: "{{project_root_directory}}/plausible/clickhouse"
+    path: "{{ project_root_directory }}/plausible/clickhouse"
     state: directory
   tags: plausible
 
@@ -19,9 +19,9 @@
     src: "{{item.src}}"
     dest: "{{item.dest}}"
   with_items:
-    - {src: clickhouse-config.xml,dest: "{{project_root_directory}}/plausible/clickhouse/clickhouse-config.xml"}
-    - {src: docker-related-config.xml,dest: "{{project_root_directory}}/plausible/clickhouse/docker-related-config.xml"}
-    - {src: clickhouse-user-config.xml,dest: "{{project_root_directory}}/plausible/clickhouse/clickhouse-user-config.xml"}
+    - {src: clickhouse-config.xml,dest: "{{ project_root_directory }}/plausible/clickhouse/clickhouse-config.xml"}
+    - {src: docker-related-config.xml,dest: "{{ project_root_directory }}/plausible/clickhouse/docker-related-config.xml"}
+    - {src: clickhouse-user-config.xml,dest: "{{ project_root_directory }}/plausible/clickhouse/clickhouse-user-config.xml"}
   tags: plausible
 
 - name: Deploy Plausible Database Service
@@ -31,7 +31,7 @@
     hostname: "{{plausible_db_hostname}}"
     image: "{{plausible_db_docker_image}}:{{plausible_db_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
@@ -44,13 +44,13 @@
       - source: plausible-data
         target: /var/lib/clickhouse/
         type: volume
-      - source: "{{project_root_directory}}/plausible/clickhouse/clickhouse-config.xml"
+      - source: "{{ project_root_directory }}/plausible/clickhouse/clickhouse-config.xml"
         target: /etc/clickhouse-server/config.d/logging.xml
         type: bind
-      - source: "{{project_root_directory}}/plausible/clickhouse/docker-related-config.xml"
+      - source: "{{ project_root_directory }}/plausible/clickhouse/docker-related-config.xml"
         target: /etc/clickhouse-server/config.d/docker_related_config.xml
         type: bind
-      - source: "{{project_root_directory}}/plausible/clickhouse/clickhouse-user-config.xml"
+      - source: "{{ project_root_directory }}/plausible/clickhouse/clickhouse-user-config.xml"
         target: /etc/clickhouse-server/users.d/logging.xml
         type: bind
     state: present

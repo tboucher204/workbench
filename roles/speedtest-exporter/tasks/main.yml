@@ -6,14 +6,14 @@
     hostname: "{{speedtestexporter_hostname}}"
     image: "{{speedtestexporter_docker_image}}:{{speedtestexporter_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     state: present
   tags: speedtestexporter

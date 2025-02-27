@@ -5,7 +5,7 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/geoip"
+    - "{{ project_root_directory }}/geoip"
   tags: geoip
 
 - name: Deploy Geoip Service
@@ -30,7 +30,7 @@
       GEOIPUPDATE_LICENSE_KEY: "{{ geoip_license_key }}"
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/geoip/"
+      - source: "{{ project_root_directory }}/geoip/"
         target: /usr/share/GeoIP
         type: bind
     state: present

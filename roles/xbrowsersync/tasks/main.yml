@@ -2,7 +2,7 @@
 - name: Ensure xBrowserSync Directory Exist
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.file:
-    path: "{{project_root_directory}}/xbrowsersync"
+    path: "{{ project_root_directory }}/xbrowsersync"
     state: directory
   tags: xbrowsersync
 
@@ -10,7 +10,7 @@
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.template:
     src: settings.json.j2
-    dest: "{{project_root_directory}}/xbrowsersync/settings.json"
+    dest: "{{ project_root_directory }}/xbrowsersync/settings.json"
   tags: xbrowsersync
   no_log: true
 
@@ -21,7 +21,7 @@
     hostname: "{{xbrowsersync_hostname}}"
     image: "{{xbrowsersync_docker_image}}:{{xbrowsersync_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: global
     force_update: false
     restart_config:
@@ -35,7 +35,7 @@
         type: bind
     labels:
       traefik.http.routers.xbrowsersync.entrypoints: "websecure"
-      traefik.http.routers.xbrowsersync.rule: "Host(`sync.{{project_tld}}`)"
+      traefik.http.routers.xbrowsersync.rule: "Host(`sync.{{ project_tld }}`)"
       traefik.http.routers.xbrowsersync.middlewares: "default-headers@file"
       traefik.http.routers.xbrowsersync.tls: "true"
       traefik.http.routers.xbrowsersync.service: "xbrowsersync"

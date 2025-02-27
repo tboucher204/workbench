@@ -12,7 +12,7 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/geoip"
+    - "{{ project_root_directory }}/geoip"
   tags: geoip
 
 - name: Create Graylog Docker Container
@@ -44,7 +44,7 @@
       - source: graylog_data
         target: /usr/share/graylog/data
         type: volume
-      - source: "{{project_root_directory}}/geoip/"
+      - source: "{{ project_root_directory }}/geoip/"
         target: /etc/graylog/server
         type: bind
     replicas: 1

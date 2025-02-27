@@ -13,18 +13,18 @@
     hostname: "{{tautulli_hostname}}"
     image: "{{tautulli_docker_image}}:{{tautulli_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
     restart_config:
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
       - source: tautulli
@@ -32,7 +32,7 @@
         type: volume
     labels:
       traefik.http.routers.tautulli.entrypoints: "websecure"
-      traefik.http.routers.tautulli.rule: "Host(`stats.{{project_tld}}`)"
+      traefik.http.routers.tautulli.rule: "Host(`stats.{{ project_tld }}`)"
       traefik.http.routers.tautulli.middlewares: "default-headers@file"
       traefik.http.routers.tautulli.tls: "true"
       traefik.http.routers.tautulli.service: "tautulli"

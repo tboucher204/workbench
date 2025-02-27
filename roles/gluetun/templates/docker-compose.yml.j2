@@ -5,7 +5,7 @@ services:
     image: "{{gluetun_docker_image}}:{{gluetun_version}}"
     hostname: "{{gluetun_hostname}}"
     networks:
-      - {{traefik_network}}
+      - {{ traefik_network }}
     volumes:
       - {{ project_root_directory }}/gluetun:/gluetun
     deploy:
@@ -14,7 +14,7 @@ services:
         constraints: [node.id == {{ docker_worker2_node_id }}]
       labels:
         - "traefik.http.routers.gluetun-qbittorrent.entrypoints=websecure"
-        - "traefik.http.routers.gluetun-qbittorrent.rule=Host(`qbit.{{project_tld}}`)"
+        - "traefik.http.routers.gluetun-qbittorrent.rule=Host(`qbit.{{ project_tld }}`)"
         - "traefik.http.routers.gluetun-qbittorrent.middlewares=default-headers@file,authelia@file"
         - "traefik.http.routers.gluetun-qbittorrent.tls=true"
         - "traefik.http.routers.gluetun-qbittorrent.service=gluetun-qbittorrent"
@@ -42,6 +42,6 @@ services:
     restart: unless-stopped
 
 networks:
-  {{traefik_network}}:
+  {{ traefik_network }}:
     external: true
-    name: {{traefik_network}}
+    name: {{ traefik_network }}

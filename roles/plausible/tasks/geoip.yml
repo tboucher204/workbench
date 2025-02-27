@@ -19,7 +19,7 @@
     hostname: "{{plausible_geoip_hostname}}"
     image: "{{plausible_geoip_docker_image}}:{{plausible_geoip_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:

@@ -2,7 +2,7 @@ http:
   middlewares:
     authelia:
       forwardauth:
-        address: "http://{{authelia_hostname}}:{{authelia_port}}/api/verify?rd=https://login.{{project_tld}}"
+        address: "http://{{authelia_hostname}}:{{authelia_port}}/api/verify?rd=https://auth.{{ project_tld }}"
         trustForwardHeader: true
         authResponseHeaders: "Remote-User, Remote-Groups, Remote-Name, Remote-Email"
     authelia-basic:
@@ -41,7 +41,7 @@ http:
     amp:
       entryPoints:
         - "websecure"
-      rule: "Host(`amp.{{project_tld}}`)"
+      rule: "Host(`amp.{{ project_tld }}`)"
       tls: {}
       middlewares:
         - default-headers@file
@@ -50,7 +50,7 @@ http:
     emby:
       entryPoints:
         - "websecure"
-      rule: "Host(`emby.{{project_tld}}`)"
+      rule: "Host(`emby.{{ project_tld }}`)"
       tls: {}
       middlewares:
         - default-headers@file
@@ -58,7 +58,7 @@ http:
     nas:
       entryPoints:
         - "websecure"
-      rule: "Host(`gandalf.{{project_tld}}`)"
+      rule: "Host(`gandalf.{{ project_tld }}`)"
       tls: {}
       middlewares:
         - default-headers@file
@@ -67,7 +67,7 @@ http:
     plex:
       entryPoints:
         - "websecure"
-      rule: "Host(`plex.{{project_tld}}`)"
+      rule: "Host(`plex.{{ project_tld }}`)"
       tls: {}
       middlewares:
         - default-headers@file
@@ -75,7 +75,7 @@ http:
     pve:
       entryPoints:
         - "websecure"
-      rule: "Host(`pve.{{project_tld}}`)"
+      rule: "Host(`pve.{{ project_tld }}`)"
       tls: {}
       middlewares:
         - default-headers@file
@@ -84,7 +84,7 @@ http:
     zoneminder:
       entryPoints:
         - "websecure"
-      rule: "Host(`zoneminder.{{project_tld}}`)"
+      rule: "Host(`zoneminder.{{ project_tld }}`)"
       tls: {}
       middlewares:
         - default-headers@file

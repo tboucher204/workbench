@@ -12,8 +12,8 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/peertube/config"
-    - "{{project_root_directory}}/peertube/data"
+    - "{{ project_root_directory }}/peertube/config"
+    - "{{ project_root_directory }}/peertube/data"
   tags: peertube
 
 - name: Ensure PeerTube Volume Exist
@@ -27,7 +27,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: production.yaml.j2
-    dest: "{{project_root_directory}}/peertube/config/production.yaml"
+    dest: "{{ project_root_directory }}/peertube/config/production.yaml"
   tags: peertube
   no_log: true
 
@@ -38,14 +38,14 @@
     hostname: "{{peertube_hostname}}"
     image: "{{peertube_docker_image}}:{{peertube_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
       - source: /datavol/apps/peertube/data/

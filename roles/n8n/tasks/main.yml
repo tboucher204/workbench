@@ -15,7 +15,7 @@
     hostname: "{{n8n_hostname}}"
     image: "{{n8n_docker_image}}:{{n8n_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     env:
       DB_TYPE: postgresdb
       DB_POSTGRESDB_HOST: "{{postgres_hostname}}"
@@ -23,7 +23,7 @@
       DB_POSTGRESDB_DATABASE: "{{n8n_database}}"
       DB_POSTGRESDB_USER: "{{n8n_database_user}}"
       DB_POSTGRESDB_PASSWORD: "{{n8n_database_password}}"
-      N8N_EDITOR_BASE_URL: "n8n.{{project_tld}}"
+      N8N_EDITOR_BASE_URL: "n8n.{{ project_tld }}"
       N8N_EMAIL_MODE: "smtp"
       N8N_SMTP_HOST: "{{email_host}}"
       N8N_SMTP_PORT: "{{email_port}}"
@@ -31,7 +31,7 @@
       N8N_SMTP_PASS: "{{email_password}}"
       N8N_SMTP_SENDER: "{{email_user}}"
       N8N_SMTP_SSL: "true"
-      GENERIC_TIMEZONE: "{{default_timezone}}"
+      GENERIC_TIMEZONE: "{{ default_timezone }}"
       N8N_BASIC_AUTH_ACTIVE: "true"
       N8N_BASIC_AUTH_USER: "{{n8n_default_user}}"
       N8N_BASIC_AUTH_PASSWORD: "{{n8n_default_password}}"
@@ -41,11 +41,11 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     labels:
       traefik.http.routers.n8n.entrypoints: "websecure"
-      traefik.http.routers.n8n.rule: "Host(`n8n.{{project_tld}}`)"
+      traefik.http.routers.n8n.rule: "Host(`n8n.{{ project_tld }}`)"
       traefik.http.routers.n8n.middlewares: "default-headers@file"
       traefik.http.routers.n8n.tls: "true"
       traefik.http.routers.n8n.service: "n8n"

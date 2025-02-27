@@ -32,7 +32,7 @@
     image: "{{plausible_docker_image}}:{{plausible_version}}"
     command: "sh -c 'sleep 10 && /entrypoint.sh db migrate && /entrypoint.sh db init-admin && /entrypoint.sh run'"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
@@ -41,7 +41,7 @@
       ADMIN_USER_EMAIL: "{{plausible_admin_email}}"
       ADMIN_USER_NAME: "{{plausible_admin_username}}"
       ADMIN_USER_PWD: "{{plausible_admin_password}}"
-      BASE_URL: "https://plausible.{{project_tld}}"
+      BASE_URL: "https://plausible.{{ project_tld }}"
       SECRET_KEY_BASE: "{{plausible_secret_key}}"
       DATABASE_URL: "postgres://{{plausible_database_user}}:{{plausible_database_password}}@{{postgres_hostname}}/{{plausible_database}}"
       CLICKHOUSE_DATABASE_URL: "http://plausible-db:8123/plausible_events_db"
@@ -62,7 +62,7 @@
         type: volume
     labels:
       traefik.http.routers.plausible.entrypoints: "websecure"
-      traefik.http.routers.plausible.rule: "Host(`plausible.{{project_tld}}`)"
+      traefik.http.routers.plausible.rule: "Host(`plausible.{{ project_tld }}`)"
       traefik.http.routers.plausible.middlewares: "default-headers@file"
       traefik.http.routers.plausible.tls: "true"
       traefik.http.routers.plausible.service: "plausible"

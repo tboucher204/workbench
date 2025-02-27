@@ -5,14 +5,14 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/graphite_exporter"
+    - "{{ project_root_directory }}/graphite_exporter"
   tags: graphite_exporter
 
 - name: Ensure Graphite Exporter Configuration Files Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.template:
     src: graphite_mapping.yaml.j2
-    dest: "{{project_root_directory}}/graphite_exporter/graphite_mapping.yaml"
+    dest: "{{ project_root_directory }}/graphite_exporter/graphite_mapping.yaml"
   tags: graphite_exporter
   no_log: true
 
@@ -24,7 +24,7 @@
     image: "{{graphite_exporter_docker_image}}:{{graphite_exporter_version}}"
     args: "--graphite.mapping-config=/tmp/graphite_mapping.yaml"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     publish:
       - published_port: "2003"
         target_port: "{{graphite_exporter_port}}"
@@ -40,15 +40,15 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/graphite_exporter/"
+      - source: "{{ project_root_directory }}/graphite_exporter/"
         target: /tmp
         type: bind
     labels:
       traefik.http.routers.graphite_exporter.entrypoints: "websecure"
-      traefik.http.routers.graphite_exporter.rule: "Host(`graphite-metrics.{{project_tld}}`)"
+      traefik.http.routers.graphite_exporter.rule: "Host(`graphite-metrics.{{ project_tld }}`)"
       traefik.http.routers.graphite_exporter.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.graphite_exporter.tls: "true"
       traefik.http.routers.graphite_exporter.service: "graphite_exporter"

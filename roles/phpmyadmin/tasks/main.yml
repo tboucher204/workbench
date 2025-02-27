@@ -23,7 +23,7 @@
       PMA_HOSTS: "{{ phpmyadmin_hosts }}"
       PMA_USER: "{{ phpmyadmin_user }}"
       PMA_PASSWORD: "{{ phpmyadmin_password }}"
-      PMA_ABSOLUTE_URI: "https://pma.{{project_tld}}"
+      PMA_ABSOLUTE_URI: "https://pma.{{ project_tld }}"
       PMA_PMADB: "phpmyadmin"
       PMA_CONTROLHOST: "mariadb"
       PMA_CONTROLPORT: "3306"
@@ -45,7 +45,7 @@
         type: volume
     labels:
       traefik.http.routers.phpmyadmin.entrypoints: "websecure"
-      traefik.http.routers.phpmyadmin.rule: "Host(`pma.{{project_tld}}`)"
+      traefik.http.routers.phpmyadmin.rule: "Host(`pma.{{ project_tld }}`)"
       traefik.http.routers.phpmyadmin.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.phpmyadmin.tls: "true"
       traefik.http.routers.phpmyadmin.service: "phpmyadmin"

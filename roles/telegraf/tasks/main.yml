@@ -2,7 +2,7 @@
 - name: Ensure Telegraf Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/telegraf"
+    name: "{{ project_root_directory }}/telegraf"
     state: directory
     owner: root
     group: root
@@ -15,7 +15,7 @@
     hostname: "{{telegraf_hostname}}"
     image: "{{telegraf_docker_image}}:{{telegraf_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     publish:
       - published_port: "8092"
         target_port: "8092"
@@ -35,10 +35,10 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/telegraf/telegraf.conf"
+      - source: "{{ project_root_directory }}/telegraf/telegraf.conf"
         target: /etc/telegraf/telegraf.conf
         type: bind
     state: present

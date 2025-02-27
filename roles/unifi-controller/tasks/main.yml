@@ -13,11 +13,11 @@
     hostname: "{{unifi_hostname}}"
     image: "{{unifi_docker_image}}:{{unifi_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     env:
       PGID: "{{default_pgid}}"
       PUID: "{{default_puid}}"
-      TZ: "{{default_timezone}}"
+      TZ: "{{ default_timezone }}"
     publish:
       - published_port: "3478"
         target_port: "3478"
@@ -68,7 +68,7 @@
         type: volume
     labels:
       traefik.http.routers.unifi.entrypoints: "websecure"
-      traefik.http.routers.unifi.rule: "Host(`unifi.{{project_tld}}`)"
+      traefik.http.routers.unifi.rule: "Host(`unifi.{{ project_tld }}`)"
       traefik.http.routers.unifi.middlewares: "authelia@file"
       traefik.http.routers.unifi.tls: "true"
       traefik.http.routers.unifi.service: "unifi"

@@ -12,8 +12,8 @@ spring:
             client-name: 'Authelia'
             scope: 'openid,profile,email'
             authorization-grant-type: 'authorization_code'
-            redirect-uri: "https://comics.{{project_tld}}/login/oauth2/code/authelia"
+            redirect-uri: "https://comics.{{ project_tld }}/login/oauth2/code/authelia"
         provider:
           authelia:
-            issuer-uri: 'https://login.{{project_tld}}'
+            issuer-uri: 'https://auth.{{ project_tld }}'
             user-name-attribute: 'preferred_username'

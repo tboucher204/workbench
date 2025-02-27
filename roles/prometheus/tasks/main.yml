@@ -12,14 +12,14 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/prometheus"
+    - "{{ project_root_directory }}/prometheus"
   tags: prometheus
 
 - name: Ensure Prometheus Configuration Files Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.template:
     src: prometheus.yml.j2
-    dest: "{{project_root_directory}}/prometheus/prometheus.yml"
+    dest: "{{ project_root_directory }}/prometheus/prometheus.yml"
     owner: root
     group: root
     mode: 0644
@@ -33,7 +33,7 @@
     hostname: "{{prometheus_hostname}}"
     image: "{{prometheus_docker_image}}:{{prometheus_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     publish:
       - published_port: "{{prometheus_port}}"
         target_port: "{{prometheus_port}}"
@@ -45,18 +45,18 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
       - source: prometheus_data
         target: /prometheus
         type: volume
-      - source: "{{project_root_directory}}/prometheus/prometheus.yml"
+      - source: "{{ project_root_directory }}/prometheus/prometheus.yml"
         target: /etc/prometheus/prometheus.yml
         type: bind
     labels:
       traefik.http.routers.prometheus.entrypoints: "websecure"
-      traefik.http.routers.prometheus.rule: "Host(`prometheus.{{project_tld}}`)"
+      traefik.http.routers.prometheus.rule: "Host(`prometheus.{{ project_tld }}`)"
       traefik.http.routers.prometheus.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.prometheus.tls: "true"
       traefik.http.routers.prometheus.service: "prometheus"

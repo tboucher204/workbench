@@ -19,7 +19,7 @@ access_control:
     networks:
     - 192.168.1.0/24
   rules:
-  - domain: "*.{{project_tld}}"
+  - domain: "*.{{ project_tld }}"
     policy: bypass
     resources:
     - "^/api/.*$"
@@ -31,101 +31,101 @@ access_control:
     - "^/control.*$"
     - "^/meshrelay.*$"
     - "^/github-webhook/.*$"
-  - domain: "music.{{project_tld}}"
+  - domain: "music.{{ project_tld }}"
     policy: bypass
     resources:
     - "^/rest/.*$"
     - "^/share/.*$"
-  - domain: "music.{{project_tld}}"
+  - domain: "music.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "login.{{project_tld}}"
+  - domain: "auth.{{ project_tld }}"
     policy: bypass
-  - domain: api.{{project_tld}}
+  - domain: api.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Authelia_Admins"
-  - domain: "portainer.{{project_tld}}"
+  - domain: "portainer.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "ci.{{project_tld}}"
+  - domain: "ci.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "codeserver.{{project_tld}}"
+  - domain: "codeserver.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "grafana.{{project_tld}}"
+  - domain: "grafana.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "mylar.{{project_tld}}"
+  - domain: "mylar.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "radarr.{{project_tld}}"
+  - domain: "radarr.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "sonarr.{{project_tld}}"
+  - domain: "sonarr.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "sonarr2.{{project_tld}}"
+  - domain: "sonarr2.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "lidarr.{{project_tld}}"
+  - domain: "lidarr.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "prowlarr.{{project_tld}}"
+  - domain: "prowlarr.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "readarr.{{project_tld}}"
+  - domain: "readarr.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "readarraudio.{{project_tld}}"
+  - domain: "readarraudio.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "adminer.{{project_tld}}"
+  - domain: "adminer.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "ombi.{{project_tld}}"
+  - domain: "ombi.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "join.{{project_tld}}"
+  - domain: "join.{{ project_tld }}"
     resources:
     - '^/j/'
     - '^/join/'
     - '^/setup/*'
     - '^/static/'
     policy: bypass
-  - domain: "join.{{project_tld}}"
+  - domain: "join.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "ldapmanager.{{project_tld}}"
+  - domain: "ldapmanager.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "amp.{{project_tld}}"
+  - domain: "amp.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "mesh.{{project_tld}}"
+  - domain: "mesh.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "wiki.{{project_tld}}"
+  - domain: "wiki.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
@@ -133,83 +133,83 @@ access_control:
     policy: bypass
     networks:
     - internal
-  - domain: cyberchef.{{project_tld}}
+  - domain: cyberchef.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Authelia_Admins"
-  - domain: sonarr.{{project_tld}}
+  - domain: sonarr.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: sonarr2.{{project_tld}}
+  - domain: sonarr2.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: radarr.{{project_tld}}
+  - domain: radarr.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: lidarr.{{project_tld}}
+  - domain: lidarr.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: readarr.{{project_tld}}
+  - domain: readarr.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: readarraudio.{{project_tld}}
+  - domain: readarraudio.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: mylar.{{project_tld}}
+  - domain: mylar.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: prowlarr.{{project_tld}}
+  - domain: prowlarr.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: sabnzbd.{{project_tld}}
+  - domain: sabnzbd.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: transmission.{{project_tld}}
+  - domain: transmission.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: bazarr.{{project_tld}}
+  - domain: bazarr.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: print.{{project_tld}}
+  - domain: print.{{ project_tld }}
     policy: two_factor
     subject:
     - "group:Media_Users"
-  - domain: "kavita.{{project_tld}}"
+  - domain: "kavita.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "comics.{{project_tld}}"
+  - domain: "comics.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "audiobooks.{{project_tld}}"
+  - domain: "audiobooks.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "books.{{project_tld}}"
+  - domain: "books.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "photos.{{project_tld}}"
+  - domain: "photos.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "www.{{project_tld}}"
+  - domain: "www.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
-  - domain: "guac.{{project_tld}}"
+  - domain: "guac.{{ project_tld }}"
     policy: bypass
     networks:
     - internal
@@ -245,7 +245,7 @@ identity_providers:
         public: false
         authorization_policy: two_factor
         redirect_uris:
-          - https://comics.{{project_tld}}/login/oauth2/code/authelia
+          - https://comics.{{ project_tld }}/login/oauth2/code/authelia
         scopes:
           - openid
           - profile
@@ -259,7 +259,7 @@ identity_providers:
         public: false
         authorization_policy: two_factor
         redirect_uris:
-          - https://portainer.{{project_tld}}
+          - https://portainer.{{ project_tld }}
         scopes:
           - openid
           - profile
@@ -273,8 +273,8 @@ identity_providers:
         public: false
         authorization_policy: two_factor
         redirect_uris:
-          - https://ci.{{project_tld}}/securityRealm/finishLogin
-          - https://ci.{{project_tld}}/OicLogout
+          - https://ci.{{ project_tld }}/securityRealm/finishLogin
+          - https://ci.{{ project_tld }}/OicLogout
         scopes:
           - openid
           - profile
@@ -288,7 +288,7 @@ identity_providers:
         public: false
         authorization_policy: two_factor
         redirect_uris:
-          - https://photo.{{project_tld}}/api/v1/oidc/redirect
+          - https://photo.{{ project_tld }}/api/v1/oidc/redirect
         scopes:
           - openid
           - profile
@@ -307,15 +307,15 @@ storage:
 
 session:
   name: authelia_session
-  # domain: {{project_tld}}
+  # domain: {{ project_tld }}
   secret: {{authelia_session_secret}}
   expiration: 4h
   inactivity: 1h
   remember_me: 1M
   cookies:
-    - domain: {{project_tld}}
-      authelia_url: https://login.{{project_tld}}/
-      default_redirection_url: https://www.{{project_tld}}/
+    - domain: {{ project_tld }}
+      authelia_url: https://auth.{{ project_tld }}/
+      default_redirection_url: https://www.{{ project_tld }}/
       name: authelia_session
       same_site: lax
       inactivity: 1h

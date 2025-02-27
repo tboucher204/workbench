@@ -2,7 +2,7 @@
 - name: Ensure Readarr Audiobooks Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_media_directory}}/Audiobooks"
+    name: "{{ project_media_directory }}/Audiobooks"
     state: directory
   tags: readarr
 
@@ -46,7 +46,7 @@
 - name: Ensure Readarr Audiobooks Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/readarr2"
+    name: "{{ project_root_directory }}/readarr2"
     state: directory
   tags: readarr
 
@@ -56,17 +56,17 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/readarr2"
-    - "{{project_root_directory}}/readarr2/config"
-    - "{{project_root_directory}}/readarr2/custom-services"
-    - "{{project_root_directory}}/readarr2/custom-cont-init"
+    - "{{ project_root_directory }}/readarr2"
+    - "{{ project_root_directory }}/readarr2/config"
+    - "{{ project_root_directory }}/readarr2/custom-services"
+    - "{{ project_root_directory }}/readarr2/custom-cont-init"
   tags: readarr
 
 - name: Ensure Readarr Audiobooks Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: config-audiobooks.xml.j2
-    dest: "{{project_root_directory}}/readarr2/config/config.xml"
+    dest: "{{ project_root_directory }}/readarr2/config/config.xml"
   tags: readarr
   no_log: true
 
@@ -74,7 +74,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: extended.conf.j2
-    dest: "{{project_root_directory}}/readarr2/config/extended.conf"
+    dest: "{{ project_root_directory }}/readarr2/config/extended.conf"
   tags: readarr
   no_log: true
 
@@ -82,7 +82,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: scripts_init.bash.j2
-    dest: "{{project_root_directory}}/readarr2/custom-cont-init/scripts_init.bash"
+    dest: "{{ project_root_directory }}/readarr2/custom-cont-init/scripts_init.bash"
   tags: readarr
   no_log: true
 
@@ -93,32 +93,32 @@
     hostname: "{{readarr_audiobooks_hostname}}"
     image: "{{readarr_audiobooks_docker_image}}:{{readarr_audiobooks_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
       DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{readarr_hostname}}"
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/readarr2/config/"
+      - source: "{{ project_root_directory }}/readarr2/config/"
         target: /config
         type: bind
-      - source: "{{project_root_directory}}/readarr2/custom-services/"
+      - source: "{{ project_root_directory }}/readarr2/custom-services/"
         target: /custom-services.d
         type: bind
-      - source: "{{project_root_directory}}/readarr2/custom-cont-init/"
+      - source: "{{ project_root_directory }}/readarr2/custom-cont-init/"
         target: /custom-cont-init.d
         type: bind
-      - source: "{{project_media_directory}}/Audiobooks/"
+      - source: "{{ project_media_directory }}/Audiobooks/"
         target: /media/audiobooks
         type: bind
       - source: "{{project_download_directory}}"
@@ -126,7 +126,7 @@
         type: bind
     labels:
       traefik.http.routers.readarraudio.entrypoints: "websecure"
-      traefik.http.routers.readarraudio.rule: "Host(`readarraudio.{{project_tld}}`)"
+      traefik.http.routers.readarraudio.rule: "Host(`readarraudio.{{ project_tld }}`)"
       traefik.http.routers.readarraudio.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.readarraudio.tls: "true"
       traefik.http.routers.readarraudio.service: "readarraudio"

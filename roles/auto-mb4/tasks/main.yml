@@ -9,7 +9,7 @@
 - name: Ensure Auto-mb4 Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/automb4"
+    name: "{{ project_root_directory }}/automb4"
     state: directory
   tags: automb4
 
@@ -20,14 +20,14 @@
     hostname: "{{automb4_hostname}}"
     image: "{{automb4_docker_image}}:{{automb4_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     mounts:
       - source: "{{ project_root_directory }}/automb4/"
         target: /config

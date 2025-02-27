@@ -2,7 +2,7 @@
 - name: Ensure Gluetun Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/gluetun"
+    name: "{{ project_root_directory }}/gluetun"
     state: directory
   tags: gluetun
 
@@ -10,7 +10,7 @@
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.template:
     src: docker-compose.yml.j2
-    dest: "{{project_root_directory}}/gluetun/docker-compose.yml"
+    dest: "{{ project_root_directory }}/gluetun/docker-compose.yml"
     mode: 0775
   tags: gluetun
 
@@ -20,5 +20,5 @@
     state: present
     name: gluetun
     compose:
-      - "{{project_root_directory}}/gluetun/docker-compose.yml"
+      - "{{ project_root_directory }}/gluetun/docker-compose.yml"
   tags: gluetun

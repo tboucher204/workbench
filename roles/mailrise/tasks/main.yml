@@ -2,7 +2,7 @@
 - name: Ensure Mailrise Directory Exist
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.file:
-    path: "{{project_root_directory}}/mailrise/"
+    path: "{{ project_root_directory }}/mailrise/"
     state: directory
   tags: mailrise
 
@@ -10,7 +10,7 @@
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.template:
     src: mailrise.conf.j2
-    dest: "{{project_root_directory}}/mailrise/mailrise.conf"
+    dest: "{{ project_root_directory }}/mailrise/mailrise.conf"
   tags: mailrise
   no_log: true
 
@@ -21,7 +21,7 @@
     hostname: "{{mailrise_hostname}}"
     image: "{{mailrise_docker_image}}:{{mailrise_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: global
     force_update: false
     restart_config:
@@ -30,7 +30,7 @@
       constraints:
         - node.id == {{docker_master1_node_id}}
     mounts:
-      - source: "{{project_root_directory}}/mailrise/mailrise.conf"
+      - source: "{{ project_root_directory }}/mailrise/mailrise.conf"
         target: /etc/mailrise.conf
         type: bind
     state: present

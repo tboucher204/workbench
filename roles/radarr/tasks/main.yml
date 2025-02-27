@@ -2,7 +2,7 @@
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_media_directory}}/Videos"
+    name: "{{ project_media_directory }}/Videos"
     state: directory
   tags: radarr
 
@@ -19,17 +19,17 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/radarr"
-    - "{{project_root_directory}}/radarr/config"
-    - "{{project_root_directory}}/radarr/custom-services"
-    - "{{project_root_directory}}/radarr/custom-cont-init"
+    - "{{ project_root_directory }}/radarr"
+    - "{{ project_root_directory }}/radarr/config"
+    - "{{ project_root_directory }}/radarr/custom-services"
+    - "{{ project_root_directory }}/radarr/custom-cont-init"
   tags: radarr
 
 - name: Ensure Radarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: config.xml.j2
-    dest: "{{project_root_directory}}/radarr/config/config.xml"
+    dest: "{{ project_root_directory }}/radarr/config/config.xml"
   tags: radarr
   no_log: true
 
@@ -37,7 +37,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: extended.conf.j2
-    dest: "{{project_root_directory}}/radarr/config/extended.conf"
+    dest: "{{ project_root_directory }}/radarr/config/extended.conf"
   tags: radarr
   no_log: true
 
@@ -65,7 +65,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: scripts_init.bash.j2
-    dest: "{{project_root_directory}}/radarr/custom-cont-init/scripts_init.bash"
+    dest: "{{ project_root_directory }}/radarr/custom-cont-init/scripts_init.bash"
   tags: radarr
   no_log: true
 
@@ -76,32 +76,32 @@
     hostname: "{{radarr_hostname}}"
     image: "{{radarr_docker_image}}:{{radarr_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
       DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{radarr_hostname}}"
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/radarr/config/"
+      - source: "{{ project_root_directory }}/radarr/config/"
         target: /config
         type: bind
-      - source: "{{project_root_directory}}/radarr/custom-services/"
+      - source: "{{ project_root_directory }}/radarr/custom-services/"
         target: /custom-services.d
         type: bind
-      - source: "{{project_root_directory}}/radarr/custom-cont-init/"
+      - source: "{{ project_root_directory }}/radarr/custom-cont-init/"
         target: /custom-cont-init.d
         type: bind
-      - source: "{{project_media_directory}}/Videos/"
+      - source: "{{ project_media_directory }}/Videos/"
         target: /media/movies
         type: bind
       - source: "{{project_download_directory}}"
@@ -109,7 +109,7 @@
         type: bind
     labels:
       traefik.http.routers.radarr.entrypoints: "websecure"
-      traefik.http.routers.radarr.rule: "Host(`radarr.{{project_tld}}`)"
+      traefik.http.routers.radarr.rule: "Host(`radarr.{{ project_tld }}`)"
       traefik.http.routers.radarr.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.radarr.tls: "true"
       traefik.http.routers.radarr.service: "radarr"

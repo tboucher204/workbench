@@ -2,14 +2,14 @@
 - name: Ensure Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_media_directory}}/PhotoGallery"
+    name: "{{ project_media_directory }}/PhotoGallery"
     state: directory
   tags: piwigo
 
 - name: Ensure Piwigo Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/piwigo"
+    name: "{{ project_root_directory }}/piwigo"
     state: directory
   tags: piwigo
 
@@ -36,24 +36,24 @@
     hostname: "{{piwigo_hostname}}"
     image: "{{piwigo_docker_image}}:{{piwigo_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/piwigo/"
+      - source: "{{ project_root_directory }}/piwigo/"
         target: /config
         type: bind
-      - source: "{{project_media_directory}}/PhotoGallery/"
+      - source: "{{ project_media_directory }}/PhotoGallery/"
         target: /gallery
         type: bind
     labels:

@@ -6,14 +6,14 @@
     hostname: "{{clair_hostname}}"
     image: "{{clair_docker_image}}:{{clair_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
       - source: /datavol/apps/portus/clair/clair.yml

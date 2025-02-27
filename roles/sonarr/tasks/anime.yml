@@ -2,7 +2,7 @@
 - name: Ensure Anime Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_media_directory}}/Videos"
+    name: "{{ project_media_directory }}/Videos"
     state: directory
   tags: sonarr
 
@@ -16,7 +16,7 @@
 - name: Ensure Sonarr Anime Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/sonarr2"
+    name: "{{ project_root_directory }}/sonarr2"
     state: directory
   tags: sonarr
 
@@ -24,7 +24,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: config-anime.xml.j2
-    dest: "{{project_root_directory}}/sonarr2/config.xml"
+    dest: "{{ project_root_directory }}/sonarr2/config.xml"
   tags: sonarr
   no_log: true
 
@@ -35,26 +35,26 @@
     hostname: "{{sonarr_anime_hostname}}"
     image: "{{sonarr_anime_docker_image}}:{{sonarr_anime_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
       DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{sonarr_hostname}}"
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/sonarr2/"
+      - source: "{{ project_root_directory }}/sonarr2/"
         target: /config/
         type: bind
-      - source: "{{project_media_directory}}/Videos/"
+      - source: "{{ project_media_directory }}/Videos/"
         target: /media/anime/
         type: bind
       - source: "{{project_download_directory}}"
@@ -62,7 +62,7 @@
         type: bind
     labels:
       traefik.http.routers.sonarr-anime.entrypoints: "websecure"
-      traefik.http.routers.sonarr-anime.rule: "Host(`sonarr2.{{project_tld}}`)"
+      traefik.http.routers.sonarr-anime.rule: "Host(`sonarr2.{{ project_tld }}`)"
       traefik.http.routers.sonarr-anime.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.sonarr-anime.tls: "true"
       traefik.http.routers.sonarr-anime.service: "sonarr-anime"

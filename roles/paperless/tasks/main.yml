@@ -19,9 +19,9 @@
     path: "{{ item }}"
     state: directory
   loop:
-    - "{{project_media_directory}}/Documents/"
-    - "{{project_media_directory}}/Exports/"
-    - "{{project_media_directory}}/Watch/paperless-import/"
+    - "{{ project_media_directory }}/Documents/"
+    - "{{ project_media_directory }}/Exports/"
+    - "{{ project_media_directory }}/Watch/paperless-import/"
   tags: paperless
 
 - import_tasks: roles/postgres/tasks/database_manager.yml
@@ -40,7 +40,7 @@
     hostname: "{{paperless_hostname}}"
     image: "{{paperless_docker_image}}:{{paperless_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     env:
       PAPERLESS_REDIS: "redis://redis:{{redis_port}}"
       PAPERLESS_DBHOST: "{{postgres_hostname}}"
@@ -59,11 +59,11 @@
       PAPERLESS_EMAIL_HOST_PASSWORD: "{{email_password}}"
       PAPERLESS_EMAIL_USE_TLS: "True"
       PAPERLESS_EMAIL_USE_SSL: "True"
-      PAPERLESS_URL: "https://docs.{{project_tld}}"
+      PAPERLESS_URL: "https://docs.{{ project_tld }}"
       PAPERLESS_SECRET_KEY: "{{paperless_secret_key}}"
-      PAPERLESS_TIME_ZONE: "{{default_timezone}}"
-      USERMAP_UID: "{{media_user}}"
-      USERMAP_GID: "{{media_group}}"
+      PAPERLESS_TIME_ZONE: "{{ default_timezone }}"
+      USERMAP_UID: "{{ media_user }}"
+      USERMAP_GID: "{{ media_group }}"
     mode: replicated
     force_update: false
     restart_config:
@@ -72,22 +72,22 @@
       - source: paperless_data
         target: /usr/src/paperless/data/
         type: volume
-      - source: "{{project_media_directory}}/Documents/"
+      - source: "{{ project_media_directory }}/Documents/"
         target: /usr/src/paperless/media/
         type: bind
-      - source: "{{project_media_directory}}/Exports/"
+      - source: "{{ project_media_directory }}/Exports/"
         target: /usr/src/paperless/export/
         type: bind
-      - source: "{{project_media_directory}}/Watch/paperless-import/"
+      - source: "{{ project_media_directory }}/Watch/paperless-import/"
         target: /usr/src/paperless/consume/
         type: bind
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     labels:
       traefik.http.routers.paperless.entrypoints: "websecure"
-      traefik.http.routers.paperless.rule: "Host(`docs.{{project_tld}}`)"
+      traefik.http.routers.paperless.rule: "Host(`docs.{{ project_tld }}`)"
       traefik.http.routers.paperless.tls: "true"
       traefik.http.routers.paperless.service: "paperless"
       # traefik.http.routers.paperless.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert

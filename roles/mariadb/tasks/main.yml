@@ -19,20 +19,20 @@
       MARIADB_ROOT_PASSWORD: "{{mariadb_root_password}}"
       MARIADB_AUTO_UPGRADE: "true"
       MARIADB_MYSQL_LOCALHOST_USER: "1"
-      TZ: "{{default_timezone}}"
+      TZ: "{{ default_timezone }}"
     publish:
       - published_port: "{{mariadb_port}}"
         target_port: "{{mariadb_port}}"
         mode: "host"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
       - source: "{{ project_root_directory }}/mariadb/data/"

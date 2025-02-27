@@ -5,7 +5,7 @@ services:
     image: "{{transmission_docker_image}}:{{transmission_version}}"
     hostname: "{{transmission_hostname}}"
     networks:
-      - {{traefik_network}}
+      - {{ traefik_network }}
     volumes:
       - /datavol/apps/transmission/config:/config
       - {{ project_download_directory }}:/media/downloads
@@ -62,6 +62,6 @@ services:
     restart: unless-stopped
 
 networks:
-  {{traefik_network}}:
+  {{ traefik_network }}:
     external: true
-    name: {{traefik_network}}
+    name: {{ traefik_network }}

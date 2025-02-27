@@ -69,7 +69,7 @@
         target: /config
         type: bind
     labels:
-      traefik.http.routers.authelia.rule: "Host(`login.{{ project_tld }}`)"
+      traefik.http.routers.authelia.rule: "Host(`auth.{{ project_tld }}`)"
       traefik.http.routers.authelia.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.authelia.entrypoints: "websecure"
       traefik.http.routers.authelia.tls: "true"

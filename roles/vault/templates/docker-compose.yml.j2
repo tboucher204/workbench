@@ -5,7 +5,7 @@ services:
     image: "{{vault_docker_image}}:{{vault_version}}"
     hostname: "{{vault_hostname}}"
     networks:
-      - {{traefik_network}}
+      - {{ traefik_network }}
     cap_add:
       - IPC_LOCK
     entrypoint: vault server -config=/vault/config/local.json
@@ -16,7 +16,7 @@ services:
     deploy:
       labels:
         - "traefik.http.routers.vault.entrypoints=websecure"
-        - "traefik.http.routers.vault.rule=Host(`pki.{{project_tld}}`)"
+        - "traefik.http.routers.vault.rule=Host(`pki.{{ project_tld }}`)"
         - "traefik.http.routers.vault.tls=true"
         - "traefik.http.routers.vault.middlewares=authelia@file"
         - "traefik.http.routers.vault.service=vault"
@@ -28,6 +28,6 @@ services:
         constraints: [node.id == {{docker_master1_node_id}}]
 
 networks:
-  {{traefik_network}}:
+  {{ traefik_network }}:
     external: true
-    name: {{traefik_network}}
+    name: {{ traefik_network }}

@@ -6,17 +6,17 @@
     hostname: "{{portus_background_hostname}}"
     image: "{{portus_docker_image}}:{{portus_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     env:
-      PORTUS_MACHINE_FQDN_VALUE: "hub.{{project_tld}}"
+      PORTUS_MACHINE_FQDN_VALUE: "hub.{{ project_tld }}"
       CONFIG_PREFIX: "PORTUS"
       PORTUS_PASSWORD: "{{portus_user_password}}"
       PORTUS_SECRET_KEY_BASE: "{{portus_secret_key_base}}"

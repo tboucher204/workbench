@@ -22,7 +22,7 @@
     replicas: 1
     labels:
       traefik.http.routers.dozzle.entrypoints: "websecure"
-      traefik.http.routers.dozzle.rule: "Host(`dozzle.{{project_tld}}`)"
+      traefik.http.routers.dozzle.rule: "Host(`dozzle.{{ project_tld }}`)"
       traefik.http.routers.dozzle.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.dozzle.tls: "true"
       traefik.http.routers.dozzle.service: "dozzle"

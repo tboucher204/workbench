@@ -5,20 +5,20 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_media_directory}}/Audiobooks"
-    - "{{project_media_directory}}/Books"
-    - "{{project_media_directory}}/Comics"
-    - "{{project_media_directory}}/Music"
-    - "{{project_media_directory}}/Music Videos"
-    - "{{project_media_directory}}/Photos"
-    - "{{project_media_directory}}/Playlists"
-    - "{{project_media_directory}}/Podcasts"
-    - "{{project_media_directory}}/Videos"
-    - "{{project_media_directory}}/Videos/Anime TV"
-    - "{{project_media_directory}}/Videos/Fitness"
-    - "{{project_media_directory}}/Videos/Miscellaneous"
-    - "{{project_media_directory}}/Videos/Movies"
-    - "{{project_media_directory}}/Videos/TV Series"
+    - "{{ project_media_directory }}/Audiobooks"
+    - "{{ project_media_directory }}/Books"
+    - "{{ project_media_directory }}/Comics"
+    - "{{ project_media_directory }}/Music"
+    - "{{ project_media_directory }}/Music Videos"
+    - "{{ project_media_directory }}/Photos"
+    - "{{ project_media_directory }}/Playlists"
+    - "{{ project_media_directory }}/Podcasts"
+    - "{{ project_media_directory }}/Videos"
+    - "{{ project_media_directory }}/Videos/Anime TV"
+    - "{{ project_media_directory }}/Videos/Fitness"
+    - "{{ project_media_directory }}/Videos/Miscellaneous"
+    - "{{ project_media_directory }}/Videos/Movies"
+    - "{{ project_media_directory }}/Videos/TV Series"
   tags: qbittorrent
 
 - name: Ensure Media Download Datasets Exist
@@ -27,29 +27,29 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_media_directory}}/Downloads"
-    - "{{project_media_directory}}/Downloads/incomplete"
-    - "{{project_media_directory}}/Downloads/anime"
-    - "{{project_media_directory}}/Downloads/audiobooks"
-    - "{{project_media_directory}}/Downloads/books"
-    - "{{project_media_directory}}/Downloads/comics"
-    - "{{project_media_directory}}/Downloads/kids"
-    - "{{project_media_directory}}/Downloads/movies"
-    - "{{project_media_directory}}/Downloads/music"
-    - "{{project_media_directory}}/Downloads/tv"
+    - "{{ project_media_directory }}/Downloads"
+    - "{{ project_media_directory }}/Downloads/incomplete"
+    - "{{ project_media_directory }}/Downloads/anime"
+    - "{{ project_media_directory }}/Downloads/audiobooks"
+    - "{{ project_media_directory }}/Downloads/books"
+    - "{{ project_media_directory }}/Downloads/comics"
+    - "{{ project_media_directory }}/Downloads/kids"
+    - "{{ project_media_directory }}/Downloads/movies"
+    - "{{ project_media_directory }}/Downloads/music"
+    - "{{ project_media_directory }}/Downloads/tv"
   tags: qbittorrent
 
 - name: Ensure qBittorrent Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/qbittorrent"
+    name: "{{ project_root_directory }}/qbittorrent"
     state: directory
   tags: qbittorrent
 
 - name: Ensure Gluetun Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/gluetun"
+    name: "{{ project_root_directory }}/gluetun"
     state: directory
   tags: gluetun
 
@@ -57,7 +57,7 @@
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.template:
     src: docker-compose.yml.j2
-    dest: "{{project_root_directory}}/qbittorrent/docker-compose.yml"
+    dest: "{{ project_root_directory }}/qbittorrent/docker-compose.yml"
     mode: 0775
   tags: qbittorrent
 
@@ -67,5 +67,5 @@
     state: present
     name: qbittorrent
     compose:
-      - "{{project_root_directory}}/qbittorrent/docker-compose.yml"
+      - "{{ project_root_directory }}/qbittorrent/docker-compose.yml"
   tags: qbittorrent

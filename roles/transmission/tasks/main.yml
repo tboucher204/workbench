@@ -60,7 +60,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: config.json.j2
-    dest: "{{project_root_directory}}/transmission/config.json"
+    dest: "{{ project_root_directory }}/transmission/config.json"
   tags: transmission
 
 - name: Deploy transmission Service
@@ -70,7 +70,7 @@
     hostname: "{{transmission_hostname}}"
     image: "{{transmission_docker_image}}:{{transmission_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     cap_add:
       - NET_ADMIN
     logging:
@@ -112,12 +112,12 @@
       condition: any
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     mounts:
-      - source: "{{project_root_directory}}/transmission/config/"
+      - source: "{{ project_root_directory }}/transmission/config/"
         target: /config
         type: bind
-      - source: "{{project_root_directory}}/transmission/config.json"
+      - source: "{{ project_root_directory }}/transmission/config.json"
         target: /opt/transmission-ui/flood-for-transmission/config.json
         type: bind
       - source: "{{project_download_directory}}/"

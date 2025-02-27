@@ -18,7 +18,7 @@
 - name: Ensure Code-server Directory Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    path: "{{project_root_directory}}/codeserver"
+    path: "{{ project_root_directory }}/codeserver"
     state: directory
   tags: codeserver
 
@@ -30,15 +30,15 @@
     user: root
     image: "{{codeserver_docker_image}}:{{codeserver_version}}"
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
       EDITOR: "nano"
       FILE__PASSWORD: "/run/secrets/codeserver_password"
       FILE__SUDO_PASSWORD: "/run/secrets/codeserver_sudo_password"
       DOCKER_MODS: "linuxserver/mods:code-server-python3|linuxserver/mods:code-server-powershell|linuxserver/mods:universal-docker|linuxserver/mods:code-server-terraform"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     secrets:
       - secret_name: codeserver_password
       - secret_name: codeserver_sudo_password
@@ -48,15 +48,15 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/codeserver/"
+      - source: "{{ project_root_directory }}/codeserver/"
         target: /config
         type: bind
     labels:
       traefik.http.routers.codeserver.entrypoints: "websecure"
-      traefik.http.routers.codeserver.rule: "Host(`codeserver.{{project_tld}}`)"
+      traefik.http.routers.codeserver.rule: "Host(`codeserver.{{ project_tld }}`)"
       traefik.http.routers.codeserver.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.codeserver.tls: "true"
       traefik.http.routers.codeserver.service: "codeserver"

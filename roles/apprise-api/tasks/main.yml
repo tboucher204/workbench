@@ -21,7 +21,7 @@
     env:
       PUID: "{{default_puid}}"
       PGID: "{{default_pgid}}"
-      TZ: "{{default_timezone}}"
+      TZ: "{{ default_timezone }}"
       APPRISE_STATELESS_URLS: "mailto://{{ apprise_stateless_url }}/?to={{ apprise_to_address }}"
     placement:
       constraints:

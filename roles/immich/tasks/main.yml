@@ -11,14 +11,14 @@
 - name: Ensure Immich Configuration Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/immich"
+    name: "{{ project_root_directory }}/immich"
     state: directory
   tags: immich
 
 - name: Ensure Immich Media Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    name: "{{project_media_directory}}/Photos"
+    name: "{{ project_media_directory }}/Photos"
     state: directory
   tags: immich
 
@@ -29,8 +29,8 @@
     mode: 0755
     state: directory
   loop:
-    - "{{project_root_directory}}/immich/config"
-    # - "{{project_root_directory}}/immich/database"
+    - "{{ project_root_directory }}/immich/config"
+    # - "{{ project_root_directory }}/immich/database"
   tags: immich
 
 # - name: Deploy Immich Database Service
@@ -54,7 +54,7 @@
 #         - node.id == {{ docker_worker1_node_id }}
 #     replicas: 1
 #     mounts:
-#       - source: "{{project_root_directory}}/immich/database/"
+#       - source: "{{ project_root_directory }}/immich/database/"
 #         target: /var/lib/postgresql/data
 #         type: bind
 #     state: present
@@ -87,10 +87,10 @@
         - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/immich/config/"
+      - source: "{{ project_root_directory }}/immich/config/"
         target: /config
         type: bind
-      - source: "{{project_media_directory}}/Photos/"
+      - source: "{{ project_media_directory }}/Photos/"
         target: /photos
         type: bind
     labels:

@@ -49,7 +49,7 @@
 - name: Ensure Sabnzbd Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/sabnzbd"
+    name: "{{ project_root_directory }}/sabnzbd"
     state: directory
   tags: sabnzbd
 
@@ -57,7 +57,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: sabnzbd.ini.j2
-    dest: "{{project_root_directory}}/sabnzbd/sabnzbd.ini"
+    dest: "{{ project_root_directory }}/sabnzbd/sabnzbd.ini"
   tags: sabnzbd
   no_log: true
 
@@ -68,34 +68,34 @@
     hostname: "{{sabnzbd_hostname}}"
     image: "{{sabnzbd_docker_image}}:{{sabnzbd_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
       DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:sabnzbd"
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/sabnzbd/"
+      - source: "{{ project_root_directory }}/sabnzbd/"
         target: /config
         type: bind
       - source: "{{project_download_directory}}/"
         target: /media/downloads
         type: bind
-      - source: "{{project_media_directory}}/Watch/nzbfiles/"
+      - source: "{{ project_media_directory }}/Watch/nzbfiles/"
         target: /media/watch
         type: bind
     labels:
       traefik.http.routers.sabnzbd.entrypoints: "websecure"
-      traefik.http.routers.sabnzbd.rule: "Host(`sabnzbd.{{project_tld}}`)"
+      traefik.http.routers.sabnzbd.rule: "Host(`sabnzbd.{{ project_tld }}`)"
       traefik.http.routers.sabnzbd.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.sabnzbd.tls: "true"
       traefik.http.routers.sabnzbd.service: "sabnzbd"

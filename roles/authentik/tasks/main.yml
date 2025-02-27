@@ -15,7 +15,7 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/geoip"
+    - "{{ project_root_directory }}/geoip"
   tags: geoip
 
 - name: Ensure Authentik Database exist
@@ -69,15 +69,15 @@
       - source: "{{ project_root_directory }}/authentik/"
         target: /templates
         type: bind
-      - source: "{{project_media_directory}}/"
+      - source: "{{ project_media_directory }}/"
         target: /media
         type: bind
-      - source: "{{project_root_directory}}/geoip/"
+      - source: "{{ project_root_directory }}/geoip/"
         target: /usr/share/GeoIP
         type: bind
     labels:
       traefik.http.routers.authentik.entrypoints: "websecure"
-      traefik.http.routers.authentik.rule: "Host(`authentik.{{project_tld}}`)"
+      traefik.http.routers.authentik.rule: "Host(`authentik.{{ project_tld }}`)"
       traefik.http.routers.authentik.middlewares: "default-headers@file"
       traefik.http.routers.authentik.tls: "true"
       traefik.http.routers.authentik.service: "authentik"
@@ -123,16 +123,16 @@
       - source: "{{ project_root_directory }}/authentik/"
         target: /templates
         type: bind
-      - source: "{{project_media_directory}}/"
+      - source: "{{ project_media_directory }}/"
         target: /media
         type: bind
       - source: "/var/run/docker.sock"
         target: /var/run/docker.sock
         type: bind
-      - source: "{{project_media_directory}}/Certificates/theboucher6.com/"
+      - source: "{{ project_media_directory }}/Certificates/theboucher6.com/"
         target: /certs
         type: bind
-      - source: "{{project_root_directory}}/geoip/"
+      - source: "{{ project_root_directory }}/geoip/"
         target: /usr/share/GeoIP
         type: bind
     state: present
@@ -164,7 +164,7 @@
         protocol: "tcp"
         mode: "host"
     env:
-      AUTHENTIK_HOST: "https://authentik.{{project_tld}}"
+      AUTHENTIK_HOST: "https://authentik.{{ project_tld }}"
       AUTHENTIK_INSECURE: "true"
       AUTHENTIK_TOKEN: "{{ authentik_ldap_token }}"
     state: present

@@ -12,7 +12,7 @@
     restart_config:
       condition: on-failure
     env:
-      SERVER_HOSTNAME: "ldapmanager.{{project_tld}}"
+      SERVER_HOSTNAME: "ldapmanager.{{ project_tld }}"
       LDAP_URI: "ldap://openldap"
       LDAP_BASE_DN: "{{ openldap_base_dn }}"
       LDAP_ADMINS_GROUP: "admins"
@@ -30,7 +30,7 @@
     replicas: 1
     labels:
       traefik.http.routers.ldapusermanager.entrypoints: "websecure"
-      traefik.http.routers.ldapusermanager.rule: "Host(`ldapmanager.{{project_tld}}`)"
+      traefik.http.routers.ldapusermanager.rule: "Host(`ldapmanager.{{ project_tld }}`)"
       # traefik.http.middlewares.ldapusermanager-prefix.addPrefix.prefix: "/"
       traefik.http.routers.ldapusermanager.middlewares: "authelia@file"
       traefik.http.routers.ldapusermanager.tls: "true"

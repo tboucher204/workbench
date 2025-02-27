@@ -27,7 +27,7 @@ providers:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
     watch: true
-    network: {{traefik_network}}
+    network: {{ traefik_network }}
   ansible.builtin.file:
     filename: "/config.yml"
     watch: true

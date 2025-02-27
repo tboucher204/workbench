@@ -6,10 +6,10 @@
     hostname: "{{amvd_hostname}}"
     image: "{{amvd_docker_image}}:{{amvd_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
       AUTOSTART: "true"
       RequireVideoMatch: "true"
       subtitlelanguage: "en"
@@ -26,12 +26,12 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     mounts:
-      - source: "{{project_root_directory}}/lidarr/"
+      - source: "{{ project_root_directory }}/lidarr/"
         target: /config/
         type: bind
-      - source: "{{project_media_directory}}/Music Videos/"
+      - source: "{{ project_media_directory }}/Music Videos/"
         target: /downloads-amvd/
         type: bind
     replicas: 1

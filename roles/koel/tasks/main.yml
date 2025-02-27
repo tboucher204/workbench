@@ -5,7 +5,7 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_media_directory}}/Music"
+    - "{{ project_media_directory }}/Music"
   tags: koel
 
 - name: Ensure koel Directories Exist
@@ -36,7 +36,7 @@
     hostname: "{{koel_hostname}}"
     image: "{{koel_docker_image}}:{{koel_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
@@ -52,21 +52,21 @@
       APP_KEY: "base64:GKVX/HrlZom86YgERvGGaGEObjkNNE+627LNHUviBTo="
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/koel/covers/"
+      - source: "{{ project_root_directory }}/koel/covers/"
         target: /var/www/html/public/img/covers
         type: bind
-      - source: "{{project_root_directory}}/koel/indexes/"
+      - source: "{{ project_root_directory }}/koel/indexes/"
         target: /var/www/html/storage/search-indexes
         type: bind
-      - source: "{{project_media_directory}}/Music/"
+      - source: "{{ project_media_directory }}/Music/"
         target: /music
         type: bind
     labels:
       traefik.http.routers.koel.entrypoints: "websecure"
-      traefik.http.routers.koel.rule: "Host(`koel.{{project_tld}}`)"
+      traefik.http.routers.koel.rule: "Host(`koel.{{ project_tld }}`)"
       traefik.http.routers.koel.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.koel.tls: "true"
       traefik.http.routers.koel.service: "koel"

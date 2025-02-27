@@ -5,10 +5,10 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/graphite"
-    - "{{project_root_directory}}/graphite/config"
-    - "{{project_root_directory}}/graphite/data"
-    - "{{project_root_directory}}/graphite/statsd"
+    - "{{ project_root_directory }}/graphite"
+    - "{{ project_root_directory }}/graphite/config"
+    - "{{ project_root_directory }}/graphite/data"
+    - "{{ project_root_directory }}/graphite/statsd"
   tags: graphite
 
 - name: Deploy Graphite Service
@@ -18,7 +18,7 @@
     hostname: "{{graphite_hostname}}"
     image: "{{graphite_docker_image}}:{{graphite_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     publish:
       - published_port: "2003"
         target_port: "2003"
@@ -50,21 +50,21 @@
       condition: on-failure
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/graphite/config/"
+      - source: "{{ project_root_directory }}/graphite/config/"
         target: /opt/graphite/conf
         type: bind
-      - source: "{{project_root_directory}}/graphite/data/"
+      - source: "{{ project_root_directory }}/graphite/data/"
         target: /opt/graphite/storage
         type: bind
-      - source: "{{project_root_directory}}/graphite/statsd/"
+      - source: "{{ project_root_directory }}/graphite/statsd/"
         target: /opt/graphite/config
         type: bind
     labels:
       traefik.http.routers.graphite.entrypoints: "websecure"
-      traefik.http.routers.graphite.rule: "Host(`graphite.{{project_tld}}`)"
+      traefik.http.routers.graphite.rule: "Host(`graphite.{{ project_tld }}`)"
       traefik.http.routers.graphite.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.graphite.tls: "true"
       traefik.http.routers.graphite.service: "graphite"

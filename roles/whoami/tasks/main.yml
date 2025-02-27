@@ -17,7 +17,7 @@
     replicas: 1
     labels:
       traefik.http.routers.whoami.entrypoints: "websecure"
-      traefik.http.routers.whoami.rule: "Host(`whoami.{{project_tld}}`)"
+      traefik.http.routers.whoami.rule: "Host(`whoami.{{ project_tld }}`)"
       traefik.http.routers.whoami.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.whoami.tls: "true"
       traefik.http.routers.whoami.service: "whoami"

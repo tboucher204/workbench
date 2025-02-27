@@ -3,7 +3,7 @@
   "__comment1__": "This is a simple configuration file, all values and sections that start with underscore (_) are ignored. Edit a section and remove the _ in front of the name. Refer to the user's guide for details.",
   "__comment2__": "See node_modules/meshcentral/sample-config-advanced.json for a more advanced example.",
   "settings": {
-    "cert": "mesh.{{project_tld}}",
+    "cert": "mesh.{{ project_tld }}",
     "WANonly": true,
     "_LANonly": true,
     "_sessionKey": "MyReallySecretPassword1",
@@ -24,7 +24,7 @@
       "title": "MeshCentral",
       "title2": "The Boucher 6",
       "_minify": true,
-      "certUrl": "https://mesh.{{project_tld}}/",
+      "certUrl": "https://mesh.{{ project_tld }}/",
       "newAccounts": false,
       "agentConfig": [ "webSocketMaskOverride=1" ],
       "_userNameIsEmail": true
@@ -32,8 +32,8 @@
   },
   "_letsencrypt": {
     "__comment__": "Requires NodeJS 8.x or better, Go to https://letsdebug.net/ first before trying Let's Encrypt.",
-    "email": "tim@{{project_tld}}",
-    "names": "mesh.{{project_tld}}",
+    "email": "tim@{{ project_tld }}",
+    "names": "mesh.{{ project_tld }}",
     "production": false
   }
 }

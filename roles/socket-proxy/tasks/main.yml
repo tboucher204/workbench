@@ -12,7 +12,7 @@
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.template:
     src: docker-compose.yml.j2
-    dest: "{{project_root_directory}}/socket-proxy/docker-compose.yml"
+    dest: "{{ project_root_directory }}/socket-proxy/docker-compose.yml"
     mode: 0775
   tags: socket-proxy
 
@@ -22,5 +22,5 @@
     state: present
     name: socket-proxy
     compose:
-      - "{{project_root_directory}}/socket-proxy/docker-compose.yml"
+      - "{{ project_root_directory }}/socket-proxy/docker-compose.yml"
   tags: socket-proxy

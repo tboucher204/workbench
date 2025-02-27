@@ -5,7 +5,7 @@ services:
     image: "{{socketproxy_docker_image}}:{{socketproxy_version}}"
     hostname: "{{ '{{' }} .Node.Hostname {{ '}}' }}-socketproxy"
     networks:
-      - {{traefik_network}}
+      - {{ traefik_network }}
     deploy:
       mode: global
       placement:
@@ -40,6 +40,6 @@ services:
     restart: unless-stopped
 
 networks:
-  {{traefik_network}}:
+  {{ traefik_network }}:
     external: true
-    name: {{traefik_network}}
+    name: {{ traefik_network }}

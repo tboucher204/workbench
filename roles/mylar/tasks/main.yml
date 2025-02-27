@@ -2,7 +2,7 @@
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_media_directory}}/Comics"
+    name: "{{ project_media_directory }}/Comics"
     state: directory
   tags: mylar
 
@@ -19,15 +19,15 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_root_directory}}/mylar"
-    - "{{project_root_directory}}/mylar/mylar"
+    - "{{ project_root_directory }}/mylar"
+    - "{{ project_root_directory }}/mylar/mylar"
   tags: mylar
 
 - name: Ensure Mylar Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: config.ini.j2
-    dest: "{{project_root_directory}}/mylar/mylar/config.ini"
+    dest: "{{ project_root_directory }}/mylar/mylar/config.ini"
   tags: mylar
   no_log: true
 
@@ -38,37 +38,37 @@
     hostname: "{{mylar_hostname}}"
     image: "{{mylar_docker_image}}:{{mylar_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: true
     restart_config:
       condition: on-failure
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
       DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:mylar3"
       TP_THEME: "{{theme_park_default}}"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/mylar/"
+      - source: "{{ project_root_directory }}/mylar/"
         target: /config
         type: bind
-      - source: "{{project_media_directory}}/Comics/"
+      - source: "{{ project_media_directory }}/Comics/"
         target: /media/comics
         type: bind
       - source: "{{project_download_directory}}"
         target: /media/downloads
         type: bind
-      - source: "{{project_media_directory}}/Watch/comic-import"
+      - source: "{{ project_media_directory }}/Watch/comic-import"
         target: /import
         type: bind
     labels:
       traefik.http.routers.mylar.entrypoints: "websecure"
-      traefik.http.routers.mylar.rule: "Host(`mylar.{{project_tld}}`)"
+      traefik.http.routers.mylar.rule: "Host(`mylar.{{ project_tld }}`)"
       traefik.http.routers.mylar.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.mylar.tls: "true"
       traefik.http.routers.mylar.service: "mylar"

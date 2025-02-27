@@ -2,7 +2,7 @@
 - name: Ensure Wiki.js Directory Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    path: "{{project_root_directory}}/wikijs"
+    path: "{{ project_root_directory }}/wikijs"
     state: directory
   tags: wiki.js
 
@@ -22,7 +22,7 @@
     hostname: "{{wikijs_hostname}}"
     image: "{{wikijs_docker_image}}:{{wikijs_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     env:
       DB_TYPE: "postgres"
       DB_HOST: "{{postgres_hostname}}"
@@ -40,11 +40,11 @@
         type: bind
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     labels:
       traefik.http.routers.wikijs.entrypoints: "websecure"
-      traefik.http.routers.wikijs.rule: "Host(`wiki.{{project_tld}}`)"
+      traefik.http.routers.wikijs.rule: "Host(`wiki.{{ project_tld }}`)"
       traefik.http.routers.wikijs.middlewares: "default-headers@file"
       traefik.http.routers.wikijs.tls: "true"
       traefik.http.routers.wikijs.service: "wikijs"

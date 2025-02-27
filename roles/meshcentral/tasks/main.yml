@@ -19,7 +19,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: config.json.j2
-    dest: "{{project_root_directory}}/meshcentral/data/config.json"
+    dest: "{{ project_root_directory }}/meshcentral/data/config.json"
   tags: meshcentral
   no_log: true
 
@@ -30,7 +30,7 @@
     hostname: "{{meshcentral_hostname}}"
     image: "{{meshcentral_docker_image}}:{{meshcentral_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
@@ -41,7 +41,7 @@
         mode: "host"
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
       - source: "{{ project_root_directory }}/meshcentral/files"
@@ -58,7 +58,7 @@
         type: bind
     labels:
       traefik.http.routers.meshcentral.entrypoints: "websecure"
-      traefik.http.routers.meshcentral.rule: "Host(`mesh.{{project_tld}}`)"
+      traefik.http.routers.meshcentral.rule: "Host(`mesh.{{ project_tld }}`)"
       traefik.http.routers.meshcentral.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.meshcentral.tls: "true"
       traefik.http.routers.meshcentral.service: "meshcentral"

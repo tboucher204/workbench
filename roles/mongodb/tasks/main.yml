@@ -2,7 +2,7 @@
 - name: Ensure MongoDB Directory Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    path: "{{project_root_directory}}/mongodb"
+    path: "{{ project_root_directory }}/mongodb"
     state: directory
   tags: mongodb
 
@@ -20,7 +20,7 @@
     hostname: "{{mongodb_hostname}}"
     image: "{{mongodb_docker_image}}:{{mongodb_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
@@ -31,7 +31,7 @@
         type: volume
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     state: present
   tags: mongodb

@@ -7,7 +7,7 @@
     image: "{{exportarr_docker_image}}:{{exportarr_version}}"
     args: "prowlarr"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
@@ -19,7 +19,7 @@
       ENABLE_ADDITIONAL_METRICS: "TRUE"
     placement:
       constraints:
-        - node.id == {{docker_worker1_node_id}}
+        - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     state: present
   tags: exportarr

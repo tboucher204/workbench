@@ -5,8 +5,8 @@
     path: "{{item}}"
     state: directory
   loop:
-    - "{{project_media_directory}}/Music"
-    - "{{project_media_directory}}/Music Videos"
+    - "{{ project_media_directory }}/Music"
+    - "{{ project_media_directory }}/Music Videos"
   tags: lidarr
 
 - name: Ensure Media Download Datasets Exist
@@ -22,7 +22,7 @@
 - name: Ensure Lidarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_root_directory}}/lidarr"
+    name: "{{ project_root_directory }}/lidarr"
     state: directory
   tags: lidarr
 
@@ -30,7 +30,7 @@
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
     src: config.xml.j2
-    dest: "{{project_root_directory}}/lidarr/config.xml"
+    dest: "{{ project_root_directory }}/lidarr/config.xml"
   tags: lidarr
   no_log: true
 
@@ -41,15 +41,15 @@
     hostname: "{{lidarr_hostname}}"
     image: "{{lidarr_docker_image}}:{{lidarr_version}}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      PUID: "{{media_user}}"
-      PGID: "{{media_group}}"
-      TZ: "{{default_timezone}}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
       DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{lidarr_hostname}}"
       TP_THEME: "{{theme_park_default}}"
       enableAudioScript: "true"
@@ -83,13 +83,13 @@
       retryNotFound: "90"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_root_directory}}/lidarr/"
+      - source: "{{ project_root_directory }}/lidarr/"
         target: /config
         type: bind
-      - source: "{{project_media_directory}}/Music/"
+      - source: "{{ project_media_directory }}/Music/"
         target: /media/music
         type: bind
       - source: "{{project_download_directory}}"
@@ -97,7 +97,7 @@
         type: bind
     labels:
       traefik.http.routers.lidarr.entrypoints: "websecure"
-      traefik.http.routers.lidarr.rule: "Host(`lidarr.{{project_tld}}`)"
+      traefik.http.routers.lidarr.rule: "Host(`lidarr.{{ project_tld }}`)"
       traefik.http.routers.lidarr.middlewares: "default-headers@file,authelia@file"
       traefik.http.routers.lidarr.tls: "true"
       traefik.http.routers.lidarr.service: "lidarr"

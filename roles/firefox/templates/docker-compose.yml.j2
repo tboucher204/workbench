@@ -5,7 +5,7 @@ services:
     image: "{{firefox_docker_image}}:{{firefox_version}}"
     hostname: "{{firefox_hostname}}"
     networks:
-      - {{traefik_network}}
+      - {{ traefik_network }}
     security_opt:
       - seccomp:unconfined
     volumes:
@@ -36,6 +36,6 @@ services:
     restart: unless-stopped
 
 networks:
-  {{traefik_network}}:
+  {{ traefik_network }}:
     external: true
-    name: {{traefik_network}}
+    name: {{ traefik_network }}
