@@ -81,8 +81,8 @@
       # PHOTOPRISM_GID: 1000
       # PHOTOPRISM_UMASK: 0000
       PHOTOPRISM_OIDC_URI: "https://login.{{ project_tld }}"
-      PHOTOPRISM_OIDC_CLIENT: "{{ project_tld }}"
-      PHOTOPRISM_OIDC_SECRET: "{{ project_tld }}"
+      PHOTOPRISM_OIDC_CLIENT: "{{ photoprism_oauth_clientid }}"
+      PHOTOPRISM_OIDC_SECRET: "{{ photoprism_oauth_secret }}"
       PHOTOPRISM_OIDC_PROVIDER: "authelia"
       PHOTOPRISM_OIDC_REGISTER: "true"
     placement:
