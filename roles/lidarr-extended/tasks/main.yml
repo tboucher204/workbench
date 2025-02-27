@@ -1,7 +1,7 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
   loop:
@@ -11,7 +11,7 @@
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
   loop:
@@ -21,7 +21,7 @@
 
 - name: Ensure Lidarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     name: "{{project_root_directory}}/lidarr"
     state: directory
   tags: lidarr

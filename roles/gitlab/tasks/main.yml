@@ -1,7 +1,7 @@
 ---
 - name: Ensure GitLab Dataset Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
+  ansible.builtin.file:
     name: greytalon/apps/gitlab
     state: present
   tags: gitlab

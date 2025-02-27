@@ -1,6 +1,8 @@
 ---
-photoprism_admin_user: "{{vault_photoprism_admin_user}}"
-photoprism_admin_password: "{{vault_photoprism_admin_password}}"
-photoprism_database_user: "{{vault_photoprism_database_user}}"
-photoprism_database_password: "{{vault_photoprism_database_password}}"
-photoprism_database: "{{vault_photoprism_database}}"
+photoprism_admin_user: "{{ vault_photoprism_admin_user }}"
+photoprism_admin_password: "{{ vault_photoprism_admin_password }}"
+photoprism_database_user: "{{ vault_photoprism_database_user }}"
+photoprism_database_password: "{{ vault_photoprism_database_password }}"
+photoprism_database: "{{ vault_photoprism_database }}"
+photoprism_oauth_clientid: "{{ vault_photoprism_oauth_clientid }}"
+photoprism_oauth_secret: "{{ vault_photoprism_oauth_secret }}"

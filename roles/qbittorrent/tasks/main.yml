@@ -1,7 +1,7 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
   loop:
@@ -23,7 +23,7 @@
 
 - name: Ensure Media Download Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
   loop:
@@ -41,7 +41,7 @@
 
 - name: Ensure qBittorrent Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     name: docker_worker2/apps/qbittorrent
     state: directory
   tags: qbittorrent

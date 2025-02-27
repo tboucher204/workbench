@@ -1,7 +1,7 @@
 ---
 - name: Ensure Embystat Directory Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{project_root_directory}}/embystat"
     state: directory
   tags: embystat

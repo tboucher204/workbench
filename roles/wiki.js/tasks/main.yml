@@ -1,7 +1,7 @@
 ---
 - name: Ensure Wiki.js Directory Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{project_root_directory}}/wikijs"
     state: directory
   tags: wiki.js

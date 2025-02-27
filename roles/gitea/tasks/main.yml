@@ -1,7 +1,7 @@
 ---
 - name: Ensure Gitea Directory Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{ project_root_directory }}/gitea"
     mode: 0644
     state: directory

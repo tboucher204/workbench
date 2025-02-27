@@ -1,27 +1,27 @@
 ---
 - name: Ensure Photoprism Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
-    name: "{{project_root_directory}}/photoprism"
+  ansible.builtin.file:
+    name: "{{ project_root_directory }}/photoprism"
     state: directory
   tags: photoprism
 
 - name: Ensure Photoprism Directories Exist
   when: inventory_hostname == groups['media'][0]
-  file:
-    path: "{{item}}"
+  ansible.builtin.file:
+    path: "{{ item }}"
     state: directory
   loop:
-    - "{{project_media_directory}}/Pictures"
-    - "{{project_media_directory}}/Watch/photoprism-import"
+    - "{{ project_media_directory }}/Pictures"
+    - "{{ project_media_directory }}/Watch/photoprism-import"
   tags: photoprism
 
 - import_tasks: roles/mariadb/tasks/database_manager.yml
   when: inventory_hostname == groups['workers'][0]
   vars:
-    database_name: "{{photoprism_database}}"
-    database_user: "{{photoprism_database_user}}"
-    database_password: "{{photoprism_database_password}}"
+    database_name: "{{ photoprism_database }}"
+    database_user: "{{ photoprism_database_user }}"
+    database_password: "{{ photoprism_database_password }}"
   tags: photoprism
   no_log: false
 
@@ -29,19 +29,19 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: photoprism
-    hostname: "{{photoprism_hostname}}"
-    image: "{{photoprism_docker_image}}:{{photoprism_version}}"
+    hostname: "{{ photoprism_hostname }}"
+    image: "{{ photoprism_docker_image }}:{{ photoprism_version }}"
     networks:
-      - "{{traefik_network}}"
+      - "{{ traefik_network }}"
     mode: replicated
     force_update: false
     restart_config:
       condition: on-failure
     env:
-      PHOTOPRISM_ADMIN_USER: "{{photoprism_admin_user}}"  # admin login username
-      PHOTOPRISM_ADMIN_PASSWORD: "{{photoprism_admin_password}}"    # initial admin password (8-72 characters)
+      PHOTOPRISM_ADMIN_USER: "{{ photoprism_admin_user }}"  # admin login username
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_admin_password }}"    # initial admin password (8-72 characters)
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
-      PHOTOPRISM_SITE_URL: "https://{{photo_tld}}"  # server URL in the format "http(s)://domain.name(:port)/(path)"
+      PHOTOPRISM_SITE_URL: "https://{{ photo_tld }}"  # server URL in the format "http(s)://domain.name(:port)/(path)"
       PHOTOPRISM_DISABLE_TLS: "true"                # disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available
       PHOTOPRISM_DEFAULT_TLS: "true"                 # defaults to a self-signed HTTPS/TLS certificate if no other certificate is available
       PHOTOPRISM_ORIGINALS_LIMIT: "5000"               # file size limit for originals in MB (increase for high-res video)
@@ -63,10 +63,10 @@
       PHOTOPRISM_UPLOAD_NSFW: "true"                 # allows uploads that MAY be offensive (no effect without TensorFlow)
       # PHOTOPRISM_DATABASE_DRIVER: "sqlite"         # SQLite is an embedded database that doesn't require a server
       PHOTOPRISM_DATABASE_DRIVER: "mysql"            # use MariaDB 10.5+ or MySQL 8+ instead of SQLite for improved performance
-      PHOTOPRISM_DATABASE_SERVER: "{{mariadb_hostname}}:{{mariadb_port}}"     # MariaDB or MySQL database server (hostname:port)
-      PHOTOPRISM_DATABASE_NAME: "{{photoprism_database}}"         # MariaDB or MySQL database schema name
-      PHOTOPRISM_DATABASE_USER: "{{photoprism_database_user}}"         # MariaDB or MySQL database user name
-      PHOTOPRISM_DATABASE_PASSWORD: "{{photoprism_database_password}}"       # MariaDB or MySQL database user password
+      PHOTOPRISM_DATABASE_SERVER: "{{ mariadb_hostname }}:{{ mariadb_port }}"     # MariaDB or MySQL database server (hostname:port)
+      PHOTOPRISM_DATABASE_NAME: "{{ photoprism_database }}"         # MariaDB or MySQL database schema name
+      PHOTOPRISM_DATABASE_USER: "{{ photoprism_database_user }}"         # MariaDB or MySQL database user name
+      PHOTOPRISM_DATABASE_PASSWORD: "{{ photoprism_database_password }}"       # MariaDB or MySQL database user password
       PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
       PHOTOPRISM_SITE_DESCRIPTION: "The Boucher 6 Photos"                # meta site description
       PHOTOPRISM_SITE_AUTHOR: "tboucher"                     # meta site author
@@ -80,28 +80,33 @@
       # PHOTOPRISM_UID: 1000
       # PHOTOPRISM_GID: 1000
       # PHOTOPRISM_UMASK: 0000
+      PHOTOPRISM_OIDC_URI: "https://login.{{ project_tld }}"
+      PHOTOPRISM_OIDC_CLIENT: "{{ project_tld }}"
+      PHOTOPRISM_OIDC_SECRET: "{{ project_tld }}"
+      PHOTOPRISM_OIDC_PROVIDER: "authelia"
+      PHOTOPRISM_OIDC_REGISTER: "true"
     placement:
       constraints:
-        - node.id == {{docker_worker2_node_id}}
+        - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{project_media_directory}}/Pictures/"
+      - source: "{{ project_media_directory }}/Pictures/"
         target: /photoprism/originals
         type: bind
-      - source: "{{project_media_directory}}/Watch/photoprism-import/"
+      - source: "{{ project_media_directory }}/Watch/photoprism-import/"
         target: /photoprism/import
         type: bind
-      - source: "{{project_root_directory}}/photoprism/"
+      - source: "{{ project_root_directory }}/photoprism/"
         target: /photoprism/storage
         type: bind
     labels:
       traefik.http.routers.photoprism.entrypoints: "websecure"
-      traefik.http.routers.photoprism.rule: "Host(`{{photo_tld}}`)"
+      traefik.http.routers.photoprism.rule: "Host(`{{ photo_tld }}`)"
       traefik.http.routers.photoprism.middlewares: "default-headers@file"
       traefik.http.routers.photoprism.tls: "true"
       traefik.http.routers.photoprism.service: "photoprism"
       # traefik.http.routers.photoprism.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.photoprism.loadbalancer.server.port: "{{photoprism_port}}"
+      traefik.http.services.photoprism.loadbalancer.server.port: "{{ photoprism_port }}"
       traefik.enable: "true"
     state: present
   tags: photoprism

@@ -17,7 +17,7 @@
 
 - name: Ensure Code-server Directory Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{project_root_directory}}/codeserver"
     state: directory
   tags: codeserver

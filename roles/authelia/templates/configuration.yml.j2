@@ -282,6 +282,19 @@ identity_providers:
           - email
         userinfo_signed_response_alg: none
         token_endpoint_auth_method: client_secret_basic
+      - client_id: {{ authelia_oauth_photoprism_clientid }}
+        client_name: Photoprism
+        client_secret: {{ authelia_oauth_photoprism_secret }}
+        public: false
+        authorization_policy: two_factor
+        redirect_uris:
+          - https://photo.{{project_tld}}/api/v1/oidc/redirect
+        scopes:
+          - openid
+          - profile
+          - groups
+          - email
+        userinfo_signed_response_alg: none
 
 storage:
   encryption_key: {{authelia_encryption_key}}

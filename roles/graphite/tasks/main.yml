@@ -1,7 +1,7 @@
 ---
 - name: Ensure Graphite Directories Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
   loop:

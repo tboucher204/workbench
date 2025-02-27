@@ -1,14 +1,14 @@
 ---
 - name: Ensure Auto-mb4 Watch Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     path: /media/Watch/auto-mb4
     state: directory
   tags: automb4
 
 - name: Ensure Auto-mb4 Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     name: "{{project_root_directory}}/automb4"
     state: directory
   tags: automb4

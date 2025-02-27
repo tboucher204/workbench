@@ -1,7 +1,7 @@
 ---
 - name: Ensure Vault Directories Exist
   when: inventory_hostname == groups['managers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
   loop:

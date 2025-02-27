@@ -1,7 +1,7 @@
 ---
 - name: Ensure Mailrise Directory Exist
   when: inventory_hostname == groups['managers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{project_root_directory}}/mailrise/"
     state: directory
   tags: mailrise

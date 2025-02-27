@@ -1,14 +1,14 @@
 ---
 - name: Ensure PeerTube Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     name: docker_worker2/apps/peertube
     state: directory
   tags: peertube
 
 - name: Ensure PeerTube Directories Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
   loop:

@@ -1,7 +1,7 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     name: "{{ item }}"
     state: directory
   loop:
@@ -15,7 +15,7 @@
 
 - name: Ensure Bazarr Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     name: "{{ project_root_directory }}/bazarr"
     state: directory
   tags: bazarr

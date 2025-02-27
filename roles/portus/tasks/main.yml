@@ -5,7 +5,7 @@
 
 - name: Ensure Portus Directory Exist
   when: inventory_hostname == groups['workers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{project_root_directory}}/portus"
     state: directory
   tags: portus

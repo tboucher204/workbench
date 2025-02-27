@@ -1,7 +1,7 @@
 ---
 - name: Ensure Traefik Directories Exist
   when: inventory_hostname == groups['managers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{item}}"
     state: directory
   loop:
@@ -11,7 +11,7 @@
 
 - name: Ensure Acme File Exists
   when: inventory_hostname == groups['managers'][0]
-  copy:
+  ansible.builtin.copy:
     content: ""
     dest: /datavol/apps/traefik/letsencrypt/acme.json
     force: no

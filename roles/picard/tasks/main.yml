@@ -1,14 +1,14 @@
 ---
 - name: Ensure Media Datasets Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     name: "{{project_media_directory}}/Watch/music-tag"
     state: directory
   tags: picard
 
 - name: Ensure Picard Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     name: "{{project_root_directory}}/picard"
     state: directory
   tags: picard

@@ -1,9 +1,9 @@
 ---
 - name: Ensure Authelia Directories Exist
   when: inventory_hostname == groups['managers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
-    mode: 0644
+    mode: '0644'
     state: directory
   loop:
     - "{{ project_root_directory }}/authelia"
@@ -12,10 +12,10 @@
 
 - name: Ensure Authelia Icons Files Exist
   when: inventory_hostname == groups['managers'][0]
-  copy:
+  ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0644
+    mode: '0644'
   with_items:
     - { src: logo.png, dest: "{{ project_root_directory }}/authelia/assets/logo.png" }
     - { src: favicon.ico, dest: "{{ project_root_directory }}/authelia/assets/favicon.ico" }
@@ -37,7 +37,7 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0644
+    mode: '0644'
   with_items:
     - { src: configuration.yml.j2, dest: "{{ project_root_directory }}/authelia/configuration.yml" }
     - { src: users.yml.j2, dest: "{{ project_root_directory }}/authelia/users.yml" }
@@ -62,7 +62,7 @@
       constraints:
         - node.id == {{ docker_master1_node_id }}
     env:
-      TZ: "{{default_timezone}}"
+      TZ: "{{ default_timezone }}"
       X_AUTHELIA_CONFIG_FILTERS: "template"
     mounts:
       - source: "{{ project_root_directory }}/authelia/"

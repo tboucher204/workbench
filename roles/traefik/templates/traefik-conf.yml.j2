@@ -28,7 +28,7 @@ providers:
     exposedByDefault: false
     watch: true
     network: {{traefik_network}}
-  file:
+  ansible.builtin.file:
     filename: "/config.yml"
     watch: true
 

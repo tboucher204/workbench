@@ -1,7 +1,7 @@
 ---
 - name: Ensure Plausible Database Directory Exist
   when: inventory_hostname == groups['managers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{project_root_directory}}/plausible/clickhouse"
     state: directory
   tags: plausible
@@ -15,7 +15,7 @@
 
 - name: Ensure Plausible Database Files Exist
   when: inventory_hostname == groups['managers'][0]
-  copy:
+  ansible.builtin.copy:
     src: "{{item.src}}"
     dest: "{{item.dest}}"
   with_items:

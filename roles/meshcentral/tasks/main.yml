@@ -1,7 +1,7 @@
 ---
 - name: Ensure Meshcentral Dataset Exist
   when: inventory_hostname == groups['media'][0]
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: 1000

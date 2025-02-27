@@ -1,7 +1,7 @@
 ---
 - name: Ensure xBrowserSync Directory Exist
   when: inventory_hostname == groups['managers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{project_root_directory}}/xbrowsersync"
     state: directory
   tags: xbrowsersync

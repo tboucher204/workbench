@@ -1,7 +1,7 @@
 ---
 - name: Ensure Homer Directories Exist
   when: inventory_hostname == groups['managers'][0]
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: 0755
@@ -30,7 +30,7 @@
 
 - name: Ensure Homer Icons Files Exist
   when: inventory_hostname == groups['managers'][0]
-  copy:
+  ansible.builtin.copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: 0755
