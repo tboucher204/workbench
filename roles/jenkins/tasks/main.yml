@@ -4,15 +4,16 @@
   ansible.builtin.file:
     path: "{{ project_root_directory }}/jenkins"
     state: directory
+    mode: '0644'
   tags: jenkins
 
 - name: Deploy Jenkins Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: jenkins
-    hostname: "{{jenkins_hostname}}"
+    hostname: "{{ jenkins_hostname }}"
     user: root
-    image: "{{jenkins_docker_image}}:{{jenkins_version}}"
+    image: "{{ jenkins_docker_image }}:{{ jenkins_version }}"
     networks:
       - "{{ traefik_network }}"
     mode: replicated
@@ -27,6 +28,9 @@
       - source: /datavol/apps/jenkins/
         target: /var/jenkins_home/
         type: bind
+    publish:
+      - published_port: "{{ jenkins_port }}"
+        target_port: "{{ jenkins_port }}"
     labels:
       traefik.http.routers.jenkins.entrypoints: "websecure"
       traefik.http.routers.jenkins.rule: "Host(`ci.{{ project_tld }}`)"
@@ -34,7 +38,8 @@
       traefik.http.routers.jenkins.tls: "true"
       traefik.http.routers.jenkins.service: "jenkins"
       # traefik.http.routers.jenkins.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.jenkins.loadbalancer.server.port: "{{jenkins_port}}"
+      traefik.http.services.jenkins.loadbalancer.server.port: "{{ jenkins_port }}"
       traefik.enable: "true"
     state: present
   tags: jenkins
+  
