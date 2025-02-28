@@ -44,7 +44,7 @@
     database_password: "{{ sonarr_database_password }}"
   tags: sonarr
   no_log: true
-  
+
 - name: Ensure Sonarr Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
