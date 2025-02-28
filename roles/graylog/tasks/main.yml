@@ -6,13 +6,6 @@
     state: present
   tags: graylog
 
-- name: Ensure Graylog Journal Volume Exist
-  when: inventory_hostname == groups['workers'][0]
-  community.docker.docker_volume:
-    name: graylog_journal
-    state: present
-  tags: graylog
-
 - name: Ensure Geoip Directories Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
@@ -54,10 +47,7 @@
         - node.id == {{ docker_worker1_node_id }}
     mounts:
       - source: graylog_data
-        target: /usr/share/graylog/data/data
-        type: volume
-      - source: graylog_journal
-        target: /usr/share/graylog/data/journal
+        target: /usr/share/graylog/data
         type: volume
       - source: "{{ project_root_directory }}/geoip/"
         target: /etc/graylog/server
@@ -82,7 +72,7 @@
     state: present
   tags: graylog
 
-- name: Deploy Graylog Datanode Database exist 
+- name: Deploy Graylog Datanode Database exist
   ansible.builtin.import_tasks: "{{ role_path }}/tasks/datanode.yml"
   tags:
     - graylog
