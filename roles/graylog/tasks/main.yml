@@ -82,6 +82,7 @@
     state: present
   tags: graylog
 
-- ansible.builtin.import_tasks: "{{ role_path }}/tasks/datanode.yml"
+- name: Deploy Graylog Datanode Database exist 
+  ansible.builtin.import_tasks: "{{ role_path }}/tasks/datanode.yml"
   tags:
     - graylog
