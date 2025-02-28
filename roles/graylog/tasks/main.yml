@@ -1,7 +1,7 @@
 ---
 - name: Ensure Graylog Data Volume Exist
   when: inventory_hostname == groups['workers'][0]
-  docker_volume:
+  community.docker.docker_volume:
     name: graylog_data
     state: present
   tags: graylog
@@ -9,8 +9,9 @@
 - name: Ensure Geoip Directories Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    path: "{{item}}"
+    path: "{{ item }}"
     state: directory
+    mode: '0644'
   loop:
     - "{{ project_root_directory }}/geoip"
   tags: geoip
