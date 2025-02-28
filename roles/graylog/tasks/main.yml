@@ -26,6 +26,10 @@
     networks:
       - "{{ traefik_network }}"
     publish:
+      - published_port: "{{  graylog_port }}"
+        target_port: "{{ graylog_port }}"
+        protocol: tcp
+        mode: "host"
       - published_port: "{{  graylog_syslog_port }}"
         target_port: "{{ graylog_syslog_port }}"
         protocol: tcp
