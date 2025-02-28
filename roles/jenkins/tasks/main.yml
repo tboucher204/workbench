@@ -28,9 +28,9 @@
       - source: /datavol/apps/jenkins/
         target: /var/jenkins_home/
         type: bind
-    publish:
-      - published_port: "{{ jenkins_port }}"
-        target_port: "{{ jenkins_port }}"
+    # publish:
+    #   - published_port: "{{ jenkins_port }}"
+    #     target_port: "{{ jenkins_port }}"
     labels:
       traefik.http.routers.jenkins.entrypoints: "websecure"
       traefik.http.routers.jenkins.rule: "Host(`ci.{{ project_tld }}`)"
@@ -42,4 +42,3 @@
       traefik.enable: "true"
     state: present
   tags: jenkins
-  
