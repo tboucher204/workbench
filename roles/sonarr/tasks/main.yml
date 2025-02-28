@@ -120,11 +120,11 @@
   tags: sonarr
 
 # Uncomment below to deploy 2nd system for Anime
-# - import_tasks: "{{role_path}}/tasks/anime.yml"
+# - ansible.builtin.import_tasks: "{{role_path}}/tasks/anime.yml"
 #   tags:
 #     - sonarr
 
 # Uncomment below to deploy 2nd system for 4K
-- import_tasks: "{{role_path}}/tasks/4k.yml"
+- ansible.builtin.import_tasks: "{{role_path}}/tasks/4k.yml"
   tags:
     - sonarr

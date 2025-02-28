@@ -1,0 +1,34 @@
+---
+- name: Ensure Graylog-datanode Data Volume Exist
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_volume:
+    name: graylog-datanode
+    state: present
+  tags: graylog-datanode
+
+- name: Create Graylog-datanode Docker Container
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: datanode
+    image: "{{ graylog-datanode_docker_image }}:{{ graylog_version }}"
+    hostname: "{{ graylog-datanode_hostname }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    mounts:
+      - source: graylog-datanode
+        target: /var/lib/graylog-datanode
+        type: volume
+    replicas: 1
+    env:
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+      GRAYLOG_DATANODE_PASSWORD_SECRET: "{{ graylog_password_secret }}"
+      GRAYLOG_MONGODB_URI: "mongodb://{{ mongodb_hostname }}:27017/graylog"
+    state: present
+  tags: graylog-datanode

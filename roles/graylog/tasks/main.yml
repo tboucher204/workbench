@@ -6,6 +6,13 @@
     state: present
   tags: graylog
 
+- name: Ensure Graylog Journal Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: graylog_journal
+    state: present
+  tags: graylog
+
 - name: Ensure Geoip Directories Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
@@ -22,7 +29,7 @@
     name: graylog
     image: "{{ graylog_docker_image }}:{{ graylog_version }}"
     hostname: "{{ graylog_hostname }}"
-    command: "/usr/bin/tini -- wait-for-it opensearch:9200 --  /docker-entrypoint.sh"
+    command: "/usr/bin/tini --  /docker-entrypoint.sh"
     networks:
       - "{{ traefik_network }}"
     publish:
@@ -47,19 +54,22 @@
         - node.id == {{ docker_worker1_node_id }}
     mounts:
       - source: graylog_data
-        target: /usr/share/graylog/data
+        target: /usr/share/graylog/data/data
+        type: volume
+      - source: graylog_journal
+        target: /usr/share/graylog/data/journal
         type: volume
       - source: "{{ project_root_directory }}/geoip/"
         target: /etc/graylog/server
         type: bind
     replicas: 1
     env:
-      TZ: "{{ default_timezone }}"
-      ROOT_TIMEZONE: "{{ default_timezone }}"
-      GRAYLOG_TIMEZONE: "{{ default_timezone }}"
+      GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/data/node-id"
       GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_root_password_hash }}"
+      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
       GRAYLOG_HTTP_EXTERNAL_URI: "https://logs.{{ project_tld }}/"
+      GRAYLOG_MONGODB_URI: "mongodb://{{ mongodb_hostname }}:27017/graylog"
     labels:
       traefik.http.routers.graylog.entrypoints: "websecure"
       traefik.http.routers.graylog.rule: "Host(`logs.{{ project_tld }}`)"
@@ -71,3 +81,7 @@
       traefik.enable: "true"
     state: present
   tags: graylog
+
+- ansible.builtin.import_tasks: "{{ role_path }}/tasks/datanode.yml"
+  tags:
+    - graylog

@@ -16,7 +16,7 @@
     - "{{ project_media_directory }}/Watch/photoprism-import"
   tags: photoprism
 
-- import_tasks: roles/mariadb/tasks/database_manager.yml
+- ansible.builtin.import_tasks: roles/mariadb/tasks/database_manager.yml
   when: inventory_hostname == groups['workers'][0]
   vars:
     database_name: "{{ photoprism_database }}"

@@ -18,7 +18,7 @@
     - redis
     - mongodb
     # - elasticsearch
-    - opensearch
+    # - opensearch
     # - keycloak
     - geoipupdate
     - authelia
