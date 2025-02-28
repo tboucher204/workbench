@@ -1,11 +1,11 @@
 ---
-- name: Ensure MongoDB Directory Exist
-  when: inventory_hostname == groups['workers'][0]
-  ansible.builtin.file:
-    path: "{{ project_root_directory }}/mongodb"
-    state: directory
-    mode: '0644'
-  tags: mongodb
+# - name: Ensure MongoDB Directory Exist
+#   when: inventory_hostname == groups['workers'][0]
+#   ansible.builtin.file:
+#     path: "{{ project_root_directory }}/mongodb"
+#     state: directory
+#     mode: '0644'
+#   tags: mongodb
 
 - name: Ensure MongoDB Data Volume Exist
   when: inventory_hostname == groups['workers'][0]
