@@ -4,7 +4,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: '0644'
+    mode: '0755'
   loop:
     - "{{ project_root_directory }}/geoip"
   tags: geoip

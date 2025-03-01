@@ -11,7 +11,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: '0644'
+    mode: '0755'
   loop:
     - "{{ project_root_directory }}/geoip"
   tags: geoip
@@ -52,7 +52,6 @@
       - source: "{{ project_root_directory }}/geoip/"
         target: /etc/graylog/server
         type: bind
-        readonly: "true"
     replicas: 1
     env:
       TZ: "{{ default_timezone }}"
