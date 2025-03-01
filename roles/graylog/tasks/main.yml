@@ -50,10 +50,12 @@
         target: /usr/share/graylog/data
         type: volume
       - source: "{{ project_root_directory }}/geoip/"
-        target: /etc/graylog/server
+        target: /media
         type: bind
     replicas: 1
     env:
+      TZ: "{{ default_timezone }}"
+      GRAYLOG_ROOT_TIMEZONE: "{{ default_timezone }}"
       GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/data/node-id"
       GRAYLOG_PASSWORD_SECRET: "{{ graylog_password_secret }}"
       GRAYLOG_ROOT_PASSWORD_SHA2: "{{ graylog_root_password_hash }}"
@@ -63,9 +65,10 @@
     labels:
       traefik.http.routers.graylog.entrypoints: "websecure"
       traefik.http.routers.graylog.rule: "Host(`logs.{{ project_tld }}`)"
-      traefik.http.routers.graylog.middlewares: "authelia@file"
+      traefik.http.routers.graylog.middlewares: "graylog-header,authelia@file"
       traefik.http.routers.graylog.tls: "true"
       traefik.http.routers.graylog.service: "graylog"
+      traefik.http.middlewares.graylog-header.headers.customrequestheaders.X-Graylog-Server-URL: "https://logs.{{ project_tld }}/"
       # traefik.http.routers.graylog.tls.certresolver: "{{ default_certificate_resolver }}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.graylog.loadbalancer.server.port: "{{ graylog_port }}"
       traefik.enable: "true"
