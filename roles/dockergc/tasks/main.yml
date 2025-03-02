@@ -15,7 +15,7 @@
       CRON: "0 4 * * *" # Every Day at 4am
       FORCE_IMAGE_REMOVAL: "1"
       FORCE_CONTAINER_REMOVAL: "0"
-      GRACE_PERIOD_SECONDS: "604800"
+      # GRACE_PERIOD_SECONDS: "604800"
       CLEAN_UP_VOLUMES: "1"
       DRY_RUN: "0"
       TZ: "{{ default_timezone }}"
