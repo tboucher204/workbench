@@ -65,7 +65,7 @@
     labels:
       traefik.http.routers.graylog.entrypoints: "websecure"
       traefik.http.routers.graylog.rule: "Host(`logs.{{ project_tld }}`)"
-      traefik.http.routers.graylog.middlewares: "graylog-header,authelia@file"
+      traefik.http.routers.graylog.middlewares: "graylog-header"
       traefik.http.routers.graylog.tls: "true"
       traefik.http.routers.graylog.service: "graylog"
       traefik.http.middlewares.graylog-header.headers.customrequestheaders.X-Graylog-Server-URL: "https://logs.{{ project_tld }}/"
