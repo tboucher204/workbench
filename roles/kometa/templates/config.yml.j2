@@ -101,6 +101,10 @@ libraries:                           # This is called out once within the config
   Music:
     collection_files:
       - file: config/music.yml       # This is a local file THAT YOU MIGHT CREATE
+    operations:
+      delete_collections:
+        managed: false
+        configured: false
 playlist_files:
   - default: playlist                # This is a file within Kometa's defaults folder
     template_variables:
