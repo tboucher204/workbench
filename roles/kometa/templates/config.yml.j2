@@ -12,6 +12,21 @@ libraries:                           # This is called out once within the config
       delete_collections:
         configured: false
         managed: false
+    radarr:                     # Can be individually specified per library as well
+      url: http://radarr:7878
+      token: {{radarr_api_key}}
+      add_missing: false
+      add_existing: false
+      upgrade_existing: false
+      monitor_existing: false
+      root_folder_path: /media/movies/Movies
+      monitor: true
+      availability: announced
+      quality_profile: All non-4K
+      tag:
+      search: false
+      radarr_path:
+      plex_path:
   Movies-4K:                            # These are names of libraries in your Plex
     remove_overlays: false           # Set this to true to remove all overlays
     collection_files:
@@ -50,6 +65,24 @@ libraries:                           # This is called out once within the config
       delete_collections:
         configured: false
         managed: false
+    sonarr:                      # Can be individually specified per library as well
+      url: http://sonarr:8989
+      token: {{sonarr_api_key}}
+      add_missing: false
+      add_existing: false
+      upgrade_existing: false
+      monitor_existing: false
+      root_folder_path: /media/tv/TV Series
+      monitor: all
+      quality_profile: Any
+      language_profile: English
+      series_type: standard
+      season_folder: true
+      tag:
+      search: false
+      cutoff_search: false
+      sonarr_path:
+      plex_path:
   TV-4K:
     remove_overlays: false           # Set this to true to remove all overlays
     collection_files:
@@ -103,7 +136,7 @@ libraries:                           # This is called out once within the config
       - file: config/music.yml       # This is a local file THAT YOU MIGHT CREATE
     operations:
       delete_collections:
-        managed: false
+        managed: true
         configured: false
 playlist_files:
   - default: playlist                # This is a file within Kometa's defaults folder
@@ -171,37 +204,4 @@ tmdb:
 tautulli:                   # Can be individually specified per library as well
   url: http://tautulli:8181
   apikey: {{tautulli_api_key}}
-radarr:                     # Can be individually specified per library as well
-  url: http://radarr:7878
-  token: {{radarr_api_key}}
-  add_missing: false
-  add_existing: false
-  upgrade_existing: false
-  monitor_existing: false
-  root_folder_path: /media/movies/Movies
-  monitor: true
-  availability: announced
-  quality_profile: All non-4K
-  tag:
-  search: false
-  radarr_path:
-  plex_path:
-sonarr:                      # Can be individually specified per library as well
-  url: http://sonarr:8989
-  token: {{sonarr_api_key}}
-  add_missing: false
-  add_existing: false
-  upgrade_existing: false
-  monitor_existing: false
-  root_folder_path: /media/tv/TV Series
-  monitor: all
-  quality_profile: Any
-  language_profile: English
-  series_type: standard
-  season_folder: true
-  tag:
-  search: false
-  cutoff_search: false
-  sonarr_path:
-  plex_path:
    
