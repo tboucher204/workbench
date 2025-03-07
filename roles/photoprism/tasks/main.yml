@@ -80,13 +80,24 @@
       # PHOTOPRISM_UID: 1000
       # PHOTOPRISM_GID: 1000
       # PHOTOPRISM_UMASK: 0000
-      PHOTOPRISM_OIDC_URI: "https://auth.{{ project_tld }}"
-      PHOTOPRISM_OIDC_CLIENT: "{{ photoprism_oauth_clientid }}"
-      PHOTOPRISM_OIDC_SECRET: "{{ photoprism_oauth_secret }}"
-      PHOTOPRISM_OIDC_PROVIDER: "authelia"
-      PHOTOPRISM_OIDC_SCOPES: "openid profile groups email"
-      PHOTOPRISM_OIDC_WEBDAV: "true"
-      PHOTOPRISM_OIDC_REGISTER: "true"
+      # PHOTOPRISM_OIDC_URI: "https://auth.{{ project_tld }}"
+      # PHOTOPRISM_OIDC_CLIENT: "{{ photoprism_oauth_clientid }}"
+      # PHOTOPRISM_OIDC_SECRET: "{{ photoprism_oauth_secret }}"
+      # PHOTOPRISM_OIDC_PROVIDER: "authelia"
+      # PHOTOPRISM_OIDC_SCOPES: "openid profile groups email"
+      # PHOTOPRISM_OIDC_WEBDAV: "true"
+      # PHOTOPRISM_OIDC_REGISTER: "true"
+      ## LDAP Authentication
+      PHOTOPRISM_LDAP_URI: "ldaps://openldap:389"
+      PHOTOPRISM_LDAP_INSECURE: "true"
+      PHOTOPRISM_LDAP_SYNC: "true"
+      PHOTOPRISM_LDAP_BIND: "simple"
+      PHOTOPRISM_LDAP_BIND_DN: "uid"
+      PHOTOPRISM_LDAP_BASE_DN: "{{ openldap_base_dn }}"
+      PHOTOPRISM_LDAP_ROLE: "user"
+      PHOTOPRISM_LDAP_ROLE_DN: "ou=photoprism-*,ou=groups,{{ openldap_base_dn }}"
+      PHOTOPRISM_LDAP_NOLOGIN: "false"
+      PHOTOPRISM_LDAP_WEBDAV: "true"
     placement:
       constraints:
         - node.id == {{ docker_worker2_node_id }}

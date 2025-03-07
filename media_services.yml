@@ -15,7 +15,7 @@
     - readarr
     - mylar
     - bazarr
-    - kavita
+    # - kavita
     - komga
     - picard
     # - ombi
@@ -23,7 +23,7 @@
     # - plex
     - photoprism
     # - immich
-    - piwigo
+    # - piwigo
     # - peertube
     - tautulli
     # - embystat
@@ -39,4 +39,3 @@
     - audiobookshelf
     - tinymediamanager
     - kometa
-    
