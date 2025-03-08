@@ -151,7 +151,7 @@
         type: bind
     labels:
       traefik.http.routers.immich.entrypoints: "websecure"
-      traefik.http.routers.immich.rule: "Host(`{{ photo_tld }}`)"
+      traefik.http.routers.immich.rule: "Host(`{{ picture_tld }}`)"
       traefik.http.routers.immich.middlewares: "default-headers@file"
       traefik.http.routers.immich.tls: "true"
       traefik.http.routers.immich.service: "immich"
