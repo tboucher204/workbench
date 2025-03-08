@@ -93,7 +93,7 @@
       PHOTOPRISM_LDAP_SYNC: "true"
       PHOTOPRISM_LDAP_BIND: "simple"
       PHOTOPRISM_LDAP_BIND_DN: "uid"
-      PHOTOPRISM_LDAP_BASE_DN: "{{ openldap_base_dn }}"
+      PHOTOPRISM_LDAP_BASE_DN: "ou=users,{{ openldap_base_dn }}"
       PHOTOPRISM_LDAP_ROLE: "user"
       PHOTOPRISM_LDAP_ROLE_DN: "ou=photoprism-*,ou=groups,{{ openldap_base_dn }}"
       PHOTOPRISM_LDAP_NOLOGIN: "false"

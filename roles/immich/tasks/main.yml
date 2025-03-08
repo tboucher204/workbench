@@ -1,11 +1,16 @@
 ---
-- name: Create Immich Database
-  import_tasks: roles/postgres/tasks/database_manager.yml
-  when: inventory_hostname == groups['managers'][0]
-  vars:
-    database_name: "{{ immich_database }}"
-    database_user: "{{ immich_database_user }}"
-    database_password: "{{ immich_database_password }}"
+- name: Ensure Immich Postgres Data Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: immich_postgres
+    state: present
+  tags: immich
+
+- name: Ensure Immich Machine Learning Data Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: immich_machine_learning
+    state: present
   tags: immich
 
 - name: Ensure Immich Configuration Dataset Exist
@@ -13,6 +18,7 @@
   ansible.builtin.file:
     name: "{{ project_root_directory }}/immich"
     state: directory
+    mode: '0755'
   tags: immich
 
 - name: Ensure Immich Media Dataset Exist
@@ -20,67 +26,117 @@
   ansible.builtin.file:
     name: "{{ project_media_directory }}/Photos"
     state: directory
+    mode: '0755'
   tags: immich
 
 - name: Ensure Immich Directories Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
     path: "{{ item }}"
-    mode: 0755
+    mode: '0755'
     state: directory
   loop:
     - "{{ project_root_directory }}/immich/config"
     # - "{{ project_root_directory }}/immich/database"
   tags: immich
 
-# - name: Deploy Immich Database Service
-#   when: inventory_hostname == groups['managers'][0]
-#   community.docker.docker_swarm_service:
-#     name: immich-database
-#     hostname: "{{ immich_database_hostname }}"
-#     image: "{{ immich_database_docker_image }}:{{ immich_database_version }}"
-#     env:
-#       POSTGRES_USER: "{{ immich_database_user }}"
-#       POSTGRES_PASSWORD: "{{ immich_database_password }}"
-#       POSTGRES_DB: "{{ immich_database }}"
-#     networks:
-#       - "{{ traefik_network }}"
-#     mode: replicated
-#     force_update: yes
-#     restart_config:
-#       condition: on-failure
-#     placement:
-#       constraints:
-#         - node.id == {{ docker_worker1_node_id }}
-#     replicas: 1
-#     mounts:
-#       - source: "{{ project_root_directory }}/immich/database/"
-#         target: /var/lib/postgresql/data
-#         type: bind
-#     state: present
-#   tags: immich
-
-- name: Deploy Immich Server
+- name: Deploy Immich Database Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: immich
-    hostname: "{{ immich_hostname }}"
-    image: "{{ immich_docker_image }}:{{ immich_version }}"
+    name: immich_postgres
+    hostname: "{{ immich_database_hostname }}"
+    image: "{{ immich_database_docker_image }}:{{ immich_database_version }}"
+    command: "postgres
+      -c shared_preload_libraries=vectors.so
+      -c 'search_path=\"$$user\", public, vectors'
+      -c logging_collector=on
+      -c max_wal_size=2GB
+      -c shared_buffers=512MB
+      -c wal_compression=on"
+    env:
+      POSTGRES_USER: "{{ immich_database_user }}"
+      POSTGRES_PASSWORD: "{{ immich_database_password }}"
+      POSTGRES_DB: "{{ immich_database }}"
+      POSTGRES_INITDB_ARGS: "--data-checksums"
     networks:
       - "{{ traefik_network }}"
     mode: replicated
-    force_update: yes
+    force_update: "true"
+    restart_config:
+      condition: on-failure
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    mounts:
+      - source: immich_postgres
+        target: /var/lib/postgresql/data/
+        type: volume
+    healthcheck:
+      test: "pg_isready --dbname='{{ POSTGRES_DB }}' --username='{{ POSTGRES_USER }}' || exit 1;
+        Chksum=\"$$(psql --dbname='{{ POSTGRES_DB }}' --username='{{ POSTGRES_USER }}' --tuples-only --no-align
+        --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')\";
+        echo \"checksum failure count is $$Chksum\";
+        [ \"$$Chksum\" = '0' ] || exit 1"
+      interval: "5m"
+      start_period: "5m"
+    state: present
+  tags: immich
+
+- name: Deploy Immich Machine Learning Server
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: immich_machine_learning
+    hostname: "{{ immich_machine_learning_hostname }}"
+    image: "{{ immich_machine_learning_docker_image }}:{{ immich_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: "true"
     restart_config:
       condition: on-failure
     env:
       TZ: "{{ default_timezone }}"
-      DB_HOSTNAME: "{{ postgres_hostname }}"
+      DB_HOSTNAME: "{{ immich_database_hostname }}"
       DB_USERNAME: "{{ immich_database_user }}"
       DB_PASSWORD: "{{ immich_database_password }}"
       DB_DATABASE_NAME: "{{ immich_database }}"
       REDIS_HOSTNAME: "redis"
       JWT_SECRET: "{{ immich_jwt_secret }}"
-      DB_PORT: "{{ postgres_port }}"
+      DB_PORT: "{{ immich_database_port }}"
+      REDIS_PORT: "{{ redis_port }}"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    mounts:
+      - source: immich_machine_learning
+        target: /cache/
+        type: volume
+    state: present
+  tags: immich
+
+- name: Deploy Immich Server
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: immich_server
+    hostname: "{{ immich_hostname }}"
+    image: "{{ immich_docker_image }}:{{ immich_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: "true"
+    restart_config:
+      condition: on-failure
+    env:
+      TZ: "{{ default_timezone }}"
+      DB_HOSTNAME: "{{ immich_database_hostname }}"
+      DB_USERNAME: "{{ immich_database_user }}"
+      DB_PASSWORD: "{{ immich_database_password }}"
+      DB_DATABASE_NAME: "{{ immich_database }}"
+      REDIS_HOSTNAME: "redis"
+      JWT_SECRET: "{{ immich_jwt_secret }}"
+      DB_PORT: "{{ immich_database_port }}"
       REDIS_PORT: "{{ redis_port }}"
     placement:
       constraints:
