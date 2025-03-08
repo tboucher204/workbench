@@ -46,7 +46,14 @@
     name: immich_postgres
     hostname: "{{ immich_database_hostname }}"
     image: "{{ immich_database_docker_image }}:{{ immich_database_version }}"
-    command: "postgres -c shared_preload_libraries=vectors.so -c 'search_path=\"$$user\", public, vectors' -c logging_collector=on -c max_wal_size=2GB -c shared_buffers=512MB -c wal_compression=on"
+    command: >-
+      "postgres
+      -c shared_preload_libraries=vectors.so
+      -c 'search_path=\"$$user\", public, vectors'
+      -c logging_collector=on
+      -c max_wal_size=2GB
+      -c shared_buffers=512MB
+      -c wal_compression=on"
     env:
       POSTGRES_USER: "{{ immich_database_user }}"
       POSTGRES_PASSWORD: "{{ immich_database_password }}"
