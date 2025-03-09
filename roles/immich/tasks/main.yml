@@ -131,6 +131,7 @@
       condition: on-failure
     env:
       TZ: "{{ default_timezone }}"
+      UPLOAD_LOCATION: "{{ project_media_directory }}/PicturesImmich/"
       DB_HOSTNAME: "{{ immich_database_hostname }}"
       DB_USERNAME: "{{ immich_database_user }}"
       DB_PASSWORD: "{{ immich_database_password }}"
