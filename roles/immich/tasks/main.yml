@@ -24,7 +24,7 @@
 - name: Ensure Immich Media Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    name: "{{ project_media_directory }}/PicturesImmich"
+    name: "{{ project_media_directory }}/Photos"
     state: directory
     mode: '0755'
   tags: immich
@@ -131,7 +131,7 @@
       condition: on-failure
     env:
       TZ: "{{ default_timezone }}"
-      UPLOAD_LOCATION: "{{ project_media_directory }}/PicturesImmich/"
+      UPLOAD_LOCATION: "{{ project_media_directory }}/Photos"
       DB_HOSTNAME: "{{ immich_database_hostname }}"
       DB_USERNAME: "{{ immich_database_user }}"
       DB_PASSWORD: "{{ immich_database_password }}"
@@ -145,7 +145,7 @@
         - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{ project_media_directory }}/PicturesImmich/"
+      - source: "{{ project_media_directory }}/Photos/"
         target: /usr/src/app/upload
         type: bind
     labels:
