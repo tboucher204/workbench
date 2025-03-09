@@ -24,7 +24,7 @@
 - name: Ensure Immich Media Dataset Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    name: "{{ project_media_directory }}/Photos"
+    name: "{{ project_media_directory }}/PicturesImmich"
     state: directory
     mode: '0755'
   tags: immich
@@ -144,11 +144,8 @@
         - node.id == {{ docker_worker1_node_id }}
     replicas: 1
     mounts:
-      - source: "{{ project_root_directory }}/immich/config/"
-        target: /config
-        type: bind
-      - source: "{{ project_media_directory }}/Photos/"
-        target: /photos
+      - source: "{{ project_media_directory }}/PicturesImmich/"
+        target: /usr/src/app/upload
         type: bind
     labels:
       traefik.http.routers.immich.entrypoints: "websecure"
