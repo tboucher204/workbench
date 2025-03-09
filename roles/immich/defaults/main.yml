@@ -1,5 +1,5 @@
 ---
-immich_version: "latest"
+immich_version: "v1.129.0"
 immich_database_version: "pg14-v0.3.0"
 immich_hostname: "immich_server"
 immich_machine_learning_hostname: "immich_machine_learning"
