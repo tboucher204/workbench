@@ -295,6 +295,32 @@ identity_providers:
           - groups
           - email
         userinfo_signed_response_alg: none
+      - client_id: {{ authelia_oauth_immich_clientid }}
+        client_name: Immich
+        client_secret: {{ authelia_oauth_immich_secret }}
+        public: false
+        authorization_policy: two_factor
+        redirect_uris:
+          - 'https://{{ picture_tld }}/auth/login'
+          - 'https://{{ picture_tld }}/user-settings'
+          - 'app.immich:///oauth-callback'
+        scopes:
+          - openid
+          - profile
+          - email
+        userinfo_signed_response_alg: none
+      - client_id: {{ authelia_oauth_proxmox_clientid }}
+        client_name: Proxmox
+        client_secret: {{ authelia_oauth_proxmox_secret }}
+        public: false
+        authorization_policy: two_factor
+        redirect_uris:
+          - 'https://pve.{{ project_tld }}'
+        scopes:
+          - openid
+          - profile
+          - email
+        userinfo_signed_response_alg: none
 
 storage:
   encryption_key: {{authelia_encryption_key}}
