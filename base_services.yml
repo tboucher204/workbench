@@ -11,7 +11,8 @@
     - openldap
     # - vault
     - pihole
-    - homer
+    - homepage
+    # - homer
     - postgres
     - mariadb
     # - mysql
