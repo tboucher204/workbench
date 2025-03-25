@@ -26,8 +26,8 @@
       - "{{ traefik_network }}"
     mode: global
     env:
-      PUID: "{{ homepage_uid }}"
-      PGID: "{{ homepage_gid }}"
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
       HOMEPAGE_ALLOWED_HOSTS: "www.{{ project_tld }}"
     restart_config:
       condition: on-failure
