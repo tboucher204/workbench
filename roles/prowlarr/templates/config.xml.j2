@@ -3,11 +3,11 @@
   <UrlBase></UrlBase>
   <UpdateMechanism>Docker</UpdateMechanism>
   <BindAddress>*</BindAddress>
-  <Port>{{prowlarr_port}}</Port>
+  <Port>{{ prowlarr_port }}</Port>
   <SslPort>9898</SslPort>
   <EnableSsl>False</EnableSsl>
   <LaunchBrowser>True</LaunchBrowser>
-  <ApiKey>{{prowlarr_api_key}}</ApiKey>
+  <ApiKey>{{ prowlarr_api_key }}</ApiKey>
   <AuthenticationMethod>Forms</AuthenticationMethod>
   <Branch>develop</Branch>
   <SslCertPath></SslCertPath>
@@ -16,8 +16,8 @@
   <AuthenticationRequired>Enabled</AuthenticationRequired>
   <PostgresUser>{{ prowlarr_database_user }}</PostgresUser>
   <PostgresPassword>{{ prowlarr_database_password }}</PostgresPassword>
-  <PostgresPort>{{postgres_port}}</PostgresPort>
-  <PostgresHost>{{postgres_hostname}}</PostgresHost>
+  <PostgresPort>{{ postgres_port }}</PostgresPort>
+  <PostgresHost>{{ postgres_hostname }}</PostgresHost>
   <PostgresMainDb>{{ prowlarr_maindb_database }}</PostgresMainDb>
   <PostgresLogDb>{{ prowlarr_logdb_database }}</PostgresLogDb>
 </Config>

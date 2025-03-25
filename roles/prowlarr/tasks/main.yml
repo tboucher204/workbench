@@ -4,6 +4,7 @@
   ansible.builtin.file:
     name: "{{ project_root_directory }}/prowlarr"
     state: directory
+    mode: '0755'
   tags: prowlarr
 
 - name: Ensure Prowlarr Main Database exist
@@ -31,6 +32,7 @@
   ansible.builtin.template:
     src: config.xml.j2
     dest: "{{ project_root_directory }}/prowlarr/config.xml"
+    mode: '0755'
   tags: prowlarr
   no_log: true
 
@@ -38,8 +40,8 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: prowlarr
-    hostname: "{{prowlarr_hostname}}"
-    image: "{{prowlarr_docker_image}}:{{prowlarr_version}}"
+    hostname: "{{ prowlarr_hostname }}"
+    image: "{{ prowlarr_docker_image }}:{{ prowlarr_version }}"
     networks:
       - "{{ traefik_network }}"
     mode: replicated
@@ -55,7 +57,7 @@
       PGID: "{{ media_group }}"
       TZ: "{{ default_timezone }}"
       DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:prowlarr"
-      TP_THEME: "{{theme_park_default}}"
+      TP_THEME: "{{ theme_park_default }}"
     mounts:
       - source: "{{ project_root_directory }}/prowlarr/"
         target: /config
@@ -67,8 +69,15 @@
       traefik.http.routers.prowlarr.tls: "true"
       traefik.http.routers.prowlarr.service: "prowlarr"
       # traefik.http.routers.prowlarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.prowlarr.loadbalancer.server.port: "{{prowlarr_port}}"
+      traefik.http.services.prowlarr.loadbalancer.server.port: "{{ prowlarr_port }}"
       traefik.enable: "true"
+      homepage.group: "File Management"
+      homepage.name: "Prowlarr"
+      homepage.icon: "prowlarr.png"
+      homepage.href: "http://prowlarr.{{ project_tld }}"
+      homepage.description: "Centralized Torrent/NZB Search"
+      homepage.widget.type: "prowlarr"
+      homepage.widget.url: "http://{{ prowlarr_hostname }}:{{ prowlarr_port }}"
+      homepage.widget.key: "{{ prowlarr_api_key }}"
     state: present
   tags: prowlarr
-  
