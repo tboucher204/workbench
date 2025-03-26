@@ -1,0 +1,5 @@
+---
+lazylibrarian_version: "latest"
+lazylibrarian_hostname: "lazylibrarian"
+lazylibrarian_docker_image: "lscr.io/linuxserver/lazylibrarian"
+lazylibrarian_port: "5299"

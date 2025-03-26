@@ -71,13 +71,5 @@
       # traefik.http.routers.prowlarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
       traefik.http.services.prowlarr.loadbalancer.server.port: "{{ prowlarr_port }}"
       traefik.enable: "true"
-      homepage.group: "File Management"
-      homepage.name: "Prowlarr"
-      homepage.icon: "prowlarr.png"
-      homepage.href: "http://prowlarr.{{ project_tld }}"
-      homepage.description: "Centralized Torrent/NZB Search"
-      homepage.widget.type: "prowlarr"
-      homepage.widget.url: "http://{{ prowlarr_hostname }}:{{ prowlarr_port }}"
-      homepage.widget.key: "{{ prowlarr_api_key }}"
     state: present
   tags: prowlarr

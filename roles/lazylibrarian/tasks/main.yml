@@ -1,0 +1,65 @@
+---
+- name: Ensure Lazylibrarian Media Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.file:
+    name: "{{ project_media_directory }}/Books"
+    state: directory
+  tags: lazylibrarian
+
+- name: Ensure Lazylibrarian Media Download Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.file:
+    name: "{{ project_download_directory }}/books"
+    state: directory
+  tags: lazylibrarian
+
+- name: Ensure Lazylibrarian Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.file:
+    name: "{{ project_root_directory }}/lazylibrarian"
+    state: directory
+    mode: '0755'
+  tags: lazylibrarian
+
+- name: Deploy Lazylibrarian Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: lazylibrarian
+    hostname: "{{ lazylibrarian_hostname }}"
+    image: "{{ lazylibrarian_docker_image }}:{{ lazylibrarian_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
+      DOCKER_MODS: "linuxserver/mods:universal-calibre|linuxserver/mods:lazylibrarian-ffmpeg"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker2_node_id }}
+    replicas: 1
+    mounts:
+      - source: "{{ project_root_directory }}/lazylibrarian/"
+        target: /config
+        type: bind
+      - source: "{{ project_media_directory }}/Books/"
+        target: /books
+        type: bind
+      - source: "{{ project_download_directory }}"
+        target: /downloads
+        type: bind
+    labels:
+      traefik.http.routers.lazylibrarian.entrypoints: "websecure"
+      traefik.http.routers.lazylibrarian.rule: "Host(`lazylibrarian.{{ project_tld }}`)"
+      traefik.http.routers.lazylibrarian.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.lazylibrarian.tls: "true"
+      traefik.http.routers.lazylibrarian.service: "lazylibrarian"
+      # traefik.http.routers.lazylibrarian.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.lazylibrarian.loadbalancer.server.port: "{{ lazylibrarian_port }}"
+      traefik.enable: "true"
+    state: present
+  tags: lazylibrarian
