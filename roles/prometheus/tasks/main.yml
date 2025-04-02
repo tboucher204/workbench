@@ -9,8 +9,9 @@
 - name: Ensure Prometheus Directories Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    path: "{{item}}"
+    path: "{{ item }}"
     state: directory
+    mode: '0755'
   loop:
     - "{{ project_root_directory }}/prometheus"
   tags: prometheus
@@ -22,7 +23,7 @@
     dest: "{{ project_root_directory }}/prometheus/prometheus.yml"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   tags: prometheus
   no_log: true
 
@@ -30,13 +31,13 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: prometheus
-    hostname: "{{prometheus_hostname}}"
-    image: "{{prometheus_docker_image}}:{{prometheus_version}}"
+    hostname: "{{ prometheus_hostname }}"
+    image: "{{ prometheus_docker_image }}:{{ prometheus_version }}"
     networks:
       - "{{ traefik_network }}"
     publish:
-      - published_port: "{{prometheus_port}}"
-        target_port: "{{prometheus_port}}"
+      - published_port: "{{ prometheus_port }}"
+        target_port: "{{ prometheus_port }}"
         protocol: "tcp"
         mode: "host"
     mode: replicated
@@ -61,7 +62,7 @@
       traefik.http.routers.prometheus.tls: "true"
       traefik.http.routers.prometheus.service: "prometheus"
       # traefik.http.routers.prometheus.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.prometheus.loadbalancer.server.port: "{{prometheus_port}}"
+      traefik.http.services.prometheus.loadbalancer.server.port: "{{ prometheus_port }}"
       traefik.enable: "true"
     state: present
   tags: prometheus

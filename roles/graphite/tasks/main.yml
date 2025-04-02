@@ -2,8 +2,9 @@
 - name: Ensure Graphite Directories Exist
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
-    path: "{{item}}"
+    path: "{{ item }}"
     state: directory
+    mode: '0755'
   loop:
     - "{{ project_root_directory }}/graphite"
     - "{{ project_root_directory }}/graphite/config"
@@ -15,8 +16,8 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: graphite
-    hostname: "{{graphite_hostname}}"
-    image: "{{graphite_docker_image}}:{{graphite_version}}"
+    hostname: "{{ graphite_hostname }}"
+    image: "{{ graphite_docker_image }}:{{ graphite_version }}"
     networks:
       - "{{ traefik_network }}"
     publish:
@@ -69,7 +70,7 @@
       traefik.http.routers.graphite.tls: "true"
       traefik.http.routers.graphite.service: "graphite"
       # traefik.http.routers.graphite.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.graphite.loadbalancer.server.port: "{{graphite_port}}"
+      traefik.http.services.graphite.loadbalancer.server.port: "{{ graphite_port }}"
       traefik.enable: "true"
     state: present
   tags: graphite
