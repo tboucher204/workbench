@@ -11,6 +11,12 @@
     force_update: false
     restart_config:
       condition: on-failure
+    healthcheck:
+      test: ["CMD", "/dozzle", "healthcheck"]
+      interval: 3s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
     env:
       DOZZLE_LEVEL: "info"
       DOZZLE_FILTER: "status=running"
@@ -27,8 +33,7 @@
       traefik.http.routers.dozzle.tls: "true"
       traefik.http.routers.dozzle.service: "dozzle"
       # traefik.http.routers.dozzle.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.dozzle.loadbalancer.server.port: "{{dozzle_port}}"
+      traefik.http.services.dozzle.loadbalancer.server.port: "{{ dozzle_port }}"
       traefik.enable: "true"
     state: present
   tags: dozzle
-  
