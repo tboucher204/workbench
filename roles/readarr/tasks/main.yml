@@ -1,69 +1,104 @@
 ---
-- name: Ensure Readarr Media Dataset Exist
+- name: Ensure Readarr Audiobooks Media Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{ project_media_directory }}/Books"
+    name: "{{ project_media_directory }}/Audiobooks"
     state: directory
+    mode: '0755'
   tags: readarr
 
-- name: Ensure Readarr Main Database exist
+- name: Ensure Readarr Audiobooks Main Database exist
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
-    database_name: "{{ readarr_maindb_database }}"
-    database_user: "{{ readarr_database_user }}"
-    database_password: "{{ readarr_database_password }}"
+    database_name: "{{ readarr_audiobooks_maindb_database }}"
+    database_user: "{{ readarr_audiobooks_database_user }}"
+    database_password: "{{ readarr_audiobooks_database_password }}"
   tags: readarr
   no_log: true
 
-- name: Ensure Readarr Log Database exist
+- name: Ensure Readarr Audiobooks Log Database exist
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
-    database_name: "{{ readarr_logdb_database }}"
-    database_user: "{{ readarr_database_user }}"
-    database_password: "{{ readarr_database_password }}"
+    database_name: "{{ readarr_audiobooks_logdb_database }}"
+    database_user: "{{ readarr_audiobooks_database_user }}"
+    database_password: "{{ readarr_audiobooks_database_password }}"
   tags: readarr
   no_log: true
 
-- name: Ensure Readarr Cache Database exist
+- name: Ensure Readarr Audiobooks Cache Database exist
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
   when: inventory_hostname == groups['managers'][0]
   vars:
-    database_name: "{{ readarr_cachedb_database }}"
-    database_user: "{{ readarr_database_user }}"
-    database_password: "{{ readarr_database_password }}"
+    database_name: "{{ readarr_audiobooks_cachedb_database }}"
+    database_user: "{{ readarr_audiobooks_database_user }}"
+    database_password: "{{ readarr_audiobooks_database_password }}"
   tags: readarr
   no_log: true
-  
-- name: Ensure Readarr Media Download Dataset Exist
+
+- name: Ensure Readarr Audiobooks Media Download Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{project_download_directory}}/books"
+    name: "{{ project_download_directory }}/audiobooks"
     state: directory
+    mode: '0755'
   tags: readarr
 
-- name: Ensure Readarr Dataset Exist
+- name: Ensure Readarr Audiobooks Dataset Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.file:
-    name: "{{ project_root_directory }}/readarr"
+    name: "{{ project_root_directory }}/readarr2"
     state: directory
+    mode: '0755'
   tags: readarr
 
-- name: Ensure Readarr Configuration Files Exist
+- name: Ensure Readarr Audiobooks Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ project_root_directory }}/readarr2"
+    - "{{ project_root_directory }}/readarr2/config"
+    - "{{ project_root_directory }}/readarr2/custom-services"
+    - "{{ project_root_directory }}/readarr2/custom-cont-init"
+  tags: readarr
+
+- name: Ensure Readarr Audiobooks Configuration Files Exist
   when: inventory_hostname == groups['media'][0]
   ansible.builtin.template:
-    src: config.xml.j2
-    dest: "{{ project_root_directory }}/readarr/config.xml"
+    src: config-audiobooks.xml.j2
+    dest: "{{ project_root_directory }}/readarr2/config/config.xml"
+    mode: '0755'
   tags: readarr
   no_log: true
 
-- name: Deploy Readarr Service
+- name: Ensure Readarr Audiobooks Extended Configuration Files Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.template:
+    src: extended.conf.j2
+    dest: "{{ project_root_directory }}/readarr2/config/extended.conf"
+    mode: '0755'
+  tags: readarr
+  no_log: true
+
+- name: Ensure Readarr Audiobooks custom-services Files Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.template:
+    src: scripts_init.bash.j2
+    dest: "{{ project_root_directory }}/readarr2/custom-cont-init/scripts_init.bash"
+    mode: '0755'
+  tags: readarr
+  no_log: true
+
+- name: Deploy Readarr Audiobooks Service
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
-    name: readarr
-    hostname: "{{readarr_hostname}}"
-    image: "{{readarr_docker_image}}:{{readarr_version}}"
+    name: readarr_audiobooks
+    hostname: "{{ readarr_audiobooks_hostname }}"
+    image: "{{ readarr_audiobooks_docker_image }}:{{ readarr_audiobooks_version }}"
     networks:
       - "{{ traefik_network }}"
     mode: replicated
@@ -74,34 +109,36 @@
       PUID: "{{ media_user }}"
       PGID: "{{ media_group }}"
       TZ: "{{ default_timezone }}"
-      DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{readarr_hostname}}"
-      TP_THEME: "{{theme_park_default}}"
+      DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{ readarr_hostname }}"
+      TP_THEME: "{{ theme_park_default }}"
     placement:
       constraints:
         - node.id == {{ docker_worker2_node_id }}
     replicas: 1
     mounts:
-      - source: "{{ project_root_directory }}/readarr/"
+      - source: "{{ project_root_directory }}/readarr2/config/"
         target: /config
         type: bind
-      - source: "{{ project_media_directory }}/Books/"
-        target: /media/books
+      - source: "{{ project_root_directory }}/readarr2/custom-services/"
+        target: /custom-services.d
         type: bind
-      - source: "{{project_download_directory}}"
+      - source: "{{ project_root_directory }}/readarr2/custom-cont-init/"
+        target: /custom-cont-init.d
+        type: bind
+      - source: "{{ project_media_directory }}/Audiobooks/"
+        target: /media/audiobooks
+        type: bind
+      - source: "{{ project_download_directory }}"
         target: /media/downloads
         type: bind
     labels:
-      traefik.http.routers.readarr.entrypoints: "websecure"
-      traefik.http.routers.readarr.rule: "Host(`readarr.{{ project_tld }}`)"
-      traefik.http.routers.readarr.middlewares: "default-headers@file,authelia@file"
-      traefik.http.routers.readarr.tls: "true"
-      traefik.http.routers.readarr.service: "readarr"
-      # traefik.http.routers.readarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.readarr.loadbalancer.server.port: "{{readarr_port}}"
+      traefik.http.routers.readarraudio.entrypoints: "websecure"
+      traefik.http.routers.readarraudio.rule: "Host(`readarraudio.{{ project_tld }}`)"
+      traefik.http.routers.readarraudio.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.readarraudio.tls: "true"
+      traefik.http.routers.readarraudio.service: "readarraudio"
+      # traefik.http.routers.readarraudio.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.readarraudio.loadbalancer.server.port: "{{ readarr_audiobooks_port }}"
       traefik.enable: "true"
     state: present
   tags: readarr
-
-- import_tasks: "{{role_path}}/tasks/audiobooks.yml"
-  tags:
-    - readarr

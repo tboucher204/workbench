@@ -4,7 +4,7 @@
   ansible.builtin.file:
     path: "{{ project_root_directory }}/jenkins"
     state: directory
-    mode: '0644'
+    mode: '0755'
   tags: jenkins
 
 - name: Deploy Jenkins Service

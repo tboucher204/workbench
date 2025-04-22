@@ -1,0 +1,107 @@
+---
+- name: Ensure Readarr Media Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.file:
+    name: "{{ project_media_directory }}/Books"
+    state: directory
+  tags: readarr
+
+- name: Ensure Readarr Main Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ readarr_maindb_database }}"
+    database_user: "{{ readarr_database_user }}"
+    database_password: "{{ readarr_database_password }}"
+  tags: readarr
+  no_log: true
+
+- name: Ensure Readarr Log Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ readarr_logdb_database }}"
+    database_user: "{{ readarr_database_user }}"
+    database_password: "{{ readarr_database_password }}"
+  tags: readarr
+  no_log: true
+
+- name: Ensure Readarr Cache Database exist
+  ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
+  when: inventory_hostname == groups['managers'][0]
+  vars:
+    database_name: "{{ readarr_cachedb_database }}"
+    database_user: "{{ readarr_database_user }}"
+    database_password: "{{ readarr_database_password }}"
+  tags: readarr
+  no_log: true
+  
+- name: Ensure Readarr Media Download Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.file:
+    name: "{{project_download_directory}}/books"
+    state: directory
+  tags: readarr
+
+- name: Ensure Readarr Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.file:
+    name: "{{ project_root_directory }}/readarr"
+    state: directory
+  tags: readarr
+
+- name: Ensure Readarr Configuration Files Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.template:
+    src: config.xml.j2
+    dest: "{{ project_root_directory }}/readarr/config.xml"
+  tags: readarr
+  no_log: true
+
+- name: Deploy Readarr Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: readarr
+    hostname: "{{readarr_hostname}}"
+    image: "{{readarr_docker_image}}:{{readarr_version}}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
+      DOCKER_MODS: "ghcr.io/themepark-dev/theme.park:{{readarr_hostname}}"
+      TP_THEME: "{{theme_park_default}}"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker2_node_id }}
+    replicas: 1
+    mounts:
+      - source: "{{ project_root_directory }}/readarr/"
+        target: /config
+        type: bind
+      - source: "{{ project_media_directory }}/Books/"
+        target: /media/books
+        type: bind
+      - source: "{{project_download_directory}}"
+        target: /media/downloads
+        type: bind
+    labels:
+      traefik.http.routers.readarr.entrypoints: "websecure"
+      traefik.http.routers.readarr.rule: "Host(`readarr.{{ project_tld }}`)"
+      traefik.http.routers.readarr.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.readarr.tls: "true"
+      traefik.http.routers.readarr.service: "readarr"
+      # traefik.http.routers.readarr.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.readarr.loadbalancer.server.port: "{{readarr_port}}"
+      traefik.enable: "true"
+    state: present
+  tags: readarr
+
+- import_tasks: "{{role_path}}/tasks/audiobooks.yml"
+  tags:
+    - readarr
