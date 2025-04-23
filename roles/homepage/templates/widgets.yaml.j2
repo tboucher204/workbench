@@ -1,0 +1,25 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/info-widgets/
+
+# - resources:
+#     cpu: true
+#     memory: true
+#     disk: /
+
+- datetime:
+    text_size: xl
+    format:
+      dateStyle: long
+
+- search:
+    provider: duckduckgo
+    target: _blank
+
+- openmeteo:
+    label: Trafalgar
+    latitude: 32.7190471238
+    longitude: -117.170715984
+    timezone: America/Detroit
+    units: imperial
+    cache: 5

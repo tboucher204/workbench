@@ -1,0 +1,285 @@
+---
+# For configuration options and examples, please see:
+# https://github.com/benphelps/homepage/wiki/Services
+
+- Media:
+    - Plex:
+        icon: plex.png
+        href: https://plex.theboucher6.com
+        description: Media Server
+        siteMonitor: https://plex.theboucher6.com
+        widget:
+          type: plex
+          url: http://192.168.1.55:32400
+          key: jwHzNqgzPhcerbGURGvE
+
+    - Tautulli:
+        icon: tautulli.png
+        href: https://stats.theboucher6.com
+        description: Plex Stats
+        server: elrond
+        container: tautulli
+        widget:
+          type: tautulli
+          url: http://tautulli:8181
+          key: 5d7b6a28e8e64b7396f4cc3b8c062e3f
+
+    - Overseerr:
+        icon: overseerr.png
+        href: https://overseerr.theboucher6.com
+        description: Media Requests
+        server: elrond
+        container: overseerr
+        widget:
+          type: overseerr
+          url: http://overseerr:5055
+          key: MTcxMjg0MjI3NDc4ODRhMTg2ZWJmLTU3ODUtNDE0My1iM2FhLTRiZWQzMDlhYjdhMw==
+
+    - Komga:
+        icon: komga.png
+        href: https://comics.theboucher6.com
+        description: Comic Reader
+        server: elrond
+        container: komga
+        widget:
+          type: komga
+          url: http://komga:25600
+          key: 42caf69356db4699a8453363378998ab
+          version: 2
+
+    - Calibre Web:
+        icon: calibre-web.png
+        href: https://books.theboucher6.com
+        description: Ebook Reader
+        server: elrond
+        container: calibre-web
+        widget:
+          type: calibreweb
+          url: http://calibre-web:8083
+          username: timadmin
+          password: P@ssw0rd1
+
+    - Audiobookshelf:
+        icon: audiobookshelf.png
+        href: https://audiobooks.theboucher6.com
+        description: Audiobook Player
+        server: elrond
+        container: audiobookshelf
+        widget:
+          type: audiobookshelf
+          url: http://audiobookshelf:80
+          key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3JfbWRzeWFmbWp0OWk0MXI1djYwIiwidXNlcm5hbWUiOiJ0Ym91Y2hlcjIwNCIsImlhdCI6MTY1ODQ5NTY5NX0.DXLti0OZdUMrN5nPKt4V1im7GQjqKXtQV-JN3fOrpJg
+
+    - Navidrome:
+        icon: navidrome.png
+        href: https://music.theboucher6.com
+        description: Music Player
+        server: elrond
+        container: navidrome
+        widget:
+          type: navidrome
+          url: http://navidrome:4533
+          user: timadmin
+          salt: c5lk76op
+          token: 5795f4369d0d8f7915f7d0ff6b89c679
+
+    - Photoprism:
+        icon: photoprism.png
+        href: https://photo.theboucher6.com
+        description: Photo Viewer
+        server: elrond
+        container: photoprism
+        widget:
+          type: photoprism
+          url: http://photoprism:2342
+          username: timadmin
+          password: P@ssw0rd1
+
+- Media Management:
+    - Sonarr:
+        icon: sonarr.png
+        href: https://sonarr.theboucher6.com
+        description: TV Shows
+        server: elrond
+        container: sonarr
+        widget:
+          type: sonarr
+          url: http://sonarr:8989
+          key: 406783d297a5408d85948374e9c816b0
+
+    - Sonarr4K:
+        icon: sonarr.png
+        href: https://sonarr4k.theboucher6.com
+        description: 4K TV Shows
+        server: elrond
+        container: sonarr4k
+        widget:
+          type: sonarr
+          url: http://sonarr4k:8989
+          key: 3a9886cf806447639ea4f7a865501207
+
+    - Radarr:
+        icon: radarr.png
+        href: https://radarr4k.theboucher6.com
+        description: Movies
+        server: elrond
+        container: radarr
+        widget:
+          type: radarr
+          url: http://radarr:7878
+          key: 72d4340e27a84c928c026a28876d5c96
+
+    - Radarr4K:
+        icon: radarr.png
+        href: https://radarr4k.theboucher6.com
+        description: 4K Movies
+        server: elrond
+        container: radarr4k
+        widget:
+          type: radarr
+          url: http://radarr4k:7878
+          key: f3d76978e3d547d385314decd999f981
+
+    - Readarr:
+        icon: readarr.png
+        href: https://readarr.theboucher6.com
+        description: Ebooks
+        server: elrond
+        container: readarr
+        widget:
+          type: readarr
+          url: http://readarr:8787
+          key: 94bcd28eb959426a8f3cd7b9ae3ae797
+
+    - ReadarrAudio:
+        icon: readarr.png
+        href: https://readarraudio.theboucher6.com
+        description: Audiobooks
+        server: elrond
+        container: readarr_audiobooks
+        widget:
+          type: readarr
+          url: http://readarr_audiobooks:8787
+          key: c931b86aa84444c6b0d68f4ce0cffaab
+
+    - Lidarr:
+        icon: lidarr.png
+        href: https://lidarr.theboucher6.com
+        description: Music
+        server: elrond
+        container: lidarr
+        widget:
+          type: lidarr
+          url: http://lidarr:8686
+          key: 15c961d3c67c4068a8c1b40f201d0bdd
+
+    - Mylar:
+        icon: mylar.png
+        href: https://mylar.theboucher6.com
+        description: Comics
+        server: elrond
+        container: mylar
+        widget:
+          type: mylar
+          url: http://mylar:8090
+          key: 527b8dbee6bdb9d453ca13886c46df9e
+
+    - Tinymediamanager:
+        icon: tinymediamanager.png
+        href: https://tmm.theboucher6.com
+        description: Media Metadata Retriever
+        server: elrond
+        container: tinymediamanager
+
+    - Lazy Librarian:
+        icon: lazylibrarian.png
+        href: https://lazylibrarian.theboucher6.com
+        description: Books
+        server: elrond
+        container: lazylibrarian
+
+- File Management:
+    - SABNZBD:
+        icon: sabnzbd.png
+        href: https://sabnzbd.theboucher6.com
+        description: Usenet Downloader
+        server: elrond
+        container: sabnzbd
+        widget:
+          type: sabnzbd
+          url: http://sabnzbd:8080
+          key: daae7ce1995c412ba10abd3b41692a75
+
+    - Transmission:
+        icon: transmission.png
+        href: https://home.theboucher6.com/transmission
+        description: Torrents Downloader
+        server: elrond
+        container: transmission
+        widget:
+          type: transmission
+          url: http://transmission:9091
+
+    - Prowlarr:
+        icon: prowlarr.png
+        href: https://prowlarr.theboucher6.com
+        description: Centralized Torrents/NZB Updater
+        server: elrond
+        container: prowlarr
+        widget:
+          type: prowlarr
+          url: http://prowlarr:9696
+          key: cfced2e2cc704d1badf4cb99eba3acc7
+
+    - Filebrowser:
+        icon: filebrowser.png
+        href: https://filebrowser.theboucher6.com
+        description: Torrents Downloader
+        server: elrond
+        container: filebrowser
+
+- Network Management:
+    - Portainer (Homelab):
+        icon: portainer.png
+        href: https://portainer.theboucher6.com
+        description: Docker Container Management
+        server: elrond
+        container: portainer
+        widget:
+          type: portainer
+          url: https://portainer:9443
+          env: 2
+          key: ptr_BeNVvjpnz7LR7Z5eIgcJXjtfTgatOIewQ34Al80PiM0=
+
+    - TrueNAS Scale:
+        icon: truenas-scale.png
+        href: http://gandalf.theboucher6.com
+        description: Network Attached Storage
+        widget:
+          type: truenas
+          url: https://192.168.1.55
+          key: 2-uYZylHUBPmJtJr2j31sPQOjNBCtUq5oMfNTNHuRmSJcVFU1z1HPkJLhcQ2T6GwLb
+          enablePools: true
+          nasType: scale
+
+    - Traefik Proxy Manager:
+        icon: traefik.png
+        href: http://api.theboucher6.com
+        description: Reverse Proxy Management
+        server: elrond
+        container: traefik
+        widget:
+          type: traefik
+          url: https://api.theboucher6.com
+
+    - Pi Hole:
+        icon: pi-hole.png
+        href: http://pihole.theboucher6.com
+        description: Network Protection
+        server: elrond
+        container: pihole
+        widget:
+          type: pihole
+          url: http://pihole
+          version: 6
+          key: urBIRTuYnpxBMfLHul1q8y0D15/YCefuB8TK94GpLhY=

@@ -2,19 +2,86 @@
 - name: Ensure Homepage Directories Exist
   when: inventory_hostname == groups['managers'][0]
   ansible.builtin.file:
-    name: "{{ project_root_directory }}/homepage"
+    name: "{{ item }}"
     state: directory
     mode: '0755'
+  loop:
+    - "{{ project_root_directory }}/homepage"
+    - "{{ project_root_directory }}/homepage/config"
+    - "{{ project_root_directory }}/homepage/icons"
+    - "{{ project_root_directory }}/homepage/images"
   tags: homepage
 
-# - name: Ensure Homepage Configuration Files Exist
-#   when: inventory_hostname == groups['managers'][0]
-#   ansible.builtin.template:
-#     src: config.yml.j2
-#     dest: "{{ project_root_directory }}/homepage/config.yml"
-#     mode: '0755'
-#   tags: homepage
-#   no_log: true
+- name: Ensure Homepage Bookmarks File Exist
+  when: inventory_hostname == groups['managers'][0]
+  ansible.builtin.template:
+    src: bookmarks.yaml.j2
+    dest: "{{ project_root_directory }}/homepage/config/bookmarks.yaml"
+    mode: '0755'
+  tags: homepage
+  no_log: true
+
+- name: Ensure Homepage Docker File Exist
+  when: inventory_hostname == groups['managers'][0]
+  ansible.builtin.template:
+    src: docker.yaml.j2
+    dest: "{{ project_root_directory }}/homepage/config/docker.yaml"
+    mode: '0755'
+  tags: homepage
+  no_log: true
+
+- name: Ensure Homepage Services File Exist
+  when: inventory_hostname == groups['managers'][0]
+  ansible.builtin.template:
+    src: services.yaml.j2
+    dest: "{{ project_root_directory }}/homepage/config/services.yaml"
+    mode: '0755'
+  tags: homepage
+  no_log: true
+
+- name: Ensure Homepage Settings File Exist
+  when: inventory_hostname == groups['managers'][0]
+  ansible.builtin.template:
+    src: settings.yaml.j2
+    dest: "{{ project_root_directory }}/homepage/config/settings.yaml"
+    mode: '0755'
+  tags: homepage
+  no_log: true
+
+- name: Ensure Homepage Widgets File Exist
+  when: inventory_hostname == groups['managers'][0]
+  ansible.builtin.template:
+    src: widgets.yaml.j2
+    dest: "{{ project_root_directory }}/homepage/config/widgets.yaml"
+    mode: '0755'
+  tags: homepage
+  no_log: true
+
+- name: Clone a github repository
+  when: inventory_hostname == groups['managers'][0]
+  ansible.builtin.git:
+    repo: "{{ homer_git_repository_url }}"
+    dest: "{{ project_root_directory }}/homepage/icons"
+    clone: true
+    update: true
+    version: 'v0.1.0'
+  tags: homepage
+
+- name: Ensure Homepage Image Files Exist
+  when: inventory_hostname == groups['managers'][0]
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0755'
+  with_items:
+    - { src: pexels-esan-2085998.jpg, dest: "{{ project_root_directory }}/homepage/images/pexels-esan-2085998.jpg" }
+    - { src: pexels-felixmittermeier-956999.jpg, dest: "{{ project_root_directory }}/homepage/images/pexels-felixmittermeier-956999.jpg" }
+    - { src: pexels-lastly-997443.jpg, dest: "{{ project_root_directory }}/homepage/images/pexels-lastly-997443.jpg" }
+    - { src: pexels-pixabay-355465.jpg, dest: "{{ project_root_directory }}/homepage/images/pexels-pixabay-355465.jpg" }
+    - { src: pexels-roacunha-2531709.jpg, dest: "{{ project_root_directory }}/homepage/images/pexels-roacunha-2531709.jpg" }
+    - { src: pexels-sebastiaan9977-1097456.jpg, dest: "{{ project_root_directory }}/homepage/images/pexels-sebastiaan9977-1097456.jpg" }
+  tags: homepage
+  no_log: true
 
 - name: Deploy Homepage Service
   when: inventory_hostname == groups['managers'][0]
@@ -35,8 +102,14 @@
       constraints:
         - node.id == {{ docker_master1_node_id }}
     mounts:
-      - source: "{{ project_root_directory }}/homepage"
+      - source: "{{ project_root_directory }}/homepage/config"
         target: /app/config
+        type: bind
+      - source: "{{ project_root_directory }}/homepage/icons"
+        target: /app/public/icons
+        type: bind
+      - source: "{{ project_root_directory }}/homepage/images"
+        target: /app/public/images
         type: bind
     labels:
       traefik.http.routers.homepage.entrypoints: "websecure"
