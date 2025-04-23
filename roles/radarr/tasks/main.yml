@@ -49,7 +49,7 @@
     database_user: "{{ radarr_database_user }}"
     database_password: "{{ radarr_database_password }}"
   tags: radarr
-  no_log: true
+  no_log: false
 
 - name: Ensure Radarr Log Database exist
   ansible.builtin.import_tasks: roles/postgres/tasks/database_manager.yml
