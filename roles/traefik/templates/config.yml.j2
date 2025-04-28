@@ -37,6 +37,9 @@ http:
         browserXssFilter: true
         customRequestHeaders:
           X-Forwarded-Proto: https
+    add-web:
+      addPrefix:
+        prefix: "/web"
   routers:
     amp:
       entryPoints:
