@@ -1,0 +1,45 @@
+---
+- name: Ensure pgadmin Volume Exist
+  when: inventory_hostname == groups['workers'][0]
+  community.docker.docker_volume:
+    name: pgadmin
+    state: present
+  tags: pgadmin
+
+- name: Deploy pgadmin Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: pgadmin
+    hostname: "{{ pgadmin_hostname }}"
+    image: "{{ pgadmin_docker_image }}:{{ pgadmin_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PGADMIN_DEFAULT_EMAIL: "{{ pgadmin_default_email }}"
+      PGADMIN_DEFAULT_PASSWORD: "{{ pgadmin_default_password }}"
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "true"
+      PGADMIN_CONFIG_LOGIN_BANNER: "Authorised users only!"
+      PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: "10"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker1_node_id }}
+    replicas: 1
+    mounts:
+      - source: pgadmin
+        target: /var/lib/pgadmin
+        type: volume
+    labels:
+      traefik.http.routers.pgadmin.entrypoints: "websecure"
+      traefik.http.routers.pgadmin.rule: "Host(`pgadmin.{{ project_tld }}`)"
+      traefik.http.routers.pgadmin.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.pgadmin.tls: "true"
+      traefik.http.routers.pgadmin.service: "pgadmin"
+      # traefik.http.routers.pgadmin.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.pgadmin.loadbalancer.server.port: "{{ pgadmin_port }}"
+      traefik.enable: "true"
+    state: present
+  tags: pgadmin

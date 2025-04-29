@@ -36,7 +36,7 @@
     replicas: 1
     publish:
       - published_port: "8082"
-        target_port: "{{phpmyadmin_port}}"
+        target_port: "{{ phpmyadmin_port }}"
         protocol: "tcp"
         mode: "host"
     mounts:
@@ -50,7 +50,7 @@
       traefik.http.routers.phpmyadmin.tls: "true"
       traefik.http.routers.phpmyadmin.service: "phpmyadmin"
       # traefik.http.routers.phpmyadmin.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.phpmyadmin.loadbalancer.server.port: "{{phpmyadmin_port}}"
+      traefik.http.services.phpmyadmin.loadbalancer.server.port: "{{ phpmyadmin_port }}"
       traefik.enable: "true"
     state: present
   tags: phpmyadmin

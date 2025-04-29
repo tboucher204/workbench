@@ -1,0 +1,5 @@
+---
+pgadmin_version: "latest"
+pgadmin_hostname: "pgadmin"
+pgadmin_docker_image: "dpage/pgadmin4"
+pgadmin_port: "80"

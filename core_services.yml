@@ -18,7 +18,8 @@
     # - mkdocs
     - dozzle
     - graylog
-    - adminer
+    # - adminer
+    - pgadmin
     - phpmyadmin
     - phpldapadmin
     - ldap-user-manager
