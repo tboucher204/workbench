@@ -1,0 +1,46 @@
+---
+- name: Ensure Mealie Dataset Exist
+  when: inventory_hostname == groups['media'][0]
+  ansible.builtin.file:
+    name: "{{ project_root_directory }}/mealie"
+    state: directory
+    mode: '0755'
+  tags: mealie
+
+- name: Deploy mealie Service
+  when: inventory_hostname == groups['managers'][0]
+  community.docker.docker_swarm_service:
+    name: mealie
+    hostname: "{{ mealie_hostname }}"
+    image: "{{ mealie_docker_image }}:{{ mealie_version }}"
+    networks:
+      - "{{ traefik_network }}"
+    mode: replicated
+    force_update: false
+    restart_config:
+      condition: on-failure
+    env:
+      PUID: "{{ media_user }}"
+      PGID: "{{ media_group }}"
+      TZ: "{{ default_timezone }}"
+      Base_URL: "https://meals.{{ project_tld }}"
+      ALLOW_SIGNUP: "false"
+    placement:
+      constraints:
+        - node.id == {{ docker_worker2_node_id }}
+    replicas: 1
+    mounts:
+      - source: "{{ project_root_directory }}/mealie/"
+        target: /app/data
+        type: bind
+    labels:
+      traefik.http.routers.mealie.entrypoints: "websecure"
+      traefik.http.routers.mealie.rule: "Host(`meals.{{ project_tld }}`)"
+      traefik.http.routers.mealie.middlewares: "default-headers@file,authelia@file"
+      traefik.http.routers.mealie.tls: "true"
+      traefik.http.routers.mealie.service: "mealie"
+      # traefik.http.routers.mealie.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
+      traefik.http.services.mealie.loadbalancer.server.port: "{{ mealie_port }}"
+      traefik.enable: "true"
+    state: present
+  tags: mealie
