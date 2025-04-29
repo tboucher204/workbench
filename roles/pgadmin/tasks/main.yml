@@ -21,9 +21,6 @@
     env:
       PGADMIN_DEFAULT_EMAIL: "{{ pgadmin_default_email }}"
       PGADMIN_DEFAULT_PASSWORD: "{{ pgadmin_default_password }}"
-      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: "True"
-      PGADMIN_CONFIG_LOGIN_BANNER: "'Authorised users only!'"
-      PGADMIN_CONFIG_CONSOLE_LOG_LEVEL: "10"
     placement:
       constraints:
         - node.id == {{ docker_worker1_node_id }}
