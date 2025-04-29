@@ -22,4 +22,3 @@
     name: "{{ database_user }}"
     password: "{{ database_password }}"
     state: "present"
-    
