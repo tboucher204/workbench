@@ -28,7 +28,7 @@
     # - gitea
     # - gitlab
     # - portus
-    - jenkins
+    # - jenkins
     - code-server
     # - n8n
     # - minio

@@ -19,6 +19,7 @@
   when: inventory_hostname == groups['workers'][0]
   ansible.builtin.file:
     path: "{{ project_root_directory }}/codeserver"
+    mode: '0755'
     state: directory
   tags: codeserver
 
@@ -26,9 +27,9 @@
   when: inventory_hostname == groups['managers'][0]
   community.docker.docker_swarm_service:
     name: code-server
-    hostname: "{{codeserver_hostname}}"
+    hostname: "{{ codeserver_hostname }}"
     user: root
-    image: "{{codeserver_docker_image}}:{{codeserver_version}}"
+    image: "{{ codeserver_docker_image }}:{{ codeserver_version }}"
     env:
       PUID: "{{ media_user }}"
       PGID: "{{ media_group }}"
@@ -36,7 +37,8 @@
       EDITOR: "nano"
       FILE__PASSWORD: "/run/secrets/codeserver_password"
       FILE__SUDO_PASSWORD: "/run/secrets/codeserver_sudo_password"
-      DOCKER_MODS: "linuxserver/mods:code-server-python3|linuxserver/mods:code-server-powershell|linuxserver/mods:universal-docker|linuxserver/mods:code-server-terraform"
+      DOCKER_MODS: "linuxserver/mods:code-server-python3|linuxserver/mods:code-server-powershell\
+        |linuxserver/mods:universal-docker|linuxserver/mods:code-server-terraform"
     networks:
       - "{{ traefik_network }}"
     secrets:
@@ -61,7 +63,7 @@
       traefik.http.routers.codeserver.tls: "true"
       traefik.http.routers.codeserver.service: "codeserver"
       # traefik.http.routers.codeserver.tls.certresolver: "{{default_certificate_resolver}}" # Un-Comment this line to use a rule-based cert
-      traefik.http.services.codeserver.loadbalancer.server.port: "{{codeserver_port}}"
+      traefik.http.services.codeserver.loadbalancer.server.port: "{{ codeserver_port }}"
       traefik.enable: "true"
     state: present
   tags: codeserver
